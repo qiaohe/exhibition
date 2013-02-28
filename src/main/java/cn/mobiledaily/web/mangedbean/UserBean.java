@@ -1,7 +1,7 @@
-package cn.mobiledaily.bean;
+package cn.mobiledaily.web.mangedbean;
 
-import cn.mobiledaily.model.User;
-import cn.mobiledaily.service.IUserService;
+import cn.mobiledaily.domain.User;
+import cn.mobiledaily.service.UserService;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -9,8 +9,8 @@ import java.util.List;
 
 @ManagedBean
 public class UserBean {
-    @ManagedProperty("#{userService}")
-    private IUserService userService;
+    @ManagedProperty("#{userServiceImpl}")
+    private UserService userService;
 
     private User newUser = new User();
 
@@ -27,7 +27,7 @@ public class UserBean {
         return userService.getUsers();
     }
 
-    public void setUserService(IUserService userService) {
+    public void setUserService(UserService userService) {
         this.userService = userService;
     }
 
