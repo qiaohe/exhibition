@@ -25,6 +25,9 @@
         <module name="exhibition" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="exhibition" target="1.7" />
+    </bytecodeTargetLevel>
   </component>
 </project>
 
