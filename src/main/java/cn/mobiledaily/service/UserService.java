@@ -1,0 +1,40 @@
+package cn.mobiledaily.service;
+
+import cn.mobiledaily.domain.Users;
+import cn.mobiledaily.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+@Service
+@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+public class UserService implements UserDetailsService, IUserService {
+    @Autowired
+    private Users users;
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = users.findByName(username);
+        if (user == null) {
+            throw new UsernameNotFoundException(username);
+        }
+        return user;
+    }
+
+    @Override
+    @Transactional
+    public void persist(User user) throws Exception {
+        users.persist(user);
+    }
+
+    @Override
+    public List<User> getUsers() {
+        return users.findAll();
+    }
+}
