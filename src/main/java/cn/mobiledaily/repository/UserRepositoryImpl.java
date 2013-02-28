@@ -1,6 +1,7 @@
 package cn.mobiledaily.repository;
 
 import cn.mobiledaily.domain.User;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -34,6 +35,6 @@ public class UserRepositoryImpl implements UserRepository {
         query.setParameter("name", name);
         @SuppressWarnings("unchecked")
         List<User> users = query.getResultList();
-        return users.size() > 0 ? users.get(0) : null;
+        return CollectionUtils.isNotEmpty(users) ? users.get(0) : null;
     }
 }
