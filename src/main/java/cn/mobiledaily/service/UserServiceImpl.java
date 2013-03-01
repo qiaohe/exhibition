@@ -14,17 +14,17 @@ import java.util.List;
 
 @Service
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
-public class UserServiceImpl implements UserDetailsService, UserService {
+public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public List<User> loadUserByUsername(String username) throws UsernameNotFoundException {
         User result = userRepository.findByName(username);
         if (result == null) {
             throw new UsernameNotFoundException(username);
         }
-        return result;
+        return null;
     }
 
     @Override

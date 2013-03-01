@@ -1,4 +1,4 @@
-package cn.mobiledaily.web.mangedbean;
+package cn.mobiledaily.web.managedbean;
 
 import cn.mobiledaily.domain.User;
 import cn.mobiledaily.service.UserService;
