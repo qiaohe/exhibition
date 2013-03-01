@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import java.util.List;
 
 public interface UserService {
-    UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
+    List<User> loadUserByUsername(String username) throws UsernameNotFoundException;
 
     void persist(User user) throws Exception;
 
