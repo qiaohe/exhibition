@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 /**
@@ -27,13 +27,15 @@ public class UserRepositoryImpl implements UserRepository {
 
     @SuppressWarnings("unchecked")
     public List<User> findAll() {
-        return em.createQuery("select u from User u").getResultList();
+
+        return em.createQuery("from User u").getResultList();
     }
 
     public User findByName(String name) {
-        Query query = em.createQuery("select u from User u where name=:name");
+
+        TypedQuery<User> query = em.createQuery("select u from User u where userName =:name", User.class);
         query.setParameter("name", name);
-        @SuppressWarnings("unchecked")
+//        @SuppressWarnings("unchecked")
         List<User> users = query.getResultList();
         return CollectionUtils.isNotEmpty(users) ? users.get(0) : null;
     }

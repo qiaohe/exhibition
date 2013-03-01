@@ -10,7 +10,7 @@
         <intercept-url pattern="/cn/mobiledaily/domain" access="ROLE_REMOTE"/>
         <http-basic/>
     </http>
-    <http pattern="/resources/**" security="none"/>
+    <http pattern="/assets/**" security="none"/>
     <http pattern="/login.html*" security="none"/>
     <http auto-config="true" use-expressions="true">
         <form-login login-page="/login.html"/>
@@ -18,14 +18,14 @@
         <!--<intercept-url pattern="/login.html" access="permitAll()"/>-->
         <intercept-url pattern="/user/**" access="hasRole('ROLE_USER')"/>
         <intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')"/>
-        <intercept-url pattern="/cn/mobiledaily/domain" access="isAuthenticated()"/>
+        <intercept-url pattern="/**" access="isAuthenticated()"/>
 
         <session-management>
             <concurrency-control max-sessions="1"/>
         </session-management>
     </http>
     <authentication-manager>
-        <authentication-provider user-service-ref="userServiceImpl">
+        <authentication-provider user-service-ref="repositoryUserDetailService">
             <password-encoder hash="sha">
                 <salt-source user-property="name"/>
             </password-encoder>

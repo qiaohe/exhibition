@@ -16,7 +16,8 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name = "user")
-public class User implements Serializable {
+public class User implements Serializable{
+    private static final long serialVersionUID = 5287506518470722535L;
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -89,4 +90,4 @@ public class User implements Serializable {
     public String toString() {
         return new ToStringBuilder(this).toString();
     }
-}
+ }
