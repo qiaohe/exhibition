@@ -1,11 +1,6 @@
 package cn.mobiledaily.service;
 
 import cn.mobiledaily.domain.User;
-import cn.mobiledaily.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,26 +10,39 @@ import java.util.List;
 @Service
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 public class UserServiceImpl implements UserService {
-    @Autowired
-    private UserRepository userRepository;
 
     @Override
-    public List<User> loadUserByUsername(String username) throws UsernameNotFoundException {
-        User result = userRepository.findByName(username);
-        if (result == null) {
-            throw new UsernameNotFoundException(username);
-        }
+    public List<User> getUsers() {
         return null;
     }
 
     @Override
-    @Transactional
-    public void persist(User user) throws Exception {
-        userRepository.persist(user);
+    public User register(String userName, String password, String email) {
+        return null;
+
     }
 
     @Override
-    public List<User> getUsers() {
-        return userRepository.findAll();
+    public boolean changePassword(String email, String oldPassword, String newPassword) {
+        return false;
+
+    }
+
+    @Override
+    public User changeUserName(String email, String newUserName) {
+        return null;
+
+    }
+
+    @Override
+    public User changeEmail(String email, String newEmail) {
+        return null;
+
+    }
+
+    @Override
+    public User changeAuthority(String email, String authority) {
+        return null;
+
     }
 }

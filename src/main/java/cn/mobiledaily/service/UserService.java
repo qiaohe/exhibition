@@ -1,15 +1,20 @@
 package cn.mobiledaily.service;
 
 import cn.mobiledaily.domain.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.List;
 
 public interface UserService {
-    List<User> loadUserByUsername(String username) throws UsernameNotFoundException;
-
-    void persist(User user) throws Exception;
-
     List<User> getUsers();
+
+    User register(String userName, String password, String email);
+
+    boolean changePassword(String email, String oldPassword, String newPassword);
+
+    User changeUserName(String email, String newUserName);
+
+    User changeEmail(String email, String newEmail);
+
+    User changeAuthority(String email, String authority);
+
 }
