@@ -1,26 +1,19 @@
-<!doctype html>
-<html lang="zh">
-<head></head>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="assets/css/site.css" media="screen">
+</head>
 <body>
+    <div class="head"></div>
     <form action="/j_spring_security_check" method="POST">
-        <table>
-            <tr>
-                <td><label for="name"></label></td>
-                <td><input id="name" name="j_username"></td>
-            </tr>
-            <tr>
-                <td><label for="password"></label></td>
-                <td><input type="password" id="password" name="j_password"></td>
-            </tr>
-            <tr>
-                <td rowspan="2">
-                    <input type="submit" value="登录">
-                </td>
-            </tr>
-        </table>
-    </form>
-    <form action="/j_spring_security_logout">
-        <input type="submit" value="logout">
+        <div class="login_box">
+            <label for="email">邮箱</label>
+            <input type="email" id="email" class="login_input" size="30" autofocus>
+            <label for="password">密码</label>
+            <input type="password" id="password" class="login_input" size="30">
+            <input type="submit" class="login_button" value="登录">
+        </div>
     </form>
 </body>
 </html>

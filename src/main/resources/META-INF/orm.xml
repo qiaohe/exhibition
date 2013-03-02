@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 version="2.0"
+                 xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_2_0.xsd">
+    <named-query name="User.findAll">
+        <query>select u from User u</query>
+    </named-query>
+    <named-query name="User.findByEmail">
+        <query>select u from User u where u.email=:email</query>
+    </named-query>
+    <named-query name="User.findByName">
+        <query>select u from User u where username=:name</query>
+    </named-query>
+</entity-mappings>

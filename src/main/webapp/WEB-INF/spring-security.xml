@@ -24,9 +24,10 @@
             <concurrency-control max-sessions="1"/>
         </session-management>
     </http>
+    <beans:bean id="passwordEncoder" class="org.springframework.security.crypto.password.StandardPasswordEncoder"/>
     <authentication-manager>
         <authentication-provider user-service-ref="repositoryUserDetailService">
-            <password-encoder hash="sha">
+            <password-encoder ref="passwordEncoder">
                 <salt-source user-property="name"/>
             </password-encoder>
         </authentication-provider>

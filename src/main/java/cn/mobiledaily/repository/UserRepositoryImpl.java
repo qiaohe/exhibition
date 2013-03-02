@@ -1,7 +1,6 @@
 package cn.mobiledaily.repository;
 
 import cn.mobiledaily.domain.User;
-import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -25,18 +24,21 @@ public class UserRepositoryImpl implements UserRepository {
         em.persist(user);
     }
 
-    @SuppressWarnings("unchecked")
     public List<User> findAll() {
-
-        return em.createQuery("from User u").getResultList();
+        return em.createNamedQuery("User.findAll", User.class).getResultList();
     }
 
-    public User findByName(String name) {
-
-        TypedQuery<User> query = em.createQuery("select u from User u where userName =:name", User.class);
+    public List<User> findByName(String name) {
+        TypedQuery<User> query = em.createNamedQuery("User.findByName", User.class);
         query.setParameter("name", name);
-//        @SuppressWarnings("unchecked")
+        return query.getResultList();
+    }
+
+    @Override
+    public User findByEmail(String email) {
+        TypedQuery<User> query = em.createNamedQuery("User.findByEmail", User.class);
+        query.setParameter("email", email);
         List<User> users = query.getResultList();
-        return CollectionUtils.isNotEmpty(users) ? users.get(0) : null;
+        return users.size() > 0 ? users.get(0) : null;
     }
 }
