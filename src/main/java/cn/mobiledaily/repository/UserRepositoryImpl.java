@@ -1,6 +1,6 @@
 package cn.mobiledaily.repository;
 
-import cn.mobiledaily.domain.User;
+import cn.mobiledaily.domain.identity.User;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;

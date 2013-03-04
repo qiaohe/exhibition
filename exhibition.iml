@@ -26,7 +26,7 @@
           <factory-entry name="entityManagerFactory" value="f92909fb-7844-44a4-9bac-584e7a0ab6fe" />
           <factory-entry name="persistenceUnit" value="f92909fb-7844-44a4-9bac-584e7a0ab6fe" />
         </datasource-mapping>
-        <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/src/main/resources/META-INF/persistence.xml" />
+        <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/src/test/resources/META-INF/persistence-test.xml" />
       </configuration>
     </facet>
     <facet type="Spring" name="Spring">

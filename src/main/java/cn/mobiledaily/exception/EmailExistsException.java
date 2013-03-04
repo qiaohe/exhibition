@@ -1,9 +1,9 @@
 package cn.mobiledaily.exception;
 
-public class ExistedEmailException extends Exception {
+public class EmailExistsException extends Exception {
     private String email;
 
-    public ExistedEmailException(String email) {
+    public EmailExistsException(String email) {
         super(email);
         this.email = email;
     }

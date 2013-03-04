@@ -1,4 +1,4 @@
-package cn.mobiledaily.domain;
+package cn.mobiledaily.domain.identity;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -26,6 +26,7 @@ import java.util.List;
 @Table
 public class User implements Serializable, UserDetails {
     private static final long serialVersionUID = 5287506518470722535L;
+    private static final char ROLE_AUTHORITY_SEPARATOR = ',';
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -41,6 +42,21 @@ public class User implements Serializable, UserDetails {
     @Size(min = 1, max = 10)
     private String username;
     private String authority;
+
+    public User() {
+    }
+
+    public User(String userName, String password, String email) {
+        this();
+        this.username = userName;
+        this.password = password;
+        this.email = email;
+    }
+
+    public User(String userName, String password, String email, String authority) {
+        this(userName, password, email);
+        this.authority = authority;
+    }
 
     //<editor-fold desc="fields">
     public Long getId() {
@@ -94,12 +110,11 @@ public class User implements Serializable, UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        String[] ss = StringUtils.split(authority, ',');
-        List<GrantedAuthority> roles = new ArrayList<>(ss.length);
-        for (String s : ss) {
-            roles.add(Role.fromString(s));
+        List<GrantedAuthority> result = new ArrayList<>();
+        for (String role : StringUtils.split(authority, ROLE_AUTHORITY_SEPARATOR)) {
+            result.add(Role.fromRoleName(role));
         }
-        return roles;
+        return result;
     }
 
     @Override

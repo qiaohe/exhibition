@@ -1,6 +1,6 @@
 package cn.mobiledaily.common;
 
-import cn.mobiledaily.domain.User;
+import cn.mobiledaily.domain.identity.User;
 import cn.mobiledaily.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

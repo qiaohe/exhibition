@@ -1,8 +1,8 @@
 package cn.mobiledaily.service;
 
-import cn.mobiledaily.domain.Role;
-import cn.mobiledaily.domain.User;
-import cn.mobiledaily.exception.ExistedEmailException;
+import cn.mobiledaily.domain.identity.Role;
+import cn.mobiledaily.domain.identity.User;
+import cn.mobiledaily.exception.EmailExistsException;
 import cn.mobiledaily.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,20 +26,25 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll();
     }
 
+    @Override
+    public User findByEmail(String email) {
+        return null;
+    }
+
+    @Override
+    public List<User> findByUsername(String username) {
+        return null;
+
+    }
+
     @Transactional
     @Override
-    public User register(String username, String password, String email) throws ExistedEmailException {
-        User user = userRepository.findByEmail(email);
-        if (user != null) {
-            throw new ExistedEmailException(email);
+    public void register(String username, String password, String email) throws EmailExistsException {
+        if (userRepository.findByEmail(email) != null) {
+            throw new EmailExistsException(email);
         }
-        user = new User();
-        user.setEmail(email);
-        user.setPassword(passwordEncoder.encode(password));
-        user.setUsername(username);
-        user.setAuthority(Role.USER.getAuthority());
+        User user = new User(username, passwordEncoder.encode(password), email, Role.USER.getAuthority());
         userRepository.persist(user);
-        return user;
     }
 
     @Transactional
@@ -56,23 +61,22 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public User changeUserName(String email, String newUserName) {
+    public void changeUsername(String email, String newUsername) {
         User user = userRepository.findByEmail(email);
         if (user != null) {
-            user.setUsername(newUserName);
+            user.setUsername(newUsername);
             userRepository.persist(user);
         }
-        return user;
     }
 
     @Transactional
     @Override
-    public User changeEmail(String email, String newEmail) throws ExistedEmailException {
+    public User changeEmail(String email, String newEmail) throws EmailExistsException {
         User user = userRepository.findByEmail(email);
         if (user != null) {
             User check = userRepository.findByEmail(newEmail);
-            if (check != user) {
-                throw new ExistedEmailException(newEmail);
+            if (check != null && check != user) {
+                throw new EmailExistsException(newEmail);
             }
             user.setEmail(newEmail);
             userRepository.persist(user);

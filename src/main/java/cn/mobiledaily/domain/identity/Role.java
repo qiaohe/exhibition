@@ -1,4 +1,4 @@
-package cn.mobiledaily.domain;
+package cn.mobiledaily.domain.identity;
 
 import org.springframework.security.core.GrantedAuthority;
 
@@ -11,23 +11,23 @@ public enum Role implements GrantedAuthority {
     USER("ROLE_USER"),
     ;
 
-    private static Map<String, Role> roleMap = new HashMap<>();
+    private static Map<String, Role> ROLE_MAP = new HashMap<>();
 
     static {
         for (Role role : Role.values()) {
-            roleMap.put(role.roleName, role);
+            ROLE_MAP.put(role.roleName, role);
         }
     }
 
-    public static Role fromString(String val) {
-        Role role = roleMap.get(val.toUpperCase());
+    public static Role fromRoleName(final String roleName) {
+        Role role = ROLE_MAP.get(roleName);
         if (role == null) {
             role = NONE;
         }
         return role;
     }
 
-    private String roleName;
+    private final String roleName;
 
     private Role(String roleName) {
         this.roleName = roleName;
