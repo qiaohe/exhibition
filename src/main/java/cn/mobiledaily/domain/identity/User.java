@@ -15,13 +15,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Johnson
- * Date: 3/1/13
- * Time: 2:59 PM
- * To change this template use File | Settings | File Templates.
- */
 @Entity
 @Table
 public class User implements Serializable, UserDetails {

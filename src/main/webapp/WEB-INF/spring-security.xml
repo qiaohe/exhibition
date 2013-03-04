@@ -30,7 +30,7 @@
         <authentication-provider>
             <user-service>
                 <user name="admin@email" password="admin" authorities="ROLE_ADMIN,ROLE_USER"/>
-                <user name="dd" password="dd" authorities="ROLE_USER"/>
+                <user name="user@email" password="user" authorities="ROLE_USER"/>
             </user-service>
         </authentication-provider>
     </authentication-manager>

@@ -10,8 +10,8 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-public class Exhibitor implements Serializable {
-    private static final long serialVersionUID = 1024772810990904656L;
+public class Sponsor implements Serializable {
+    private static final long serialVersionUID = -1855977471863292001L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,12 +28,8 @@ public class Exhibitor implements Serializable {
     @ManyToOne
     private Exhibition exhibition;
     private String name;
-    private String stand;
-    private String company;
-    private String email;
-    private String address;
+    private String bannerImage;
     private String website;
-    private String category;
 
     @PrePersist
     void prePersist() {
@@ -60,6 +56,7 @@ public class Exhibitor implements Serializable {
         return HashCodeBuilder.reflectionHashCode(this);
     }
 
+    //<editor-fold desc="fields">
     public Long getId() {
         return id;
     }
@@ -124,36 +121,12 @@ public class Exhibitor implements Serializable {
         this.name = name;
     }
 
-    public String getStand() {
-        return stand;
+    public String getBannerImage() {
+        return bannerImage;
     }
 
-    public void setStand(String stand) {
-        this.stand = stand;
-    }
-
-    public String getCompany() {
-        return company;
-    }
-
-    public void setCompany(String company) {
-        this.company = company;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
+    public void setBannerImage(String bannerImage) {
+        this.bannerImage = bannerImage;
     }
 
     public String getWebsite() {
@@ -163,12 +136,5 @@ public class Exhibitor implements Serializable {
     public void setWebsite(String website) {
         this.website = website;
     }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
+    //</editor-fold>
 }
