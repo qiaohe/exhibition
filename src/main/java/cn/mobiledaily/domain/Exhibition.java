@@ -1,34 +1,115 @@
 package cn.mobiledaily.domain;
 
-import java.util.Date;
-import java.util.List;
+import cn.mobiledaily.domain.identity.User;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Johnson
- * Date: 3/4/13
- * Time: 1:10 AM
- * To change this template use File | Settings | File Templates.
- */
-public class Exhibition {
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.io.Serializable;
+import java.util.Date;
+
+@Entity
+public class Exhibition implements Serializable {
+    private static final long serialVersionUID = 1710597666726709381L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Version
+    private int version;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdAt;
+    @ManyToOne(optional = false)
+    private User createdBy;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date updatedAt;
+    @ManyToOne(optional = false)
+    private User updatedBy;
+    @NotNull
+    @Size(min = 1)
     private String name;
     private String description;
-    private String splashScreen;
-    private List<String> topBanner;
     private String address;
+    @Temporal(TemporalType.TIMESTAMP)
     private Date startDate;
+    @Temporal(TemporalType.TIMESTAMP)
     private Date endDate;
-    private String type;
     private String organizer;
-    private List<String> sponsors;
 
+    @PrePersist
+    void prePersist() {
+        createdAt = new Date();
+    }
+
+    @PreUpdate
+    void preUpdate() {
+        updatedAt = new Date();
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return EqualsBuilder.reflectionEquals(this, obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return HashCodeBuilder.reflectionHashCode(this);
+    }
+
+    //<editor-fold desc="fields">
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public User getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(User createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public User getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(User updatedBy) {
+        this.updatedBy = updatedBy;
     }
 
     public String getName() {
@@ -45,22 +126,6 @@ public class Exhibition {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getSplashScreen() {
-        return splashScreen;
-    }
-
-    public void setSplashScreen(String splashScreen) {
-        this.splashScreen = splashScreen;
-    }
-
-    public List<String> getTopBanner() {
-        return topBanner;
-    }
-
-    public void setTopBanner(List<String> topBanner) {
-        this.topBanner = topBanner;
     }
 
     public String getAddress() {
@@ -87,14 +152,6 @@ public class Exhibition {
         this.endDate = endDate;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
     public String getOrganizer() {
         return organizer;
     }
@@ -102,12 +159,5 @@ public class Exhibition {
     public void setOrganizer(String organizer) {
         this.organizer = organizer;
     }
-
-    public List<String> getSponsors() {
-        return sponsors;
-    }
-
-    public void setSponsors(List<String> sponsors) {
-        this.sponsors = sponsors;
-    }
+    //</editor-fold>
 }
