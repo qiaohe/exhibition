@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html">
+<h:head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <h:outputStylesheet name="css/site.css"/>
+    <title>Exhibition</title>
+</h:head>
+<h:body>
+    <div class="head">Welcome!</div>
+    <form action="#{request.contextPath}/j_spring_security_check" method="POST">
+        <div class="login_box">
+            <label for="email">邮箱</label>
+            <!-- todo investigate name attribute, type -->
+            <!--<h:inputText autofocus="" type="email"/>-->
+            <input type="email" id="email" class="login_input" size="30" autofocus="autofocus" name="j_username"/>
+            <label for="password">密码</label>
+            <input type="password" id="password" class="login_input" size="30" name="j_password"/>
+            <input type="submit" class="login_button" value="登录"/>
+        </div>
+    </form>
+</h:body>
+</html>
