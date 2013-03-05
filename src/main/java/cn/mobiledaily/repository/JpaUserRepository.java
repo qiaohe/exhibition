@@ -8,15 +8,8 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Johnson
- * Date: 2/28/13
- * Time: 10:14 PM
- * To change this template use File | Settings | File Templates.
- */
 @Repository(value = "userRepository")
-public class UserRepositoryImpl implements UserRepository {
+public class JpaUserRepository implements UserRepository {
     @PersistenceContext
     private EntityManager em;
 

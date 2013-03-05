@@ -38,6 +38,7 @@ public class Exhibitor implements Serializable {
     @PrePersist
     void prePersist() {
         createdAt = new Date();
+        updatedAt = new Date();
     }
 
     @PreUpdate

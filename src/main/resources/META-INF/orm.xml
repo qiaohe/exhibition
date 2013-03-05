@@ -13,4 +13,12 @@
             <query>select u from User u where username=:name</query>
         </named-query>
     </entity>
+    <entity class="cn.mobiledaily.domain.mobile.Attendee">
+        <named-query name="Attendee.findAll">
+            <query>select a from Attendee a</query>
+        </named-query>
+        <named-query name="Attendee.findByName">
+            <query>select a from Attendee a where dummyUserName=:name</query>
+        </named-query>
+    </entity>
 </entity-mappings>

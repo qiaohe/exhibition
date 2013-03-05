@@ -10,19 +10,12 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Johnson
- * Date: 3/4/13
- * Time: 11:28 PM
- * To change this template use File | Settings | File Templates.
- */
 @Component
 public class Pusher {
     private static final Logger LOGGER = LoggerFactory.getLogger(Pusher.class);
-    @Value("#{mobile.apns.keystore}")
+    @Value("${mobile.apns.keystore}")
     private String keyStore;
-    @Value("#{mobile.apns.keystorepassword}")
+    @Value("${mobile.apns.keystorepassword}")
     private String keyStorePassword;
 
     public void push(final String message, final String serviceToken) {
