@@ -5,6 +5,14 @@
               version="2.0">
     <application>
         <el-resolver>org.springframework.web.jsf.el.SpringBeanFacesELResolver</el-resolver>
+        <locale-config>
+            <default-locale>zh</default-locale>
+            <supported-locale>en</supported-locale>
+        </locale-config>
+        <resource-bundle>
+            <base-name>locale.msg</base-name>
+            <var>msg</var>
+        </resource-bundle>
     </application>
     <render-kit>
         <renderer>

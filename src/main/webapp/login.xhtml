@@ -9,16 +9,16 @@
     <title>Exhibition</title>
 </h:head>
 <h:body>
-    <div class="head">Welcome!</div>
+    <div class="head">
+        <h:outputText value="#{msg['welcome']}"/>
+    </div>
     <form action="#{request.contextPath}/j_spring_security_check" method="POST">
         <div class="login_box">
-            <label for="email">邮箱</label>
-            <!-- todo investigate name attribute, type -->
-            <!--<h:inputText autofocus="" type="email"/>-->
+            <h:outputLabel for="email" value="#{msg['email']}"/>
             <input type="email" id="email" class="login_input" size="30" autofocus="autofocus" name="j_username"/>
-            <label for="password">密码</label>
+            <h:outputLabel for="password" value="#{msg['password']}"/>
             <input type="password" id="password" class="login_input" size="30" name="j_password"/>
-            <input type="submit" class="login_button" value="登录"/>
+            <input type="submit" class="login_button" value="#{msg['login']}"/>
         </div>
     </form>
 </h:body>
