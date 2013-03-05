@@ -83,3 +83,7 @@ html {
 .login_button:hover {
     background-color: #0087e7;
 }
+
+#content {
+    padding-top: 20px;
+}
