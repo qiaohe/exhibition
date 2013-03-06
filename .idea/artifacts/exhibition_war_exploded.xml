@@ -9,6 +9,7 @@
         </element>
         <element id="directory" name="lib">
           <element id="library" level="project" name="Maven: org.springframework:spring-core:3.2.0.RELEASE" />
+          <element id="library" level="project" name="Maven: org.bouncycastle:bcprov-jdk16:1.45" />
           <element id="library" level="project" name="Maven: org.springframework:spring-expression:3.2.0.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-web:3.2.0.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-context:3.2.0.RELEASE" />
