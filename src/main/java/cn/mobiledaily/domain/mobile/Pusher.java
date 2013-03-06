@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -20,17 +21,13 @@ import java.util.List;
 @Component
 public class Pusher {
     private static final Logger LOGGER = LoggerFactory.getLogger(Pusher.class);
-    @Value("#{mobile.apns.keystore}")
+    @Value("${mobile.apns.keystore}")
     private String keyStore;
-    @Value("#{mobile.apns.keystorepassword}")
+    @Value("${mobile.apns.keystorepassword}")
     private String keyStorePassword;
 
     public void push(final String message, final String serviceToken) {
-        try {
-            Push.alert(message, keyStore, keyStorePassword, false, serviceToken);
-        } catch (CommunicationException | KeystoreException e) {
-            LOGGER.error(e.getMessage());
-        }
+        push(message, Collections.singletonList(serviceToken));
     }
 
     public void push(final String message, final List<String> serviceTokens) {

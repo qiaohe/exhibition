@@ -16,19 +16,35 @@ public class Attendee implements Serializable {
     private Long id;
     @Version
     private int version;
+
     @Temporal(TemporalType.TIMESTAMP)
-    private Date createdAt;
-    private String dummyUserName;
+    private Date registerDate;
     private String serviceToken;
-    @OneToMany(mappedBy = "attendee", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<CheckInEntry> checkInHistories = new ArrayList<>();
     @ManyToOne
     private Exhibition exhibition;
+    @OneToMany(mappedBy = "attendee", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CheckInEntry> checkInHistories = new ArrayList<>();
 
-    @PrePersist
-    void prePersist() {
-        createdAt = new Date();
+    public Attendee() {
+        registerDate = new Date();
     }
+
+    public Attendee(String serviceToken, Exhibition exhibition) {
+        this();
+        this.serviceToken = serviceToken;
+        this.exhibition = exhibition;
+    }
+
+    public void addCheckInHistory(CheckInEntry entry) {
+        if (!checkInHistories.contains(entry))
+            checkInHistories.add(entry);
+    }
+
+    public void removeCheckInHistory(CheckInEntry entry) {
+        if (checkInHistories.contains(entry))
+            checkInHistories.remove(entry);
+    }
+
 
     //<editor-fold desc="fields">
     public Long getId() {
@@ -47,21 +63,18 @@ public class Attendee implements Serializable {
         this.version = version;
     }
 
-    public Date getCreatedAt() {
-        return createdAt;
+    public Date getRegisterDate() {
+        return registerDate;
     }
 
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
+    public void setRegisterDate(Date registerDate) {
+        this.registerDate = registerDate;
     }
 
     public String getDummyUserName() {
-        return dummyUserName;
+        return "v" + id;
     }
 
-    public void setDummyUserName(String dummyUserName) {
-        this.dummyUserName = dummyUserName;
-    }
 
     public String getServiceToken() {
         return serviceToken;

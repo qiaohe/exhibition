@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<entity-mappings xmlns="http://java.sun.com/xml/ns/persistence/orm"
+                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                  version="2.0"
                  xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_2_0.xsd">
     <entity class="cn.mobiledaily.domain.identity.User">
@@ -13,6 +14,14 @@
             <query>select u from User u where username=:name</query>
         </named-query>
     </entity>
+    <entity class="cn.mobiledaily.domain.Exhibition">
+        <named-query name="Exhibition.findAll">
+            <query>select e from Exhibition e</query>
+        </named-query>
+        <named-query name="Exhibition.findById">
+            <query>select e from Exhibition e where id=:id</query>
+        </named-query>
+    </entity>
     <entity class="cn.mobiledaily.domain.mobile.Attendee">
         <named-query name="Attendee.findAll">
             <query>select a from Attendee a</query>
@@ -21,4 +30,5 @@
             <query>select a from Attendee a where dummyUserName=:name</query>
         </named-query>
     </entity>
+
 </entity-mappings>

@@ -8,15 +8,12 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-@Entity
+@Embeddable
 public final class Location implements Serializable {
     private static final long serialVersionUID = 4736828905659788836L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @OneToOne
-    private CheckInEntry checkInEntry;
+    @Column(name = "longitude")
     private BigDecimal longitude;
+    @Column(name = "latitude")
     private BigDecimal latitude;
 
     public Location() {
@@ -28,21 +25,6 @@ public final class Location implements Serializable {
     }
 
     //<editor-fold desc="fields">
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public CheckInEntry getCheckInEntry() {
-        return checkInEntry;
-    }
-
-    public void setCheckInEntry(CheckInEntry checkInEntry) {
-        this.checkInEntry = checkInEntry;
-    }
 
     public BigDecimal getLongitude() {
         return longitude;
@@ -80,5 +62,4 @@ public final class Location implements Serializable {
     public String toString() {
         return ReflectionToStringBuilder.toString(this);
     }
-
 }

@@ -1,21 +1,31 @@
 package cn.mobiledaily.domain.mobile;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-public class CheckInEntry {
+public class CheckInEntry implements Serializable {
+    private static final long serialVersionUID = 3891325785188793952L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Version
+    private int version;
+
     @ManyToOne
     private Attendee attendee;
-    @OneToOne(mappedBy = "checkInEntry", cascade = CascadeType.ALL, optional = true)
+    @Embedded
     private Location location;
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
 
     public CheckInEntry() {
+        this(null, new Date());
+    }
+
+    public CheckInEntry(Location location) {
+        this(location, new Date());
     }
 
     public CheckInEntry(Location location, Date date) {
@@ -54,6 +64,14 @@ public class CheckInEntry {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
     }
     //</editor-fold>
 }

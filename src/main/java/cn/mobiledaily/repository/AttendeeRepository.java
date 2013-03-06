@@ -10,7 +10,5 @@ public interface AttendeeRepository {
 
     List<Attendee> findAll();
 
-    List<Attendee> findByName(String name);
-
-    User findByEmail(String email);
+    Attendee findById(Long attendeeId);
 }
