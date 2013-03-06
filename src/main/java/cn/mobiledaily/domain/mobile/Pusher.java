@@ -6,8 +6,6 @@ import javapns.communication.exceptions.KeystoreException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -19,12 +17,12 @@ import java.util.List;
  * Time: 11:28 PM
  * To change this template use File | Settings | File Templates.
  */
-@Component(value = "pusher")
+@Component
 public class Pusher {
     private static final Logger LOGGER = LoggerFactory.getLogger(Pusher.class);
-    @Value("${mobile.apns.keystore}")
+    @Value("#{mobile.apns.keystore}")
     private String keyStore;
-    @Value("${mobile.apns.keystorepassword}")
+    @Value("#{mobile.apns.keystorepassword}")
     private String keyStorePassword;
 
     public void push(final String message, final String serviceToken) {
@@ -42,5 +40,4 @@ public class Pusher {
             LOGGER.error(e.getMessage());
         }
     }
-
 }
