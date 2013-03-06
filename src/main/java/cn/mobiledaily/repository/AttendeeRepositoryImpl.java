@@ -13,7 +13,7 @@ import java.util.List;
  * Time: 10:58 PM
  * To change this template use File | Settings | File Templates.
  */
-@Repository(value = "userRepository")
+@Repository(value = "attendeeRepository")
 public class AttendeeRepositoryImpl implements AttendeeRepository {
     @Override
     public void persist(Attendee attendee) {
