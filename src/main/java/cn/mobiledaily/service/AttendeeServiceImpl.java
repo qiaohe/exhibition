@@ -30,6 +30,7 @@ public class AttendeeServiceImpl implements AttendeeService {
     @Override
     public void register(String serviceToken, Long exhibitionId) {
         Exhibition exhibition = exhibitionRepository.findById(exhibitionId);
+        if (exhibition == null) throw new IllegalArgumentException("exhibition id can not be null.");
         Attendee attendee = new Attendee(serviceToken, exhibition);
         attendeeRepository.persist(attendee);
     }

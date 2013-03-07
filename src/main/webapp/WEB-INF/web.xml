@@ -4,7 +4,7 @@
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>
-            WEB-INF/applicationContext.xml,WEB-INF/spring-security.xml
+            WEB-INF/restService-servlet.xml,WEB-INF/applicationContext.xml,WEB-INF/spring-security.xml
         </param-value>
     </context-param>
 
@@ -29,6 +29,14 @@
     <listener>
         <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
     </listener>
+    <servlet>
+        <servlet-name>restService</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>restService</servlet-name>
+        <url-pattern>/api/*</url-pattern>
+    </servlet-mapping>
 
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
@@ -47,7 +55,48 @@
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>*.xhtml</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>Push Servlet</servlet-name>
+        <servlet-class>org.primefaces.push.PushServlet</servlet-class>
+        <init-param>
+            <param-name>org.atmosphere.useWebSocket</param-name>
+            <param-value>true</param-value>
+        </init-param>
+        <init-param>
+            <param-name>channels</param-name>
+            <param-value>notifications</param-value>
+        </init-param>
+        <init-param>
+            <param-name>org.atmosphere.cpr.broadcasterCacheClass</param-name>
+            <param-value>org.atmosphere.cache.HeaderBroadcasterCache</param-value>
+        </init-param>
+        <init-param>
+            <param-name>org.atmosphere.cpr.broadcastFilterClasses</param-name>
+            <param-value>org.atmosphere.client.TrackMessageSizeFilter</param-value>
+        </init-param>
+        <init-param>
+            <param-name>org.atmosphere.cpr.sessionSupport</param-name>
+            <param-value>true</param-value>
+        </init-param>
 
+        <init-param>
+            <param-name>org.atmosphere.cpr.broadcaster.shareableThreadPool</param-name>
+            <param-value>true</param-value>
+        </init-param>
+        <init-param>
+            <param-name>org.atmosphere.cpr.broadcasterLifeCyclePolicy</param-name>
+            <param-value>IDLE_DESTROY</param-value>
+        </init-param>
+        <init-param>
+            <param-name>org.atmosphere.cpr.AtmosphereInterceptor.disableDefaults</param-name>
+            <param-value>true</param-value>
+        </init-param>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Push Servlet</servlet-name>
+        <url-pattern>/primepush/*</url-pattern>
+    </servlet-mapping>
     <welcome-file-list>
         <welcome-file>/login.xhtml</welcome-file>
     </welcome-file-list>

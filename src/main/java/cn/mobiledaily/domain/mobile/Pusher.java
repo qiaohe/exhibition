@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.Collections;
 import java.util.List;
 
@@ -21,10 +23,17 @@ import java.util.List;
 @Component
 public class Pusher {
     private static final Logger LOGGER = LoggerFactory.getLogger(Pusher.class);
+
     @Value("${mobile.apns.keystore}")
     private String keyStore;
     @Value("${mobile.apns.keystorepassword}")
     private String keyStorePassword;
+
+    public String getKeyStore() throws IOException {
+        URL url = getClass().getClassLoader().getResource(keyStore);
+        if (url == null) return null;
+        return url.getPath();
+    }
 
     public void push(final String message, final String serviceToken) {
         push(message, Collections.singletonList(serviceToken));
@@ -32,8 +41,8 @@ public class Pusher {
 
     public void push(final String message, final List<String> serviceTokens) {
         try {
-            Push.alert(message, keyStore, keyStorePassword, false, serviceTokens);
-        } catch (CommunicationException | KeystoreException e) {
+            Push.alert(message, getKeyStore(), keyStorePassword, false, serviceTokens);
+        } catch (CommunicationException | KeystoreException | IOException e) {
             LOGGER.error(e.getMessage());
         }
     }
