@@ -7,18 +7,15 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Johnson
- * Date: 3/6/13
- * Time: 9:18 PM
- * To change this template use File | Settings | File Templates.
- */
 @Repository(value = "exhibitionRepository")
 public class ExhibitionRepositoryImpl implements ExhibitionRepository {
     @PersistenceContext
     private EntityManager em;
 
+    @Override
+    public void persist(Exhibition exhibition) {
+        em.persist(exhibition);
+    }
 
     @Override
     public List<Exhibition> findAll() {
@@ -31,5 +28,13 @@ public class ExhibitionRepositoryImpl implements ExhibitionRepository {
                 .setParameter("id", exhibitionId)
                 .getResultList();
         return ebs.size() > 0 ? ebs.get(0) : null;
+    }
+
+    @Override
+    public Exhibition findByCode(String code) {
+        List<Exhibition> exhibitions = em.createNamedQuery("Exhibition.findByCode", Exhibition.class)
+                .setParameter("code", code)
+                .getResultList();
+        return exhibitions.size() > 0 ?exhibitions.get(0) : null;
     }
 }

@@ -28,6 +28,9 @@ public class Exhibition implements Serializable {
     @ManyToOne(optional = false)
     private User updatedBy;
     @NotNull
+    @Size(min = 3)
+    private String code;
+    @NotNull
     @Size(min = 1)
     private String name;
     private String description;
@@ -111,6 +114,14 @@ public class Exhibition implements Serializable {
 
     public void setUpdatedBy(User updatedBy) {
         this.updatedBy = updatedBy;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getName() {

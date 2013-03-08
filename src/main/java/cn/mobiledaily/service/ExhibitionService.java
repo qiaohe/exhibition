@@ -1,15 +1,13 @@
-package cn.mobiledaily.repository;
+package cn.mobiledaily.service;
 
 import cn.mobiledaily.domain.Exhibition;
 
 import java.util.List;
 
-public interface ExhibitionRepository {
+public interface ExhibitionService {
     void persist(Exhibition exhibition);
 
     List<Exhibition> findAll();
-
-    Exhibition findById(Long exhibitionId);
 
     Exhibition findByCode(String code);
 }

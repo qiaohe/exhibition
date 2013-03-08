@@ -11,10 +11,6 @@
     <http pattern="/favicon.ico" security="none"/>
     <http pattern="/login.xhtml*" security="none"/>
     <http pattern="/api/**" security="none"/>
-    <http pattern="/restful/**" create-session="stateless">
-        <intercept-url pattern="/restful/**" access="ROLE_REMOTE"/>
-        <http-basic/>
-    </http>
     <http auto-config="true">
         <intercept-url pattern="/admin/**" access="ROLE_ADMIN"/>
         <intercept-url pattern="/**" access="ROLE_USER,ROLE_ADMIN"/>

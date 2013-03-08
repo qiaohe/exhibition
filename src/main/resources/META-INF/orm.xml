@@ -21,6 +21,9 @@
         <named-query name="Exhibition.findById">
             <query>select e from Exhibition e where id=:id</query>
         </named-query>
+        <named-query name="Exhibition.findByCode">
+            <query>select e from Exhibition e where code=:code</query>
+        </named-query>
     </entity>
     <entity class="cn.mobiledaily.domain.mobile.Attendee">
         <named-query name="Attendee.findAll">

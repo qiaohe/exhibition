@@ -24,6 +24,7 @@
     <logger name="net.sf.ehcache.config.ConfigurationFactory" level="error"/>
     <logger name="org.hibernate.SQL" level="error"/>
     <logger name="org.springframework" level="error"/>
+    <logger name="org.springframework.web" level="error"/>
     <root level="error">
         <appender-ref ref="stdout"/>
     </root>
