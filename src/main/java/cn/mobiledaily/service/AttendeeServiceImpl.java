@@ -4,6 +4,7 @@ import cn.mobiledaily.domain.Exhibition;
 import cn.mobiledaily.domain.mobile.Attendee;
 import cn.mobiledaily.domain.mobile.CheckInEntry;
 import cn.mobiledaily.domain.mobile.Location;
+import cn.mobiledaily.exception.EntityNotFoundException;
 import cn.mobiledaily.repository.AttendeeRepository;
 import cn.mobiledaily.repository.ExhibitionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,27 +29,28 @@ public class AttendeeServiceImpl implements AttendeeService {
     private ExhibitionRepository exhibitionRepository;
 
     @Override
-    public void register(String serviceToken, Long exhibitionId) {
-        Exhibition exhibition = exhibitionRepository.findById(exhibitionId);
-        if (exhibition == null) throw new IllegalArgumentException("exhibition id can not be null.");
+    public void register(String serviceToken, String exhibitionCode) throws EntityNotFoundException {
+        Exhibition exhibition = exhibitionRepository.findByCode(exhibitionCode);
+        if (exhibition == null) throw new EntityNotFoundException(exhibitionCode, Exhibition.class);
         Attendee attendee = new Attendee(serviceToken, exhibition);
         attendeeRepository.persist(attendee);
     }
 
     @Override
-    public void checkIn(Long attendeeId, Location location) {
+    public void checkIn(Long attendeeId, Location location) throws EntityNotFoundException {
         Attendee attendee = attendeeRepository.findById(attendeeId);
+        if (attendee == null) throw new EntityNotFoundException(attendeeId.toString(), Attendee.class);
         attendee.addCheckInHistory(new CheckInEntry(location));
         attendeeRepository.persist(attendee);
     }
 
     @Override
-    public List<Attendee> findAttendees(Long exhibitionId) {
+    public List<Attendee> findAttendees(String exhibitionCode) {
         return attendeeRepository.findAll();
     }
 
     @Override
-    public List<CheckInEntry> findCheckInEntries(Long exhibitionId) {
+    public List<CheckInEntry> findCheckInEntries(String exhibitionCode) {
         return null;
     }
 }

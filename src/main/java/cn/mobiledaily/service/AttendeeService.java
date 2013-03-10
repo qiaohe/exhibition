@@ -3,6 +3,7 @@ package cn.mobiledaily.service;
 import cn.mobiledaily.domain.mobile.Attendee;
 import cn.mobiledaily.domain.mobile.CheckInEntry;
 import cn.mobiledaily.domain.mobile.Location;
+import cn.mobiledaily.exception.EntityNotFoundException;
 
 import java.util.List;
 
@@ -14,11 +15,11 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public interface AttendeeService {
-    void register(String serviceToken, Long exhibitionId);
+    void register(String serviceToken, String exhibitionCode) throws EntityNotFoundException;
 
-    void checkIn(Long attendeeId, Location location);
+    void checkIn(Long attendeeId, Location location) throws EntityNotFoundException;
 
-    List<Attendee> findAttendees(Long exhibitionId);
+    List<Attendee> findAttendees(String exhibitionCode);
 
-    List<CheckInEntry> findCheckInEntries(Long exhibitionId);
+    List<CheckInEntry> findCheckInEntries(String exhibitionCode);
 }

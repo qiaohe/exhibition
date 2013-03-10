@@ -8,7 +8,6 @@ import org.hibernate.validator.constraints.Range;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -29,26 +28,23 @@ public class AttendeeController {
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
     @ResponseStatus(value = HttpStatus.CREATED)
-    public String register(@RequestBody @Valid AttendeeRegisterRequest arg, BindingResult result) {
-        if (result.hasErrors()) return result.getAllErrors().toString();
-        attendeeService.register(arg.getServiceToken(), arg.getExhibitionId());
-        DownstreamPusher.push("CCBN", arg.getServiceToken());
-        return null;
+    public void register(@RequestBody @Valid AttendeeRegisterRequest arg) {
+        attendeeService.register(arg.getServiceToken(), arg.getExhibitionCode());
+        DownstreamPusher.push(arg.getExhibitionCode(), arg.getServiceToken());
     }
 
     @RequestMapping(value = "/{attendeeId}", method = RequestMethod.POST)
     @ResponseBody
     @ResponseStatus(HttpStatus.CREATED)
-    public String checkIn(@PathVariable long attendeeId, @RequestBody Location location) {
+    public void checkIn(@PathVariable long attendeeId, @RequestBody Location location) {
         attendeeService.checkIn(attendeeId, location);
-        return null;
     }
 
     public static final class AttendeeRegisterRequest {
         @NotEmpty
         private String serviceToken;
         @Range
-        private Long exhibitionId;
+        private String exhibitionCode;
 
         public String getServiceToken() {
             return serviceToken;
@@ -58,12 +54,12 @@ public class AttendeeController {
             this.serviceToken = serviceToken;
         }
 
-        public Long getExhibitionId() {
-            return exhibitionId;
+        public String getExhibitionCode() {
+            return exhibitionCode;
         }
 
-        public void setExhibitionId(Long exhibitionId) {
-            this.exhibitionId = exhibitionId;
+        public void setExhibitionCode(String exhibitionCode) {
+            this.exhibitionCode = exhibitionCode;
         }
     }
 }
