@@ -13,6 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static cn.mobiledaily.exception.EntityNotFoundException.ATTENDEE_ERROR_FORMAT;
+import static cn.mobiledaily.exception.EntityNotFoundException.EXHIBITION_ERROR_FORMAT;
+
 /**
  * Created with IntelliJ IDEA.
  * User: Johnson
@@ -31,7 +34,8 @@ public class AttendeeServiceImpl implements AttendeeService {
     @Override
     public void register(String serviceToken, String exhibitionCode) throws EntityNotFoundException {
         Exhibition exhibition = exhibitionRepository.findByCode(exhibitionCode);
-        if (exhibition == null) throw new EntityNotFoundException(exhibitionCode, Exhibition.class);
+        if (exhibition == null)
+            throw new EntityNotFoundException(String.format(EXHIBITION_ERROR_FORMAT, exhibitionCode));
         Attendee attendee = new Attendee(serviceToken, exhibition);
         attendeeRepository.persist(attendee);
     }
@@ -39,7 +43,8 @@ public class AttendeeServiceImpl implements AttendeeService {
     @Override
     public void checkIn(Long attendeeId, Location location) throws EntityNotFoundException {
         Attendee attendee = attendeeRepository.findById(attendeeId);
-        if (attendee == null) throw new EntityNotFoundException(attendeeId.toString(), Attendee.class);
+        if (attendee == null)
+            throw new EntityNotFoundException(String.format(ATTENDEE_ERROR_FORMAT, attendeeId));
         attendee.addCheckInHistory(new CheckInEntry(location));
         attendeeRepository.persist(attendee);
     }

@@ -3,9 +3,14 @@ package cn.mobiledaily.web.common;
 import cn.mobiledaily.exception.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -28,7 +33,19 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler({MethodArgumentNotValidException.class})
-    public ResponseEntity<String> handleValidationException(MethodArgumentNotValidException pe) {
-        return new ResponseEntity<String>(pe.getBindingResult().getAllErrors().toString(), HttpStatus.BAD_REQUEST);
+    public ResponseEntity<List> handleValidationException(MethodArgumentNotValidException mae) {
+        List<String> errors = new ArrayList<>();
+        for (ObjectError err : mae.getBindingResult().getAllErrors()) {
+            errors.add(getErrorString(err));
+        }
+        return new ResponseEntity<List>(errors, HttpStatus.BAD_REQUEST);
+    }
+
+    private String getErrorString(ObjectError error) {
+        String fn = error.getObjectName();
+        if (error instanceof FieldError) {
+            fn = ((FieldError) error).getField();
+        }
+        return String.format("%s:%s", fn, error.getDefaultMessage());
     }
 }
