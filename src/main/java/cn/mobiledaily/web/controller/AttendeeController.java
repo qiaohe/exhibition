@@ -1,5 +1,6 @@
 package cn.mobiledaily.web.controller;
 
+import cn.mobiledaily.domain.mobile.Attendee;
 import cn.mobiledaily.domain.mobile.Location;
 import cn.mobiledaily.service.AttendeeService;
 import cn.mobiledaily.web.common.DownstreamPusher;
@@ -8,9 +9,11 @@ import org.hibernate.validator.constraints.Range;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -21,9 +24,17 @@ import javax.validation.Valid;
  */
 @Controller
 @RequestMapping(value = "/attendees")
+@Transactional
 public class AttendeeController {
     @Autowired
     private AttendeeService attendeeService;
+
+    @RequestMapping(value = "/exhibition/{exhibitionCode}", method = RequestMethod.GET)
+    @ResponseBody
+    @ResponseStatus(value = HttpStatus.OK)
+    public List<Attendee> getAttendees(@PathVariable String exhibitionCode) {
+        return attendeeService.findAttendees(exhibitionCode);
+    }
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
