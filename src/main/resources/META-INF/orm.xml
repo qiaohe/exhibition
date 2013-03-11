@@ -14,6 +14,7 @@
             <query>select u from User u where username=:name</query>
         </named-query>
     </entity>
+
     <entity class="cn.mobiledaily.domain.Exhibition">
         <named-query name="Exhibition.findAll">
             <query>select e from Exhibition e</query>
@@ -25,13 +26,34 @@
             <query>select e from Exhibition e where code=:code</query>
         </named-query>
     </entity>
+
     <entity class="cn.mobiledaily.domain.mobile.Attendee">
         <named-query name="Attendee.findAll">
             <query>select a from Attendee a</query>
         </named-query>
-        <named-query name="Attendee.findByName">
-            <query>select a from Attendee a where dummyUserName=:name</query>
+    </entity>
+
+    <entity class="cn.mobiledaily.domain.EventSchedule">
+        <named-query name="EventSchedule.findByCode">
+            <query>select e from EventSchedule e where e.exhibition.code=:code</query>
         </named-query>
     </entity>
 
+    <entity class="cn.mobiledaily.domain.Sponsor">
+        <named-query name="Sponsor.findByCode">
+            <query>select s from Sponsor s where s.exhibition.code=:code</query>
+        </named-query>
+    </entity>
+
+    <entity class="cn.mobiledaily.domain.Speaker">
+        <named-query name="Speaker.findByCode">
+            <query>select s from Speaker s where s.exhibition.code=:code</query>
+        </named-query>
+    </entity>
+
+    <entity class="cn.mobiledaily.domain.Exhibitor">
+        <named-query name="Exhibitor.findByCode">
+            <query>select e from Exhibitor e where e.exhibition.code=:code</query>
+        </named-query>
+    </entity>
 </entity-mappings>

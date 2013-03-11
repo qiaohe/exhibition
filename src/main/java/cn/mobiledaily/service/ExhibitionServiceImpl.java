@@ -1,7 +1,7 @@
 package cn.mobiledaily.service;
 
-import cn.mobiledaily.domain.Exhibition;
-import cn.mobiledaily.repository.ExhibitionRepository;
+import cn.mobiledaily.domain.*;
+import cn.mobiledaily.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -14,6 +14,14 @@ import java.util.List;
 public class ExhibitionServiceImpl implements ExhibitionService {
     @Autowired
     private ExhibitionRepository exhibitionRepository;
+    @Autowired
+    private EventScheduleRepository eventScheduleRepository;
+    @Autowired
+    private ExhibitorRepository exhibitorRepository;
+    @Autowired
+    private SpeakerRepository speakerRepository;
+    @Autowired
+    private SponsorRepository sponsorRepository;
 
     @Override
     @Transactional
@@ -29,5 +37,25 @@ public class ExhibitionServiceImpl implements ExhibitionService {
     @Override
     public Exhibition findByCode(String code) {
         return exhibitionRepository.findByCode(code);
+    }
+
+    @Override
+    public List<EventSchedule> findEventScheduleByCode(String code) {
+        return eventScheduleRepository.findByCode(code);
+    }
+
+    @Override
+    public List<Exhibitor> findExhibitorByCode(String code) {
+        return exhibitorRepository.findByCode(code);
+    }
+
+    @Override
+    public List<Speaker> findSpeakerByCode(String code) {
+        return speakerRepository.findByCode(code);
+    }
+
+    @Override
+    public List<Sponsor> findSponsorByCode(String code) {
+        return sponsorRepository.findByCode(code);
     }
 }

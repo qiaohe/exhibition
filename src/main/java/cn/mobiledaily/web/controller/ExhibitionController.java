@@ -2,6 +2,8 @@ package cn.mobiledaily.web.controller;
 
 import cn.mobiledaily.domain.Exhibition;
 import cn.mobiledaily.service.ExhibitionService;
+import cn.mobiledaily.web.assembler.ExhibitionAssembler;
+import cn.mobiledaily.web.pojo.ExhibitionPOJO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,10 +15,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class ExhibitionController {
     @Autowired
     private ExhibitionService exhibitionService;
+    @Autowired
+    private ExhibitionAssembler exhibitionAssembler;
 
     @ResponseBody
     @RequestMapping("{code}")
-    public Exhibition getByCode(@PathVariable String code) {
-        return exhibitionService.findByCode(code);
+    public ExhibitionPOJO getByCode(@PathVariable String code) {
+        Exhibition exhibition = exhibitionService.findByCode(code);
+        ExhibitionPOJO exhibitionPOJO = exhibitionAssembler.toPOJO(exhibition);
+        exhibitionAssembler.combineEventSchedules(exhibitionPOJO, exhibitionService.findEventScheduleByCode(code));
+        exhibitionAssembler.combineExhibitors(exhibitionPOJO, exhibitionService.findExhibitorByCode(code));
+        exhibitionAssembler.combineSpeakers(exhibitionPOJO, exhibitionService.findSpeakerByCode(code));
+        exhibitionAssembler.combineSponsors(exhibitionPOJO, exhibitionService.findSponsorByCode(code));
+        return exhibitionPOJO;
     }
 }
