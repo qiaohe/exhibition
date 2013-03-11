@@ -28,10 +28,10 @@ public class Exhibition implements Serializable {
     @ManyToOne(optional = false)
     private User updatedBy;
     @NotNull
-    @Size(min = 3)
+    @Size(min = 3, max = 10)
     private String code;
     @NotNull
-    @Size(min = 1)
+    @Size(min = 1, max = 20)
     private String name;
     private String description;
     private String address;
@@ -45,6 +45,9 @@ public class Exhibition implements Serializable {
     void prePersist() {
         createdAt = new Date();
         updatedAt = new Date();
+        if (updatedBy == null) {
+            updatedBy = createdBy;
+        }
     }
 
     @PreUpdate

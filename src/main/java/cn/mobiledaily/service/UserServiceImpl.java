@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Service
+@Service("userService")
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 public class UserServiceImpl implements UserService {
     @Autowired
@@ -28,13 +28,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findByEmail(String email) {
-        return null;
+        return userRepository.findByEmail(email);
     }
 
     @Override
     public List<User> findByUsername(String username) {
-        return null;
-
+        return userRepository.findByName(username);
     }
 
     @Transactional

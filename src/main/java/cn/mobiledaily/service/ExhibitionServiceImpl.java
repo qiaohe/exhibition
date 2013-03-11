@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Service
+@Service("exhibitionService")
 @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 public class ExhibitionServiceImpl implements ExhibitionService {
     @Autowired
