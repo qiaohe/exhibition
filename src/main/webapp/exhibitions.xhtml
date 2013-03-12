@@ -5,8 +5,6 @@
                 xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
                 template="/templates/default.xhtml">
     <ui:define name="content">
-        <h:outputLink title="添加" value="javascript:void(0)" onclick="dlg.show()">添加</h:outputLink>
-        <!--<p:button value="添加" onclick="dlg.show()" type="button"/>-->
         <h:form>
             <p:dataTable var="exhibition" rowKey="#{exhibition.code}"
                          selectionMode="single"
@@ -36,11 +34,15 @@
                         <f:param name="code" value="#{exhibition.code}"/>
                     </h:outputLink>
                 </p:column>
+                <f:facet name="footer">
+                    <p:commandButton id="viewButton" value="添加" icon="ui-icon-search"
+                                      oncomplete="addDialog.show()"/>
+                </f:facet>
             </p:dataTable>
         </h:form>
 
         <p:growl id="growl" showDetail="true" life="3000"/>
-        <p:dialog id="dialog" header="添加" widgetVar="dlg" modal="true">
+        <p:dialog id="dialog" header="添加" widgetVar="addDialog" modal="true">
             <h:form>
                 <p:panel id="panel">
                     <p:messages id="msgs"/>
