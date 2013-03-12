@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+                template="/templates/default.xhtml">
+    <ui:define name="content">
+        <f:metadata>
+            <f:viewParam name="code" value="#{speakerBean.code}"/>
+        </f:metadata>
+        <p:button type="button" onclick="dlg.show();return false;" value="添加"/>
+        <h:form>
+            <p:dataTable var="speaker" value="#{speakerBean.speakers}" rowKey="#{speaker.id}" selectionMode="single">
+                <p:column headerText="姓名">
+                    <h:outputText value="#{speaker.name}"/>
+                </p:column>
+
+                <p:column headerText="简介">
+                    <h:outputText value="#{speaker.profile}"/>
+                </p:column>
+
+                <p:column headerText="邮件">
+                    <h:outputText value="#{speaker.email}"/>
+                </p:column>
+
+                <p:column headerText="职位">
+                    <h:outputText value="#{speaker.position}"/>
+                </p:column>
+
+                <p:column headerText="公司">
+                    <h:outputText value="#{speaker.company}"/>
+                </p:column>
+
+                <p:column headerText="手机">
+                    <h:outputText value="#{speaker.mobilePhone}"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+
+        <p:dialog id="dialog" header="添加" widgetVar="dlg" modal="true">
+            <h:form>
+                <p:panel id="panel">
+                    <p:messages/>
+                    <h:panelGrid columns="3">
+                        <h:outputLabel for="name" value="姓名"/>
+                        <p:inputText id="name" value="#{speakerBean.newSpeaker.name}"/>
+                        <p:message for="name"/>
+
+                        <h:outputLabel for="profile" value="简介"/>
+                        <p:inputText id="profile" value="#{speakerBean.newSpeaker.profile}"/>
+                        <p:message for="profile"/>
+
+                        <h:outputLabel for="email" value="邮件"/>
+                        <p:inputTextarea id="email" value="#{speakerBean.newSpeaker.email}"/>
+                        <p:message for="email"/>
+
+                        <h:outputLabel for="position" value="职位"/>
+                        <p:inputTextarea id="position" value="#{speakerBean.newSpeaker.position}"/>
+                        <p:message for="position"/>
+
+                        <h:outputLabel for="company" value="公司"/>
+                        <p:inputTextarea id="company" value="#{speakerBean.newSpeaker.company}"/>
+                        <p:message for="company"/>
+
+                        <h:outputLabel for="mobilePhone" value="手机"/>
+                        <p:inputTextarea id="mobilePhone" value="#{speakerBean.newSpeaker.mobilePhone}"/>
+                        <p:message for="mobilePhone"/>
+
+                        <p:commandButton value="保存" update="panel"
+                                         actionListener="#{speakerBean.persist}"
+                                         oncomplete="closeDialog(xhr, status, args)"/>
+                    </h:panelGrid>
+
+                </p:panel>
+            </h:form>
+        </p:dialog>
+        <script type="text/javascript">
+            function closeDialog(xhr, status, args) {
+                if (args.validationFailed) {
+                    jQuery('#dialog').effect("shake", { times: 1 }, 100);
+                } else {
+                    dlg.hide();
+                    location.reload();
+                }
+            }
+        </script>
+    </ui:define>
+
+</ui:composition>

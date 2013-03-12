@@ -2,7 +2,7 @@ package cn.mobiledaily.service;
 
 import cn.mobiledaily.domain.identity.Role;
 import cn.mobiledaily.domain.identity.User;
-import cn.mobiledaily.exception.EmailExistsException;
+import cn.mobiledaily.exception.UsernameExistsException;
 import cn.mobiledaily.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,20 +27,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findByEmail(String email) {
-        return userRepository.findByEmail(email);
-    }
-
-    @Override
-    public List<User> findByUsername(String username) {
+    public User findByUsername(String username) {
         return userRepository.findByName(username);
     }
 
     @Transactional
     @Override
-    public void register(String username, String password, String email) throws EmailExistsException {
-        if (userRepository.findByEmail(email) != null) {
-            throw new EmailExistsException(email);
+    public void register(String username, String password, String email) throws UsernameExistsException {
+        if (userRepository.findByName(username) != null) {
+            throw new UsernameExistsException(username);
         }
         User user = new User(username, passwordEncoder.encode(password), email, Role.USER.getAuthority());
         userRepository.persist(user);
@@ -48,8 +43,8 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public boolean changePassword(String email, String oldPassword, String newPassword) {
-        User user = userRepository.findByEmail(email);
+    public boolean changePassword(String username, String oldPassword, String newPassword) {
+        User user = userRepository.findByName(username);
         if (user != null && passwordEncoder.matches(oldPassword, user.getPassword())) {
             user.setPassword(passwordEncoder.encode(newPassword));
             userRepository.persist(user);
@@ -60,9 +55,13 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public void changeUsername(String email, String newUsername) {
-        User user = userRepository.findByEmail(email);
+    public void changeUsername(String username, String newUsername) throws UsernameExistsException {
+        User user = userRepository.findByName(username);
         if (user != null) {
+            User check = userRepository.findByName(newUsername);
+            if (check != null && check != user) {
+                throw new UsernameExistsException(newUsername);
+            }
             user.setUsername(newUsername);
             userRepository.persist(user);
         }
@@ -70,13 +69,9 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public User changeEmail(String email, String newEmail) throws EmailExistsException {
-        User user = userRepository.findByEmail(email);
+    public User changeEmail(String username, String newEmail) {
+        User user = userRepository.findByName(username);
         if (user != null) {
-            User check = userRepository.findByEmail(newEmail);
-            if (check != null && check != user) {
-                throw new EmailExistsException(newEmail);
-            }
             user.setEmail(newEmail);
             userRepository.persist(user);
         }
@@ -85,8 +80,8 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public User changeAuthority(String email, String authority) {
-        User user = userRepository.findByEmail(email);
+    public User changeAuthority(String username, String authority) {
+        User user = userRepository.findByName(username);
         if (user != null) {
             user.setAuthority(authority);
             userRepository.persist(user);

@@ -19,13 +19,13 @@ public class Speaker implements Serializable {
     private int version;
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
-    @ManyToOne
+    @ManyToOne(optional = false)
     private User createdBy;
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
-    @ManyToOne
+    @ManyToOne(optional = false)
     private User updatedBy;
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Exhibition exhibition;
     private String name;
     private String profile;
@@ -38,6 +38,9 @@ public class Speaker implements Serializable {
     void prePersist() {
         createdAt = new Date();
         updatedAt = new Date();
+        if (updatedBy == null) {
+            updatedBy = createdBy;
+        }
     }
 
     @PreUpdate

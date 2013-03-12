@@ -22,15 +22,15 @@ public class RepositoryUserDetailService implements UserDetailsService {
 
     /**
      * get user by email
-     * @param email email
+     * @param username email
      * @return User
      * @throws UsernameNotFoundException
      */
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(email);
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByName(username);
         if (user == null) {
-            throw new UsernameNotFoundException(email);
+            throw new UsernameNotFoundException(username);
         }
         return user;
     }

@@ -13,8 +13,8 @@
     </div>
     <form action="#{request.contextPath}/j_spring_security_check" method="POST">
         <div class="login_box">
-            <h:outputLabel for="email" value="#{msg['email']}"/>
-            <input type="email" id="email" class="login_input" size="30" autofocus="autofocus" name="j_username"/>
+            <h:outputLabel for="username" value="#{msg['username']}"/>
+            <input type="text" id="username" class="login_input" size="30" autofocus="autofocus" name="j_username"/>
             <h:outputLabel for="password" value="#{msg['password']}"/>
             <input type="password" id="password" class="login_input" size="30" name="j_password"/>
             <input type="submit" class="login_button" value="#{msg['login']}"/>

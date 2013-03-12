@@ -62,8 +62,8 @@ public class ExhibitionBean {
     }
 
     private User getCurrentUser() {
-        String email = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
-        return userService.findByEmail(email);
+        String username = FacesContext.getCurrentInstance().getExternalContext().getRemoteUser();
+        return userService.findByUsername(username);
     }
 
     private Exhibition newExhibition() {

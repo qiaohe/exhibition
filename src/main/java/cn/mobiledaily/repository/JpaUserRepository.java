@@ -21,16 +21,9 @@ public class JpaUserRepository implements UserRepository {
         return em.createNamedQuery("User.findAll", User.class).getResultList();
     }
 
-    public List<User> findByName(String name) {
+    public User findByName(String name) {
         TypedQuery<User> query = em.createNamedQuery("User.findByName", User.class);
         query.setParameter("name", name);
-        return query.getResultList();
-    }
-
-    @Override
-    public User findByEmail(String email) {
-        TypedQuery<User> query = em.createNamedQuery("User.findByEmail", User.class);
-        query.setParameter("email", email);
         List<User> users = query.getResultList();
         return users.size() > 0 ? users.get(0) : null;
     }

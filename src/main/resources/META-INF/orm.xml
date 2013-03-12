@@ -47,7 +47,7 @@
 
     <entity class="cn.mobiledaily.domain.Speaker">
         <named-query name="Speaker.findByCode">
-            <query>select s from Speaker s where s.exhibition.code=:code</query>
+            <query>select s from Speaker s where s.exhibition.code=:code order by createdAt desc</query>
         </named-query>
     </entity>
 

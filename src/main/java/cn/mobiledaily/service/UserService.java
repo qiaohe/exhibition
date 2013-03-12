@@ -1,25 +1,23 @@
 package cn.mobiledaily.service;
 
 import cn.mobiledaily.domain.identity.User;
-import cn.mobiledaily.exception.EmailExistsException;
+import cn.mobiledaily.exception.UsernameExistsException;
 
 import java.util.List;
 
 public interface UserService {
     List<User> getUsers();
 
-    User findByEmail(String email);
+    User findByUsername(String username);
 
-    List<User> findByUsername(String username);
+    void register(String username, String password, String email) throws UsernameExistsException;
 
-    void register(String username, String password, String email) throws EmailExistsException;
+    boolean changePassword(String username, String oldPassword, String newPassword);
 
-    boolean changePassword(String email, String oldPassword, String newPassword);
+    void changeUsername(String username, String newUsername) throws UsernameExistsException;
 
-    void changeUsername(String email, String newUsername);
+    User changeEmail(String username, String newEmail);
 
-    User changeEmail(String email, String newEmail) throws EmailExistsException;
-
-    User changeAuthority(String email, String authority);
+    User changeAuthority(String username, String authority);
 
 }
