@@ -18,4 +18,9 @@ public class JpaSpeakerRepository implements SpeakerRepository {
                 .setParameter("code", code)
                 .getResultList();
     }
+
+    @Override
+    public void persist(Speaker speaker) {
+        em.persist(speaker);
+    }
 }

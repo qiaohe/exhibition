@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface EventScheduleRepository {
     List<EventSchedule> findByCode(String code);
+
+    void persist(EventSchedule eventSchedule);
 }

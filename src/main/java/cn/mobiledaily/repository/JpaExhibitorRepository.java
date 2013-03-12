@@ -18,4 +18,9 @@ public class JpaExhibitorRepository implements ExhibitorRepository {
                 .setParameter("code", code)
                 .getResultList();
     }
+
+    @Override
+    public void persist(Exhibitor exhibitor) {
+        em.persist(exhibitor);
+    }
 }

@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface SpeakerRepository {
     List<Speaker> findByCode(String code);
+
+    void persist(Speaker speaker);
 }

@@ -18,4 +18,9 @@ public class JpaEventScheduleRepository implements EventScheduleRepository {
                 .setParameter("code", code)
                 .getResultList();
     }
+
+    @Override
+    public void persist(EventSchedule eventSchedule) {
+        em.persist(eventSchedule);
+    }
 }

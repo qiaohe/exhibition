@@ -7,19 +7,24 @@
 <h:head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <h:outputStylesheet library="css" name="site.css"/>
-    <title>Exhibition</title>
 </h:head>
 <h:body>
-    <div id="container">
-        <div id="header" class="head">
-            <h:outputLink value="#{request.contextPath}/j_spring_security_logout">登出</h:outputLink>
-        </div>
-        <div id="sidebar"></div>
-        <div id="content">
-            <ui:insert name="content">
+    <div id="page">
+        <div id="header">
+            <ui:insert name="header">
+                <ui:include src="header.xhtml"/>
             </ui:insert>
         </div>
-        <div id="footer"></div>
+        <div id="content">
+            <ui:insert name="content">
+                [content here]
+            </ui:insert>
+        </div>
+        <div id="footer">
+            <ui:insert name="footer">
+                <ui:include src="footer.xhtml"/>
+            </ui:insert>
+        </div>
     </div>
 </h:body>
 </html>

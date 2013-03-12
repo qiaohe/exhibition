@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface ExhibitorRepository {
     List<Exhibitor> findByCode(String code);
+
+    void persist(Exhibitor exhibitor);
 }

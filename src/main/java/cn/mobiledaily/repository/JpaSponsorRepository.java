@@ -18,4 +18,9 @@ public class JpaSponsorRepository implements SponsorRepository {
                 .setParameter("code", code)
                 .getResultList();
     }
+
+    @Override
+    public void persist(Sponsor sponsor) {
+        em.persist(sponsor);
+    }
 }

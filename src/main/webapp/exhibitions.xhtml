@@ -3,12 +3,14 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
-                template="/templates/sidebarLayout.xhtml">
+                template="/templates/default.xhtml">
     <ui:define name="content">
         <h:outputLink title="添加" value="javascript:void(0)" onclick="dlg.show()">添加</h:outputLink>
         <!--<p:button value="添加" onclick="dlg.show()" type="button"/>-->
         <h:form>
-            <p:dataTable var="exhibition" value="#{exhibitionBean.exhibitions}">
+            <p:dataTable var="exhibition" rowKey="#{exhibition.code}"
+                         selectionMode="single"
+                         value="#{exhibitionBean.exhibitions}">
                 <p:column headerText="code">
                     <h:outputText value="#{exhibition.code}"/>
                 </p:column>
@@ -20,10 +22,16 @@
                 <p:column headerText="description">
                     <h:outputText value="#{exhibition.description}"/>
                 </p:column>
+                <p:column headerText="description">
+                    <h:outputLink value="exhibitor.jsf">
+                        exhibitor
+                        <f:param name="code" value="#{exhibition.code}"/>
+                    </h:outputLink>
+                </p:column>
             </p:dataTable>
         </h:form>
 
-        <p:growl id="growl" showDetail="true" life="3000" />
+        <p:growl id="growl" showDetail="true" life="3000"/>
         <p:dialog id="dialog" header="添加" widgetVar="dlg" modal="true">
             <h:form>
                 <p:panel id="panel">
@@ -42,16 +50,16 @@
                         <p:message for="description"/>
 
                         <p:commandButton value="保存" update="panel"
-                                actionListener="#{exhibitionBean.persist}"
-                                oncomplete="handleLoginRequest(xhr, status, args)"/>
+                                         actionListener="#{exhibitionBean.persist}"
+                                         oncomplete="handleLoginRequest(xhr, status, args)"/>
                     </h:panelGrid>
                 </p:panel>
             </h:form>
         </p:dialog>
         <script type="text/javascript">
             function handleLoginRequest(xhr, status, args) {
-                if(args.validationFailed || !args.loggedIn) {
-                    jQuery('#dialog').effect("shake", { times:1 }, 100);
+                if (args.validationFailed || !args.loggedIn) {
+                    jQuery('#dialog').effect("shake", { times: 1 }, 100);
                 } else {
                     dlg.hide();
                 }

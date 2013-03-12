@@ -30,6 +30,31 @@ public class ExhibitionServiceImpl implements ExhibitionService {
     }
 
     @Override
+    @Transactional
+    public void persist(Exhibitor exhibitor) {
+        exhibitorRepository.persist(exhibitor);
+
+    }
+
+    @Override
+    @Transactional
+    public void persist(EventSchedule eventSchedule) {
+        eventScheduleRepository.persist(eventSchedule);
+    }
+
+    @Override
+    @Transactional
+    public void persist(Sponsor sponsor) {
+        sponsorRepository.persist(sponsor);
+    }
+
+    @Override
+    @Transactional
+    public void persist(Speaker speaker) {
+        speakerRepository.persist(speaker);
+    }
+
+    @Override
     public List<Exhibition> findAll() {
         return exhibitionRepository.findAll();
     }
@@ -58,4 +83,6 @@ public class ExhibitionServiceImpl implements ExhibitionService {
     public List<Sponsor> findSponsorByCode(String code) {
         return sponsorRepository.findByCode(code);
     }
+
+
 }

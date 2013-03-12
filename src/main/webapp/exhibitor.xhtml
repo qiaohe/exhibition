@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+                template="/templates/default.xhtml">
+    <ui:define name="content">
+        <f:metadata>
+            <f:viewParam name="code" value="#{exhibitorBean.code}"/>
+        </f:metadata>
+        <h:outputLink title="添加" value="javascript:void(0)" onclick="dlg.show()">添加</h:outputLink>
+        <h:form>
+            <p:dataTable var="exhibitor" value="#{exhibitorBean.exhibitors}" rowKey="#{exhibitor.id}"
+                          selectionMode="single">
+                <p:column headerText="category">
+                    <h:outputText value="#{exhibitor.category}"/>
+                </p:column>
+
+                <p:column headerText="company">
+                    <h:outputText value="#{exhibitor.company}"/>
+                </p:column>
+
+                <p:column headerText="address">
+                    <h:outputText value="#{exhibitor.address}"/>
+                </p:column>
+                <p:column headerText="email">
+                    <h:outputText value="#{exhibitor.email}"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+
+        <p:dialog id="dialog" header="添加" widgetVar="dlg" modal="true">
+            <h:form>
+                <p:panel id="panel">
+                    <p:messages/>
+                    <h:panelGrid columns="3">
+                        <h:outputLabel for="category" value="分类"/>
+                        <p:inputText id="category" value="#{exhibitorBean.exhibitor.category}"/>
+                        <p:message for="category"/>
+
+                        <h:outputLabel for="company" value="公司"/>
+                        <p:inputText id="company" value="#{exhibitorBean.exhibitor.company}"/>
+                        <p:message for="company"/>
+
+                        <h:outputLabel for="address" value="地址"/>
+                        <p:inputTextarea id="address" value="#{exhibitorBean.exhibitor.address}"/>
+                        <p:message for="address"/>
+
+                        <h:outputLabel for="email" value="邮件"/>
+                        <p:inputTextarea id="email" value="#{exhibitorBean.exhibitor.email}"/>
+                        <p:message for="email"/>
+
+                        <p:commandButton value="保存" update="panel"
+                                         actionListener="#{exhibitorBean.persist}"
+                                         oncomplete="closeDialog(xhr, status, args)"/>
+                    </h:panelGrid>
+
+                </p:panel>
+            </h:form>
+        </p:dialog>
+        <script type="text/javascript">
+            function closeDialog(xhr, status, args) {
+                if (args.validationFailed) {
+                    jQuery('#dialog').effect("shake", { times: 1 }, 100);
+                } else {
+                    dlg.hide();
+                    location.reload();
+                }
+            }
+        </script>
+    </ui:define>
+
+</ui:composition>

@@ -1,4 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets">
-    default header
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core">
+    <div id="header" class="ui-widget ui-widget-header">
+        <div id="logo">
+            <img src="#{request.contextPath}/images/logo.png" alt="Logo"/>
+        </div>
+
+        <div id="menu" class="ui-widget">
+            <ul id="main">
+                <li class="current_page_item"><a href="#{request.contextPath}/ui/home.jsf"
+                                                 style="background:url('../design/ui.png') no-repeat center left;">#{msg.header_event_schedule}</a>
+                </li>
+                <li><a href="#{request.contextPath}/mobile/index.jsf"
+                       style="background:url('../design/iphone.png') no-repeat center left;">#{msg.header_exhibitor}</a>
+                </li>
+                <li><a href="#{request.contextPath}/push/index.jsf"
+                       style="background:url('../design/push.png') no-repeat center left">#{msg.header_speaker}</a></li>
+                <li class="current_page_item"><a href="#{request.contextPath}/ui/macosx.jsf"
+                                                 style="background:url('../design/mac.png') no-repeat center left;">#{msg.header_sponsor}</a>
+                </li>
+                <li class="current_page_item"><a href="#{request.contextPath}/ui/macosx.jsf"
+                                                 style="background:url('../design/mac.png') no-repeat center left;">#{msg.header_push}</a>
+                </li>
+            </ul>
+        </div>
+    </div>
 </ui:composition>
