@@ -27,6 +27,14 @@
                         exhibitor
                         <f:param name="code" value="#{exhibition.code}"/>
                     </h:outputLink>
+                    <h:outputLink value="sponsor.jsf">
+                        sponsor
+                        <f:param name="code" value="#{exhibition.code}"/>
+                    </h:outputLink>
+                    <h:outputLink value="speaker.jsf">
+                        speaker
+                        <f:param name="code" value="#{exhibition.code}"/>
+                    </h:outputLink>
                 </p:column>
             </p:dataTable>
         </h:form>
