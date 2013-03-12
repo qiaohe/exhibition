@@ -5,10 +5,7 @@
                  xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_2_0.xsd">
     <entity class="cn.mobiledaily.domain.identity.User">
         <named-query name="User.findAll">
-            <query>select u from User u</query>
-        </named-query>
-        <named-query name="User.findByEmail">
-            <query>select u from User u where u.email=:email</query>
+            <query>select u from User u order by id desc</query>
         </named-query>
         <named-query name="User.findByName">
             <query>select u from User u where username=:name</query>
@@ -17,7 +14,7 @@
 
     <entity class="cn.mobiledaily.domain.Exhibition">
         <named-query name="Exhibition.findAll">
-            <query>select e from Exhibition e</query>
+            <query>select e from Exhibition e order by id desc</query>
         </named-query>
         <named-query name="Exhibition.findById">
             <query>select e from Exhibition e where id=:id</query>
@@ -35,25 +32,25 @@
 
     <entity class="cn.mobiledaily.domain.EventSchedule">
         <named-query name="EventSchedule.findByCode">
-            <query>select e from EventSchedule e where e.exhibition.code=:code</query>
+            <query>select e from EventSchedule e where e.exhibition.code=:code order by id desc</query>
         </named-query>
     </entity>
 
     <entity class="cn.mobiledaily.domain.Sponsor">
         <named-query name="Sponsor.findByCode">
-            <query>select s from Sponsor s where s.exhibition.code=:code</query>
+            <query>select s from Sponsor s where s.exhibition.code=:code order by id desc</query>
         </named-query>
     </entity>
 
     <entity class="cn.mobiledaily.domain.Speaker">
         <named-query name="Speaker.findByCode">
-            <query>select s from Speaker s where s.exhibition.code=:code order by createdAt desc</query>
+            <query>select s from Speaker s where s.exhibition.code=:code order by id desc</query>
         </named-query>
     </entity>
 
     <entity class="cn.mobiledaily.domain.Exhibitor">
         <named-query name="Exhibitor.findByCode">
-            <query>select e from Exhibitor e where e.exhibition.code=:code</query>
+            <query>select e from Exhibitor e where e.exhibition.code=:code order by id desc</query>
         </named-query>
     </entity>
 </entity-mappings>
