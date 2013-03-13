@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:f="http://java.sun.com/jsf/core">
+                xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html">
     <div id="header" class="ui-widget ui-widget-header">
         <div id="logo">
             <h:graphicImage library="img" name="logo.png" alt="logo"/>
@@ -10,45 +9,22 @@
         <div id="menu" class="ui-widget">
             <ul id="main">
                 <li class="current_page_item">
-                    <h:outputLink value="speaker.xhtml">
-                        <h:graphicImage library="img" name="schedule.png"/>
-                        <h:outputText value="#{msg.header_event_schedule}"/>
-                        <f:param name="code" value="#{userBean.code}"/>
-                    </h:outputLink>
+                    <h:outputLink value="speaker.xhtml" style="background:url('resources/img/schedule.png') no-repeat center left;">#{msg.header_event_schedule}</h:outputLink>
                 </li>
                 <li>
-                    <h:outputLink value="exhibitor.xhtml">
-                        <h:graphicImage library="img" name="exhibitor.png"/>
-                        <h:outputText value="#{msg.header_exhibitor}"/>
-                        <f:param name="code" value="#{userBean.code}"/>
-                    </h:outputLink>
+                    <h:outputLink value="exhibitor.xhtml" style="background:url('resources/img/exhibitor.png') no-repeat center left;">#{msg.header_exhibitor}</h:outputLink>
                 </li>
                 <li>
-                    <h:outputLink value="speaker.xhtml">
-                        <h:graphicImage library="img" name="speaker.png"/>
-                        <h:outputText value="#{msg.header_speaker}"/>
-                        <f:param name="code" value="#{userBean.code}"/>
-                    </h:outputLink>
+                    <h:outputLink value="speaker.xhtml" style="background:url('resources/img/speaker.png') no-repeat center left;">#{msg.header_speaker}</h:outputLink>
                 </li>
                 <li>
-                    <h:outputLink value="sponsor.xhtml">
-                        <h:graphicImage library="img" name="sponsor.png"/>
-                        <h:outputText value="#{msg.header_sponsor}"/>
-                        <f:param name="code" value="#{userBean.code}"/>
-                    </h:outputLink>
+                    <h:outputLink value="sponsor.xhtml" style="background:url('resources/img/sponsor.png') no-repeat center left;">#{msg.header_sponsor}</h:outputLink>
                 </li>
                 <li>
-                    <h:outputLink value="exhibitor.xhtml">
-                        <h:graphicImage library="img" name="push.png"/>
-                        <h:outputText value="#{msg.header_push}"/>
-                        <f:param name="code" value="#{userBean.code}"/>
-                    </h:outputLink>
+                    <h:outputLink value="exhibitor.xhtml" style="background:url('resources/img/push.png') no-repeat center left;">#{msg.header_push}</h:outputLink>
                 </li>
                 <li>
-                    <h:outputLink value="j_spring_security_logout">
-                        <h:graphicImage library="img" name="exit.png"/>
-                        <h:outputText value="#{msg.logout}"/>
-                    </h:outputLink>
+                    <h:outputLink value="j_spring_security_logout" style="background:url('resources/img/logout.png') no-repeat center left;">#{msg.logout}</h:outputLink>
                 </li>
             </ul>
         </div>

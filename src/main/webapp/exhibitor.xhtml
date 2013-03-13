@@ -2,32 +2,25 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:p="http://primefaces.org/ui"
                 template="/templates/default.xhtml">
-    <ui:define name="metadata">
-        <f:metadata>
-            <f:viewParam name="code" value="#{userBean.code}"/>
-        </f:metadata>
-    </ui:define>
-
     <ui:define name="content">
-        <h:outputLink title="添加" value="javascript:void(0)" onclick="dlg.show()">添加</h:outputLink>
+        <p:button type="button" onclick="dlg.show();return false;" value="添加"/>
         <h:form>
             <p:dataTable var="exhibitor" value="#{exhibitorBean.exhibitors}" rowKey="#{exhibitor.id}"
                           selectionMode="single">
-                <p:column headerText="category">
+                <p:column headerText="分类">
                     <h:outputText value="#{exhibitor.category}"/>
                 </p:column>
 
-                <p:column headerText="company">
+                <p:column headerText="公司">
                     <h:outputText value="#{exhibitor.company}"/>
                 </p:column>
 
-                <p:column headerText="address">
+                <p:column headerText="地址">
                     <h:outputText value="#{exhibitor.address}"/>
                 </p:column>
-                <p:column headerText="email">
+                <p:column headerText="邮件">
                     <h:outputText value="#{exhibitor.email}"/>
                 </p:column>
             </p:dataTable>
@@ -39,19 +32,19 @@
                     <p:messages/>
                     <h:panelGrid columns="3">
                         <h:outputLabel for="category" value="分类"/>
-                        <p:inputText id="category" value="#{exhibitorBean.exhibitor.category}"/>
+                        <p:inputText id="category" value="#{exhibitorBean.newExhibitor.category}"/>
                         <p:message for="category"/>
 
                         <h:outputLabel for="company" value="公司"/>
-                        <p:inputText id="company" value="#{exhibitorBean.exhibitor.company}"/>
+                        <p:inputText id="company" value="#{exhibitorBean.newExhibitor.company}"/>
                         <p:message for="company"/>
 
                         <h:outputLabel for="address" value="地址"/>
-                        <p:inputTextarea id="address" value="#{exhibitorBean.exhibitor.address}"/>
+                        <p:inputTextarea id="address" value="#{exhibitorBean.newExhibitor.address}"/>
                         <p:message for="address"/>
 
                         <h:outputLabel for="email" value="邮件"/>
-                        <p:inputTextarea id="email" value="#{exhibitorBean.exhibitor.email}"/>
+                        <p:inputTextarea id="email" value="#{exhibitorBean.newExhibitor.email}"/>
                         <p:message for="email"/>
 
                         <p:commandButton value="保存" update="panel"
@@ -65,7 +58,7 @@
         <script type="text/javascript">
             function closeDialog(xhr, status, args) {
                 if (args.validationFailed) {
-                    jQuery('#dialog').effect("shake", { times: 1 }, 100);
+                    jQuery('#dlg').effect("shake", { times: 1 }, 100);
                 } else {
                     dlg.hide();
                     location.reload();

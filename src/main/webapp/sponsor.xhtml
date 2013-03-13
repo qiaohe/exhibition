@@ -2,25 +2,22 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
-                xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
                 template="/templates/default.xhtml">
     <ui:define name="content">
-        <f:metadata>
-            <f:viewParam name="code" value="#{sponsorBean.code}"/>
-        </f:metadata>
-        <h:outputLink title="添加" value="javascript:void(0)" onclick="dlg.show()">添加</h:outputLink>
+        <p:button type="button" onclick="dlg.show();return false;" value="添加"/>
         <h:form>
             <p:dataTable var="sponsor" value="#{sponsorBean.sponsors}"
                          >
-                <p:column headerText="name">
+                <p:column headerText="名称">
                     <h:outputText value="#{sponsor.name}"/>
                 </p:column>
 
-                <p:column headerText="bannerImage">
+                <p:column headerText="横幅图片">
                     <h:outputText value="#{sponsor.bannerImage}"/>
                 </p:column>
 
-                <p:column headerText="website">
+                <p:column headerText="网址">
                     <h:outputText value="#{sponsor.website}"/>
                 </p:column>
             </p:dataTable>
@@ -32,15 +29,15 @@
                     <p:messages/>
                     <h:panelGrid columns="3">
                         <h:outputLabel for="name" value="名称"/>
-                        <p:inputText id="name" value="#{sponsorBean.sponsor.name}"/>
+                        <p:inputText id="name" value="#{sponsorBean.newSponsor.name}"/>
                         <p:message for="name"/>
 
                         <h:outputLabel for="bannerImage" value="横幅图片"/>
-                        <p:inputText id="bannerImage" value="#{sponsorBean.sponsor.bannerImage}"/>
+                        <p:inputText id="bannerImage" value="#{sponsorBean.newSponsor.bannerImage}"/>
                         <p:message for="bannerImage"/>
 
                         <h:outputLabel for="website" value="网址"/>
-                        <p:inputTextarea id="website" value="#{sponsorBean.sponsor.website}"/>
+                        <p:inputTextarea id="website" value="#{sponsorBean.newSponsor.website}"/>
                         <p:message for="website"/>
 
                         <p:commandButton value="保存" update="panel"
@@ -54,7 +51,7 @@
         <script type="text/javascript">
             function closeDialog(xhr, status, args) {
                 if (args.validationFailed) {
-                    jQuery('#dialog').effect("shake", { times: 1 }, 100);
+                    jQuery('#dlg').effect("shake", { times: 1 }, 100);
                 } else {
                     dlg.hide();
                     location.reload();

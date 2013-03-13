@@ -1,58 +1,54 @@
 package cn.mobiledaily.web.managedbean;
 
-import cn.mobiledaily.domain.Exhibition;
 import cn.mobiledaily.domain.Sponsor;
 import cn.mobiledaily.service.ExhibitionService;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.context.FacesContext;
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Johnson
- * Date: 3/12/13
- * Time: 5:06 PM
- * To change this template use File | Settings | File Templates.
- */
 @ManagedBean
 public class SponsorBean {
     @ManagedProperty("#{exhibitionService}")
     private ExhibitionService exhibitionService;
-    private Sponsor sponsor = new Sponsor();
-    private String code;
+    @ManagedProperty("#{userBean}")
+    private UserBean userBean;
+    private Sponsor newSponsor;
 
     public void setExhibitionService(ExhibitionService exhibitionService) {
         this.exhibitionService = exhibitionService;
     }
 
+    public void setUserBean(UserBean userBean) {
+        this.userBean = userBean;
+    }
+
     public List<Sponsor> getSponsors() {
-        return exhibitionService.findSponsorByCode(code);
+        return exhibitionService.findSponsorByCode(userBean.getExhibitionCode());
     }
 
-    public ExhibitionService getExhibitionService() {
-        return exhibitionService;
-    }
-
-    public Sponsor getSponsor() {
-        return sponsor;
-    }
-
-    public void setSponsor(Sponsor sponsor) {
-        this.sponsor = sponsor;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
+    public Sponsor getNewSponsor() {
+        if (newSponsor == null) {
+            newSponsor = createSponsor();
+        }
+        return newSponsor;
     }
 
     public void persist() {
-        Exhibition exhibition = exhibitionService.findByCode(getCode());
-        sponsor.setExhibition(exhibition);
-        exhibitionService.persist(sponsor);
+        try {
+            exhibitionService.persist(newSponsor);
+            newSponsor = createSponsor();
+        } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage()));
+        }
+    }
+
+    private Sponsor createSponsor() {
+        Sponsor sponsor = new Sponsor();
+        sponsor.setCreatedBy(userBean.getUser());
+        sponsor.setExhibition(exhibitionService.findByCode(userBean.getExhibitionCode()));
+        return sponsor;
     }
 }
