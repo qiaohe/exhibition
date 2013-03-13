@@ -20,7 +20,6 @@ public class SpeakerBean {
     @ManagedProperty("#{userBean}")
     private UserBean userBean;
     private Speaker newSpeaker;
-    private String code;
 
     @PostConstruct
     public void init() {
@@ -29,7 +28,7 @@ public class SpeakerBean {
 
     public void persist() {
         try {
-            newSpeaker.setExhibition(exhibitionService.findByCode(code));
+            newSpeaker.setExhibition(exhibitionService.findByCode(userBean.getExhibitionCode()));
             exhibitionService.persist(newSpeaker);
             newSpeaker = createSpeaker();
         } catch (Exception e) {
@@ -44,7 +43,7 @@ public class SpeakerBean {
     }
 
     public List<Speaker> getSpeakers() {
-        return exhibitionService.findSpeakerByCode(code);
+        return exhibitionService.findSpeakerByCode(userBean.getExhibitionCode());
     }
 
     private Speaker createSpeaker() {
@@ -83,13 +82,5 @@ public class SpeakerBean {
 
     public void setNewSpeaker(Speaker newSpeaker) {
         this.newSpeaker = newSpeaker;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
     }
 }

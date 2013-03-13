@@ -1,42 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:p="http://primefaces.org/ui"
-                xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
                 template="/templates/default.xhtml">
+    <ui:define name="header">
+        <div id="header" class="ui-widget ui-widget-header">
+            <div id="logo">
+                <h:graphicImage library="img" name="logo.png" alt="logo"/>
+            </div>
+            <div id="menu" class="ui-widget">
+                <ul id="main">
+                    <li class="current_page_item">
+                        <h:outputLink value="j_spring_security_logout">
+                            <h:graphicImage library="img" name="exit.png"/>
+                            <h:outputText value="#{msg.logout}"/>
+                        </h:outputLink>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </ui:define>
+
     <ui:define name="content">
         <h:form>
-            <p:dataTable var="exhibition" rowKey="#{exhibition.code}"
-                         selectionMode="single"
-                         value="#{exhibitionBean.exhibitions}">
-                <p:column headerText="code">
+            <p:dataTable var="exhibition" value="#{exhibitionBean.exhibitions}">
+                <p:column headerText="代码">
                     <h:outputText value="#{exhibition.code}"/>
                 </p:column>
 
-                <p:column headerText="name">
+                <p:column headerText="名称">
                     <h:outputText value="#{exhibition.name}"/>
                 </p:column>
 
-                <p:column headerText="description">
+                <p:column headerText="简介">
                     <h:outputText value="#{exhibition.description}"/>
                 </p:column>
-                <p:column headerText="description">
-                    <h:outputLink value="exhibitor.jsf">
-                        exhibitor
-                        <f:param name="code" value="#{exhibition.code}"/>
-                    </h:outputLink>
-                    <h:outputLink value="sponsor.jsf">
-                        sponsor
-                        <f:param name="code" value="#{exhibition.code}"/>
-                    </h:outputLink>
-                    <h:outputLink value="speaker.jsf">
-                        speaker
-                        <f:param name="code" value="#{exhibition.code}"/>
-                    </h:outputLink>
+
+                <p:column headerText="">
+                    <p:commandButton action="#{userBean.home(exhibition.code)}" value="XXX"/>
                 </p:column>
                 <f:facet name="footer">
-                    <p:commandButton id="viewButton" value="添加" icon="ui-icon-search"
-                                      oncomplete="addDialog.show()"/>
+                    <p:commandButton id="viewButton" value="添加" icon="ui-icon-search" oncomplete="addDialog.show()"/>
                 </f:facet>
             </p:dataTable>
         </h:form>
@@ -55,7 +61,7 @@
                         <p:inputText id="name" value="#{exhibitionBean.newExhibition.name}"/>
                         <p:message for="name"/>
 
-                        <h:outputLabel for="description" value="描述"/>
+                        <h:outputLabel for="description" value="简介"/>
                         <p:inputTextarea id="description" value="#{exhibitionBean.newExhibition.description}"/>
                         <p:message for="description"/>
 
@@ -68,10 +74,10 @@
         </p:dialog>
         <script type="text/javascript">
             function handleLoginRequest(xhr, status, args) {
-                if (args.validationFailed || !args.loggedIn) {
-                    jQuery('#dialog').effect("shake", { times: 1 }, 100);
+                if (args.validationFailed) {
+                    jQuery('#addDialog').effect('shake', { times: 1 }, 100);
                 } else {
-                    dlg.hide();
+                    addDialog.hide();
                 }
             }
         </script>

@@ -5,9 +5,6 @@
                 xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
                 template="/templates/default.xhtml">
     <ui:define name="content">
-        <f:metadata>
-            <f:viewParam name="code" value="#{speakerBean.code}"/>
-        </f:metadata>
         <p:button type="button" onclick="dlg.show();return false;" value="添加"/>
         <h:form>
             <p:dataTable var="speaker" value="#{speakerBean.speakers}" rowKey="#{speaker.id}" selectionMode="single">

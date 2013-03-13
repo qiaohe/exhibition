@@ -8,13 +8,16 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import java.io.Serializable;
 
 @ManagedBean
 @SessionScoped
-public class UserBean {
+public class UserBean implements Serializable {
+    private static final long serialVersionUID = -2228704796517429583L;
     @ManagedProperty("#{userService}")
-    private UserService userService;
+    transient private UserService userService;
     private User user;
+    private String exhibitionCode;
 
     @PostConstruct
     public void init() {
@@ -36,5 +39,14 @@ public class UserBean {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getExhibitionCode() {
+        return exhibitionCode;
+    }
+
+    public String home(String exhibitionCode) {
+        this.exhibitionCode = exhibitionCode;
+        return "speaker.xhtml";
     }
 }
