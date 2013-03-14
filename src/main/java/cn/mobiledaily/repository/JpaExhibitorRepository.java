@@ -1,6 +1,5 @@
 package cn.mobiledaily.repository;
 
-import cn.mobiledaily.domain.Exhibition;
 import cn.mobiledaily.domain.Exhibitor;
 import org.springframework.stereotype.Repository;
 
@@ -22,6 +21,6 @@ public class JpaExhibitorRepository implements ExhibitorRepository {
 
     @Override
     public void persist(Exhibitor exhibitor) {
-        em.persist(exhibitor);
+        em.merge(exhibitor);
     }
 }

@@ -21,6 +21,6 @@ public class JpaSponsorRepository implements SponsorRepository {
 
     @Override
     public void persist(Sponsor sponsor) {
-        em.persist(sponsor);
+        em.merge(sponsor);
     }
 }

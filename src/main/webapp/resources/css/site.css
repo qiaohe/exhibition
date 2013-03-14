@@ -148,6 +148,10 @@ img.right {
     text-align: left;
 }
 
+#logo img {
+    padding: 8px 0 0 14px;
+}
+
 /* Menu */
 #menu {
     position: absolute;

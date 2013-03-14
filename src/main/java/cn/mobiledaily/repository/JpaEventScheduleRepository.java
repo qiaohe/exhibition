@@ -21,6 +21,6 @@ public class JpaEventScheduleRepository implements EventScheduleRepository {
 
     @Override
     public void persist(EventSchedule eventSchedule) {
-        em.persist(eventSchedule);
+        em.merge(eventSchedule);
     }
 }

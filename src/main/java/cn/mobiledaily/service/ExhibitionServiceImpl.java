@@ -33,7 +33,6 @@ public class ExhibitionServiceImpl implements ExhibitionService {
     @Transactional
     public void persist(Exhibitor exhibitor) {
         exhibitorRepository.persist(exhibitor);
-
     }
 
     @Override

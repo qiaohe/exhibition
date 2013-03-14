@@ -37,7 +37,7 @@
 
                 <p:column headerText="">
                     <p:commandButton action="#{userBean.home(exhibition.code)}" value="内容管理"/>
-                    <p:commandButton action="#{exhibitionBean.edit(exhibition.id)}" oncomplete="alert('complete')"/>
+                    <p:commandButton action="#{exhibitionBean.edit(exhibition.id)}" value="编辑" oncomplete="editDialog.show()" update=":edit_dialog"/>
                 </p:column>
                 <f:facet name="footer">
                     <p:commandButton id="viewButton" value="添加" icon="ui-icon-search" oncomplete="addDialog.show()"/>
@@ -46,10 +46,10 @@
         </h:form>
 
         <p:growl id="growl" showDetail="true" life="3000"/>
-        <p:dialog id="dialog" header="添加" widgetVar="addDialog" modal="true">
+        <p:dialog header="添加" widgetVar="addDialog" modal="true">
             <h:form>
                 <p:panel id="panel">
-                    <p:messages id="msgs"/>
+                    <p:messages globalOnly="true" showDetail="true"/>
                     <h:panelGrid columns="3">
                         <h:outputLabel for="code" value="代码"/>
                         <p:inputText id="code" value="#{exhibitionBean.newExhibition.code}"/>
@@ -63,19 +63,55 @@
                         <p:inputTextarea id="description" value="#{exhibitionBean.newExhibition.description}"/>
                         <p:message for="description"/>
 
+                        <f:facet name="footer">
+                            <p:commandButton value="保存" update="panel"
+                                             actionListener="#{exhibitionBean.persist}"
+                                             oncomplete="closeAddDialog(xhr, status, args)"/>
+                        </f:facet>
+                    </h:panelGrid>
+                </p:panel>
+            </h:form>
+        </p:dialog>
+        <p:dialog id="edit_dialog" header="修改" widgetVar="editDialog" modal="true">
+            <h:form>
+                <p:panel id="panel">
+                    <h:inputHidden value="#{exhibitionBean.editExhibition.id}"/>
+                    <p:messages globalOnly="true" showDetail="true"/>
+                    <h:panelGrid columns="3">
+                        <h:outputLabel for="code" value="代码"/>
+                        <p:inputText id="code" value="#{exhibitionBean.editExhibition.code}"/>
+                        <p:message for="code"/>
+
+                        <h:outputLabel for="name" value="名称"/>
+                        <p:inputText id="name" value="#{exhibitionBean.editExhibition.name}"/>
+                        <p:message for="name"/>
+
+                        <h:outputLabel for="description" value="简介"/>
+                        <p:inputTextarea id="description" value="#{exhibitionBean.editExhibition.description}"/>
+                        <p:message for="description"/>
+
                         <p:commandButton value="保存" update="panel"
-                                         actionListener="#{exhibitionBean.persist}"
-                                         oncomplete="handleLoginRequest(xhr, status, args)"/>
+                                         actionListener="#{exhibitionBean.update}"
+                                         oncomplete="closeEditDialog(xhr, status, args)"/>
                     </h:panelGrid>
                 </p:panel>
             </h:form>
         </p:dialog>
         <script type="text/javascript">
-            function handleLoginRequest(xhr, status, args) {
+            function closeAddDialog(xhr, status, args) {
                 if (args.validationFailed) {
-                    jQuery('#addDialog').effect('shake', { times: 1 }, 100);
+                    jQuery('#add_dialog').effect('shake', { times: 1 }, 100);
                 } else {
                     addDialog.hide();
+                    location.reload();
+                }
+            }
+            function closeEditDialog(xhr, status, args) {
+                if (args.validationFailed || args.error) {
+                    jQuery('#edit_dialog').effect('shake', { times: 1 }, 100);
+                } else {
+                    editDialog.hide();
+                    location.reload();
                 }
             }
         </script>

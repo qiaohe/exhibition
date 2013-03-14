@@ -8,13 +8,13 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository(value = "exhibitionRepository")
-public class ExhibitionRepositoryImpl implements ExhibitionRepository {
+public class JpaExhibitionRepository implements ExhibitionRepository {
     @PersistenceContext
     private EntityManager em;
 
     @Override
     public void persist(Exhibition exhibition) {
-        em.persist(exhibition);
+        em.merge(exhibition);
     }
 
     @Override

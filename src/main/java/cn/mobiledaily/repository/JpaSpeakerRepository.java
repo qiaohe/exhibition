@@ -21,6 +21,6 @@ public class JpaSpeakerRepository implements SpeakerRepository {
 
     @Override
     public void persist(Speaker speaker) {
-        em.persist(speaker);
+        em.merge(speaker);
     }
 }

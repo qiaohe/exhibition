@@ -8,16 +8,24 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 
 @ManagedBean
 @SessionScoped
 public class UserBean implements Serializable {
-    private static final long serialVersionUID = -2228704796517429583L;
+    private static final long serialVersionUID = 3314337831029516501L;
     @ManagedProperty("#{userService}")
     transient private UserService userService;
     private User user;
     private String exhibitionCode;
+
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        in.defaultReadObject();
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        setUserService(facesContext.getApplication().evaluateExpressionGet(facesContext, "#{userService}", UserService.class));
+    }
 
     @PostConstruct
     public void init() {

@@ -14,7 +14,7 @@ public class JpaUserRepository implements UserRepository {
     private EntityManager em;
 
     public void persist(User user) {
-        em.persist(user);
+        em.merge(user);
     }
 
     public List<User> findAll() {
