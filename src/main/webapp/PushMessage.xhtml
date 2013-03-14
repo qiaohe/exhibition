@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+                template="/templates/default.xhtml">
+    <ui:define name="content">
+        <!--<p:dialog id="dialog" header="推送消息" widgetVar="dlg" modal="true">-->
+        <h:form style="width: 100%">
+            <p:panel id="panel" style="width: 100%">
+                <p:messages/>
+                <h:panelGrid columns="3" style="width: 100%">
+                    <h:outputLabel for="title" value="主题"/>
+                    <p:inputText id="title" value="#{pushMessageBean.title}" style="width: 100%"/>
+                    <p:message for="title"/>
+
+                    <h:outputLabel for="recipients" value="收信人"/>
+                    <p:inputText id="recipients" value="#{pushMessageBean.recipients}" style="width: 100%"/>
+                    <p:message for="recipients"/>
+
+                    <h:outputLabel for="body" value="内容"/>
+                    <p:inputTextarea id="body" value="#{pushMessageBean.body}" rows="15" style="width: 100%"/>
+                    <p:message for="body"/>
+                    <p:commandButton widgetVar="btn" value="发送" update="panel" onclick="btn.disable()" oncomplete="dlg.show()"
+                                     actionListener="#{pushMessageBean.push()}">
+                        <f:ajax execute="panel" render="panel"/>
+                    </p:commandButton>
+                </h:panelGrid>
+
+            </p:panel>
+        </h:form>
+        <p:dialog id="modalDialog" header="发送消息" resizable="false" widgetVar="dlg" modal="true" width="100" height="100">
+            <h:outputText value="发送成功."/>
+        </p:dialog>
+    </ui:define>
+
+</ui:composition>
