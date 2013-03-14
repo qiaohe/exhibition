@@ -10,11 +10,13 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.Serializable;
 import java.util.List;
 
 @ManagedBean
 @ViewScoped
-public class SponsorBean {
+public class SponsorBean implements Serializable {
+    private static final long serialVersionUID = -1969885364302011224L;
     @ManagedProperty("#{exhibitionService}")
     private ExhibitionService exhibitionService;
     @ManagedProperty("#{userBean}")
