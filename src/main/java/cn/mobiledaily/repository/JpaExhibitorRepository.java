@@ -1,5 +1,6 @@
 package cn.mobiledaily.repository;
 
+import cn.mobiledaily.domain.Exhibition;
 import cn.mobiledaily.domain.Exhibitor;
 import org.springframework.stereotype.Repository;
 
