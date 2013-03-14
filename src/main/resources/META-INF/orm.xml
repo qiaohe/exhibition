@@ -53,4 +53,9 @@
             <query>select e from Exhibitor e where e.exhibition.code=:code order by id desc</query>
         </named-query>
     </entity>
+    <entity class="cn.mobiledaily.domain.PushMessage">
+        <named-query name="PushMessage.findByCode">
+            <query>select pm from PushMessage pm where pm.exhibition.code=:code order by id desc</query>
+        </named-query>
+    </entity>
 </entity-mappings>
