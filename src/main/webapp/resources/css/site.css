@@ -44,12 +44,6 @@ html {
     color: #878787;
     ime-mode: disabled;
 }
-#footer{
-    position:absolute;
-    bottom:0;
-    width: 100%;
-    height:10%;
-}
 
 .login_input {
     width: 250px;
@@ -178,9 +172,9 @@ img.right {
     float: left;
     height: 42px;
     margin: 0;
-    padding: 18px 40px 0px 55px;
+    padding: 30px 10px 0px 32px;
     text-decoration: none;
-    font-size: 20px;
+    font-size: 15px;
 }
 
 #menu li a:hover {
@@ -195,7 +189,7 @@ img.right {
 
 /* Page */
 #page {
-    padding: 10px 0px;
+    /*padding: 10px 0px;*/
     background: #FFFFFF;
 }
 
@@ -310,9 +304,16 @@ img.right {
     font-size: 14px;
 }  */
 
+#footer{
+    position:fixed;
+    bottom:0;
+    width: 100%;
+    height:24px;
+}
+
 #footer p {
     margin: 0;
-    padding: 25px 0 0 0;
+    padding: 5px 0 0 0;
     text-align: center;
 }
 
@@ -324,7 +325,7 @@ img.right {
 }
 
 #footer .copyright {
-    float: left;
+    /*float: left;*/
 }
 
 .homeText {

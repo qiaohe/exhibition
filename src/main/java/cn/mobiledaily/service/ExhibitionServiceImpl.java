@@ -65,6 +65,11 @@ public class ExhibitionServiceImpl implements ExhibitionService {
     }
 
     @Override
+    public Exhibition findById(Long id) {
+        return exhibitionRepository.findById(id);
+    }
+
+    @Override
     public List<EventSchedule> findEventScheduleByCode(String code) {
         return eventScheduleRepository.findByCode(code);
     }

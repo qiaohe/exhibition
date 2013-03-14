@@ -19,6 +19,8 @@ public interface ExhibitionService {
 
     Exhibition findByCode(String code);
 
+    Exhibition findById(Long id);
+
     List<EventSchedule> findEventScheduleByCode(String code);
 
     List<Exhibitor> findExhibitorByCode(String code);

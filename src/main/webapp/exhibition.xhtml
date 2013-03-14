@@ -22,7 +22,7 @@
 
     <ui:define name="content">
         <h:form>
-            <p:dataTable var="exhibition" value="#{exhibitionBean.exhibitions}">
+            <p:dataTable var="exhibition" value="#{exhibitionBean.exhibitions}" selectionMode="single" rowKey="#{exhibition.id}">
                 <p:column headerText="代码">
                     <h:outputText value="#{exhibition.code}"/>
                 </p:column>
@@ -36,7 +36,8 @@
                 </p:column>
 
                 <p:column headerText="">
-                    <p:commandButton action="#{userBean.home(exhibition.code)}" value="XXX"/>
+                    <p:commandButton action="#{userBean.home(exhibition.code)}" value="内容管理"/>
+                    <p:commandButton action="#{exhibitionBean.edit(exhibition.id)}" oncomplete="alert('complete')"/>
                 </p:column>
                 <f:facet name="footer">
                     <p:commandButton id="viewButton" value="添加" icon="ui-icon-search" oncomplete="addDialog.show()"/>

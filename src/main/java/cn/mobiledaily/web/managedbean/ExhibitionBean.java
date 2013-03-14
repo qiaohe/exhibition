@@ -17,6 +17,7 @@ public class ExhibitionBean {
     @ManagedProperty("#{userBean}")
     private UserBean userBean;
     private Exhibition newExhibition;
+    private Exhibition editExhibition;
 
     public void setExhibitionService(ExhibitionService exhibitionService) {
         this.exhibitionService = exhibitionService;
@@ -37,6 +38,10 @@ public class ExhibitionBean {
         return newExhibition;
     }
 
+    public Exhibition getEditExhibition() {
+        return editExhibition;
+    }
+
     public void persist(ActionEvent actionEvent) {
         try {
             exhibitionService.persist(newExhibition);
@@ -50,6 +55,10 @@ public class ExhibitionBean {
             }
             FacesContext.getCurrentInstance().addMessage(null, msg);
         }
+    }
+
+    public void edit(long id) {
+        editExhibition = exhibitionService.findById(id);
     }
 
     private Exhibition createExhibition() {
