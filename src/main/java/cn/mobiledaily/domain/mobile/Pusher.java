@@ -44,6 +44,7 @@ public class Pusher {
             Push.alert(message, getKeyStore(), keyStorePassword, false, serviceTokens);
         } catch (CommunicationException | KeystoreException | IOException e) {
             LOGGER.error(e.getMessage());
+            throw new RuntimeException(e.getMessage());
         }
     }
 }

@@ -2,6 +2,8 @@ package cn.mobiledaily.web.managedbean;
 
 import cn.mobiledaily.domain.PushMessage;
 import cn.mobiledaily.service.PushMessageService;
+import org.primefaces.context.RequestContext;
+import org.springframework.web.servlet.support.RequestContextUtils;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -65,6 +67,10 @@ public class PushMessageBean {
 
     public void push() {
         PushMessage message = new PushMessage(title, body, recipients);
-        pushMessageService.pushMessage(getUserBean().getExhibitionCode(), message);
+        try {
+            pushMessageService.pushMessage(getUserBean().getExhibitionCode(), message);
+        } catch (Exception e) {
+            RequestContext.getCurrentInstance().addCallbackParam("error", e.getMessage());
+        }
     }
 }

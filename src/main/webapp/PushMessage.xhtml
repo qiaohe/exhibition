@@ -5,23 +5,34 @@
                 xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
                 template="/templates/default.xhtml">
     <ui:define name="content">
-        <!--<p:dialog id="dialog" header="推送消息" widgetVar="dlg" modal="true">-->
         <h:form style="width: 100%">
             <p:panel id="panel" style="width: 100%">
-                <p:messages/>
+                <p:messages globalOnly="true"/>
                 <h:panelGrid columns="3" style="width: 100%">
                     <h:outputLabel for="title" value="主题"/>
-                    <p:inputText id="title" required="true" value="#{pushMessageBean.title}" style="width: 100%"/>
+                    <p:inputText id="title" required="true" requiredMessage="主题是必填字段" validatorMessage="主题的长度1-20个字符."
+                                 value="#{pushMessageBean.title}" style="width: 100%">
+                        <f:validateLength minimum="1" maximum="20" for="title"/>
+                    </p:inputText>
                     <p:message for="title"/>
 
                     <h:outputLabel for="recipients" value="收信人"/>
-                    <p:inputText id="recipients" required="true" value="#{pushMessageBean.recipients}" style="width: 100%"/>
+                    <p:inputText id="recipients" required="true" requiredMessage="收信人是必填字段"
+                                 validatorMessage="收信人的长度1-20个字符."
+                                 value="#{pushMessageBean.recipients}" style="width: 100%">
+                        <f:validateLength minimum="1" maximum="40" for="recipients"/>
+                    </p:inputText>
                     <p:message for="recipients"/>
 
                     <h:outputLabel for="body" value="内容"/>
-                    <p:inputTextarea id="body" value="#{pushMessageBean.body}" rows="15" style="width: 100%"/>
+                    <p:inputTextarea id="body" value="#{pushMessageBean.body}" requiredMessage="内容是必填字段"
+                                     validatorMessage="内容的长度1-20个字符."
+                                     rows="15" style="width: 100%">
+                        <f:validateLength minimum="1" maximum="100" for="body"/>
+                    </p:inputTextarea>
                     <p:message for="body"/>
-                    <p:commandButton required="true" widgetVar="btn" value="发送" update="panel" onclick="btn.disable()" oncomplete="dlg.show()"
+                    <p:commandButton required="true" widgetVar="btn" value="发送" update="panel" onclick="btn.disable()"
+                                     onerror="btn.enable()" oncomplete="completeCallback(xhr, status, args)"
                                      actionListener="#{pushMessageBean.push()}">
                         <f:ajax execute="panel" render="panel"/>
                     </p:commandButton>
@@ -29,9 +40,26 @@
 
             </p:panel>
         </h:form>
-        <p:dialog id="modalDialog" header="发送消息" resizable="false" widgetVar="dlg" modal="true" width="100" height="100">
-            <h:outputText value="发送成功."/>
+        <p:dialog header="发送消息" resizable="false" widgetVar="succDialog" modal="true" width="100"
+                  height="100">
+            <span id="msg">nbsp;</span>
         </p:dialog>
+        <p:dialog header="发送消息" resizable="false" widgetVar="failDialog" modal="true" width="100"
+                  height="100">
+            <h:outputText value="发送失败."/>
+        </p:dialog>
+        <script type="text/javascript">
+            function completeCallback(xhr, status, args) {
+                jQuery('#btn').removeAttr('disabled');
+                if (args.validationFailed) {
+                    return;
+                } else if (args.error) {
+                    jQuery('#msg').html(args.error);
+                } else {
+                    jQuery('#msg').html("发送成功.");
+                }
+                succDialog.show();
+            }
+        </script>
     </ui:define>
-
 </ui:composition>
