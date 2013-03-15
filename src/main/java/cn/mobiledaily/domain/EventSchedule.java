@@ -30,7 +30,9 @@ public class EventSchedule implements Serializable {
     private String name;
     private String description;
     @Temporal(TemporalType.TIMESTAMP)
-    private Date date;
+    private Date dateFrom;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date dateTo;
     private String place;
 
     @PrePersist
@@ -132,12 +134,20 @@ public class EventSchedule implements Serializable {
         this.description = description;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getDateFrom() {
+        return dateFrom;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setDateFrom(Date date) {
+        this.dateFrom = date;
+    }
+
+    public Date getDateTo() {
+        return dateTo;
+    }
+
+    public void setDateTo(Date dateTo) {
+        this.dateTo = dateTo;
     }
 
     public String getPlace() {

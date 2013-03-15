@@ -34,11 +34,17 @@
         <named-query name="EventSchedule.findByCode">
             <query>select e from EventSchedule e where e.exhibition.code=:code order by id desc</query>
         </named-query>
+        <named-query name="EventSchedule.findById">
+            <query>select e from EventSchedule e where e.id=:id</query>
+        </named-query>
     </entity>
 
     <entity class="cn.mobiledaily.domain.Sponsor">
         <named-query name="Sponsor.findByCode">
             <query>select s from Sponsor s where s.exhibition.code=:code order by id desc</query>
+        </named-query>
+        <named-query name="Sponsor.findById">
+            <query>select s from Sponsor s where s.id=:id</query>
         </named-query>
     </entity>
 
@@ -46,13 +52,20 @@
         <named-query name="Speaker.findByCode">
             <query>select s from Speaker s where s.exhibition.code=:code order by id desc</query>
         </named-query>
+        <named-query name="Speaker.findById">
+            <query>select s from Speaker s where s.id=:id</query>
+        </named-query>
     </entity>
 
     <entity class="cn.mobiledaily.domain.Exhibitor">
         <named-query name="Exhibitor.findByCode">
             <query>select e from Exhibitor e where e.exhibition.code=:code order by id desc</query>
         </named-query>
+        <named-query name="Exhibitor.findById">
+            <query>select e from Exhibitor e where e.id=:id</query>
+        </named-query>
     </entity>
+
     <entity class="cn.mobiledaily.domain.PushMessage">
         <named-query name="PushMessage.findByCode">
             <query>select pm from PushMessage pm where pm.exhibition.code=:code order by id desc</query>

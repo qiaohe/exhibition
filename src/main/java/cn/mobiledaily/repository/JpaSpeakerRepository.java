@@ -23,4 +23,17 @@ public class JpaSpeakerRepository implements SpeakerRepository {
     public void persist(Speaker speaker) {
         em.merge(speaker);
     }
+
+    @Override
+    public Speaker findById(long id) {
+        List<Speaker> list = em.createNamedQuery("Speaker.findById", Speaker.class)
+                .setParameter("id", id)
+                .getResultList();
+        return list.size() > 0 ? list.get(0) : null;
+    }
+
+    @Override
+    public void remove(Speaker speaker) {
+        em.remove(em.merge(speaker));
+    }
 }

@@ -23,4 +23,17 @@ public class JpaEventScheduleRepository implements EventScheduleRepository {
     public void persist(EventSchedule eventSchedule) {
         em.merge(eventSchedule);
     }
+
+    @Override
+    public EventSchedule findById(long id) {
+        List<EventSchedule> list = em.createNamedQuery("EventSchedule.findById", EventSchedule.class)
+                .setParameter("id", id)
+                .getResultList();
+        return list.size() > 0 ? list.get(0) : null;
+    }
+
+    @Override
+    public void remove(EventSchedule eventSchedule) {
+        em.remove(em.merge(eventSchedule));
+    }
 }

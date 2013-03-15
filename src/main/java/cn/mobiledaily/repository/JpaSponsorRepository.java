@@ -23,4 +23,17 @@ public class JpaSponsorRepository implements SponsorRepository {
     public void persist(Sponsor sponsor) {
         em.merge(sponsor);
     }
+
+    @Override
+    public Sponsor findById(long id) {
+        List<Sponsor> list = em.createNamedQuery("Sponsor.findById", Sponsor.class)
+                .setParameter("id", id)
+                .getResultList();
+        return list.size() > 0 ? list.get(0) : null;
+    }
+
+    @Override
+    public void remove(Sponsor sponsor) {
+        em.remove(em.merge(sponsor));
+    }
 }

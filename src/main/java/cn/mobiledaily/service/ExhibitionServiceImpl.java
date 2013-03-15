@@ -69,6 +69,26 @@ public class ExhibitionServiceImpl implements ExhibitionService {
     }
 
     @Override
+    public EventSchedule findEventScheduleById(long id) {
+        return eventScheduleRepository.findById(id);
+    }
+
+    @Override
+    public Exhibitor findExhibitorById(long id) {
+        return exhibitorRepository.findById(id);
+    }
+
+    @Override
+    public Speaker findSpeakerById(long id) {
+        return speakerRepository.findById(id);
+    }
+
+    @Override
+    public Sponsor findSponsorById(long id) {
+        return sponsorRepository.findById(id);
+    }
+
+    @Override
     public List<EventSchedule> findEventScheduleByCode(String code) {
         return eventScheduleRepository.findByCode(code);
     }
@@ -88,5 +108,33 @@ public class ExhibitionServiceImpl implements ExhibitionService {
         return sponsorRepository.findByCode(code);
     }
 
+    @Override
+    @Transactional
+    public void remove(Exhibition exhibition) {
+        exhibitionRepository.remove(exhibition);
+    }
 
+    @Override
+    @Transactional
+    public void remove(Exhibitor exhibitor) {
+        exhibitorRepository.remove(exhibitor);
+    }
+
+    @Override
+    @Transactional
+    public void remove(EventSchedule eventSchedule) {
+        eventScheduleRepository.remove(eventSchedule);
+    }
+
+    @Override
+    @Transactional
+    public void remove(Sponsor sponsor) {
+        sponsorRepository.remove(sponsor);
+    }
+
+    @Override
+    @Transactional
+    public void remove(Speaker speaker) {
+        speakerRepository.remove(speaker);
+    }
 }

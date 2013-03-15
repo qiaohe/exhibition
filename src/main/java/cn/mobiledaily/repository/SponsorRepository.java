@@ -8,4 +8,8 @@ public interface SponsorRepository {
     List<Sponsor> findByCode(String code);
 
     void persist(Sponsor sponsor);
+
+    Sponsor findById(long id);
+
+    void remove(Sponsor sponsor);
 }

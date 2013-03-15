@@ -83,6 +83,10 @@ public class ExhibitionBean implements Serializable {
         }
     }
 
+    public void remove(ActionEvent actionEvent) {
+        exhibitionService.remove(editExhibition);
+    }
+
     private Exhibition createExhibition() {
         Exhibition exhibition = new Exhibition();
         exhibition.setCreatedBy(userBean.getUser());

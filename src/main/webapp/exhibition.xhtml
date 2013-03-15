@@ -13,7 +13,7 @@
             <div id="menu" class="ui-widget">
                 <ul id="main">
                     <li>
-                        <h:outputLink value="j_spring_security_logout" style="background:url('resources/img/logout.png') no-repeat center left;">#{msg.logout}</h:outputLink>
+                        <h:outputLink value="j_spring_security_logout" style="background:url('#{resource['img:logout.png']}') no-repeat center left;">#{msg.logout}</h:outputLink>
                     </li>
                 </ul>
             </div>
@@ -23,6 +23,9 @@
     <ui:define name="content">
         <h:form>
             <p:dataTable var="exhibition" value="#{exhibitionBean.exhibitions}" selectionMode="single" rowKey="#{exhibition.id}">
+                <f:facet name="header">
+                    <p:commandButton value="添加展会" icon="ui-icon-plusthick" onclick="$addDialog.show()" type="button"/>
+                </f:facet>
                 <p:column headerText="代码">
                     <h:outputText value="#{exhibition.code}"/>
                 </p:column>
@@ -35,18 +38,26 @@
                     <h:outputText value="#{exhibition.description}"/>
                 </p:column>
 
-                <p:column headerText="">
-                    <p:commandButton action="#{userBean.home(exhibition.code)}" value="内容管理"/>
-                    <p:commandButton action="#{exhibitionBean.edit(exhibition.id)}" value="编辑" oncomplete="editDialog.show()" update=":edit_dialog"/>
+                <p:column>
+                    <p:commandButton action="eventSchedule.xhtml?faces-redirect=true" actionListener="#{userBean.changeExhibitionCode}"
+                                     value="内容管理" icon="ui-icon-calculator">
+                        <f:attribute name="code" value="#{exhibition.code}"/>
+                        <f:attribute name="name" value="#{exhibition.name}"/>
+                    </p:commandButton>
+                    <p:commandButton action="#{exhibitionBean.edit(exhibition.id)}" value="编辑" icon="ui-icon-note" oncomplete="$editDialog.show()" update=":editDialog"/>
+                    <p:commandButton action="#{exhibitionBean.edit(exhibition.id)}" value="删除" icon="ui-icon-closethick" oncomplete="$deleteDialog.show()" update=":deleteDialog"/>
                 </p:column>
-                <f:facet name="footer">
-                    <p:commandButton id="viewButton" value="添加" icon="ui-icon-search" oncomplete="addDialog.show()"/>
-                </f:facet>
             </p:dataTable>
         </h:form>
 
-        <p:growl id="growl" showDetail="true" life="3000"/>
-        <p:dialog header="添加" widgetVar="addDialog" modal="true">
+        <p:confirmDialog id="deleteDialog" message="是否删除展会" widgetVar="$deleteDialog">
+            <h:form>
+                <p:commandButton value="确定" actionListener="#{exhibitionBean.remove}" oncomplete="$deleteDialog.hide();location.reload()"/>
+                <p:commandButton value="取消" onclick="$deleteDialog.hide()" type="button"/>
+            </h:form>
+        </p:confirmDialog>
+
+        <p:dialog id="addDialog" header="添加" widgetVar="$addDialog" modal="true">
             <h:form>
                 <p:panel id="panel">
                     <p:messages globalOnly="true" showDetail="true"/>
@@ -72,7 +83,7 @@
                 </p:panel>
             </h:form>
         </p:dialog>
-        <p:dialog id="edit_dialog" header="修改" widgetVar="editDialog" modal="true">
+        <p:dialog id="editDialog" header="编辑" widgetVar="$editDialog" modal="true">
             <h:form>
                 <p:panel id="panel">
                     <h:inputHidden value="#{exhibitionBean.editExhibition.id}"/>
@@ -99,18 +110,18 @@
         </p:dialog>
         <script type="text/javascript">
             function closeAddDialog(xhr, status, args) {
-                if (args.validationFailed) {
-                    jQuery('#add_dialog').effect('shake', { times: 1 }, 100);
+                if (args.validationFailed || args.error) {
+                    jQuery('addDialog').effect('shake', {times: 1}, 100);
                 } else {
-                    addDialog.hide();
+                    $addDialog.hide();
                     location.reload();
                 }
             }
             function closeEditDialog(xhr, status, args) {
                 if (args.validationFailed || args.error) {
-                    jQuery('#edit_dialog').effect('shake', { times: 1 }, 100);
+                    jQuery('editDialog').effect('shake', {times: 1}, 100);
                 } else {
-                    editDialog.hide();
+                    $editDialog.hide();
                     location.reload();
                 }
             }

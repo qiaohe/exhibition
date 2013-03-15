@@ -8,4 +8,8 @@ public interface EventScheduleRepository {
     List<EventSchedule> findByCode(String code);
 
     void persist(EventSchedule eventSchedule);
+
+    EventSchedule findById(long id);
+
+    void remove(EventSchedule eventSchedule);
 }

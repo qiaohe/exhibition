@@ -6,7 +6,8 @@ public class EventSchedulePOJO {
     private String name;
     private String description;
     private String place;
-    private Date date;
+    private Date dateFrom;
+    private Date dateTo;
 
     //<editor-fold desc="fields">
     public String getName() {
@@ -33,12 +34,20 @@ public class EventSchedulePOJO {
         this.place = place;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getDateFrom() {
+        return dateFrom;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setDateFrom(Date dateFrom) {
+        this.dateFrom = dateFrom;
+    }
+
+    public Date getDateTo() {
+        return dateTo;
+    }
+
+    public void setDateTo(Date dateTo) {
+        this.dateTo = dateTo;
     }
     //</editor-fold>
 }

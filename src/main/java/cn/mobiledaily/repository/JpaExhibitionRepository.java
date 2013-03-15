@@ -37,4 +37,9 @@ public class JpaExhibitionRepository implements ExhibitionRepository {
                 .getResultList();
         return exhibitions.size() > 0 ?exhibitions.get(0) : null;
     }
+
+    @Override
+    public void remove(Exhibition exhibition) {
+        em.remove(em.merge(exhibition));
+    }
 }

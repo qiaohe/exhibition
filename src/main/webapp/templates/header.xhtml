@@ -8,8 +8,11 @@
 
         <div id="menu" class="ui-widget">
             <ul id="main">
-                <li class="current_page_item">
-                    <h:outputLink value="speaker.xhtml" style="background:url('#{resource['img:schedule.png']}') no-repeat center left;">#{msg.header_event_schedule}</h:outputLink>
+                <li>
+                    <h:outputLink value="exhibition.xhtml" style="background:url('#{resource['img:exhibition.png']}') no-repeat center left;">选择展会</h:outputLink>
+                </li>
+                <li>
+                    <h:outputLink value="eventSchedule.xhtml" style="background:url('#{resource['img:schedule.png']}') no-repeat center left;">#{msg.header_event_schedule}</h:outputLink>
                 </li>
                 <li>
                     <h:outputLink value="exhibitor.xhtml" style="background:url('#{resource['img:exhibitor.png']}') no-repeat center left;">#{msg.header_exhibitor}</h:outputLink>

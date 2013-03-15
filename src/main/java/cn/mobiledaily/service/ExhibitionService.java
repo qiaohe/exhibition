@@ -21,6 +21,14 @@ public interface ExhibitionService {
 
     Exhibition findById(Long id);
 
+    EventSchedule findEventScheduleById(long id);
+
+    Exhibitor findExhibitorById(long id);
+
+    Speaker findSpeakerById(long id);
+
+    Sponsor findSponsorById(long id);
+
     List<EventSchedule> findEventScheduleByCode(String code);
 
     List<Exhibitor> findExhibitorByCode(String code);
@@ -29,4 +37,13 @@ public interface ExhibitionService {
 
     List<Sponsor> findSponsorByCode(String code);
 
+    void remove(Exhibition exhibition);
+
+    void remove(Exhibitor exhibitor);
+
+    void remove(EventSchedule eventSchedule);
+
+    void remove(Sponsor sponsor);
+
+    void remove(Speaker speaker);
 }

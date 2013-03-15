@@ -28,7 +28,8 @@ public class ExhibitionAssembler {
             eventSchedulePOJO.setName(eventSchedule.getName());
             eventSchedulePOJO.setDescription(eventSchedule.getDescription());
             eventSchedulePOJO.setPlace(eventSchedule.getPlace());
-            eventSchedulePOJO.setDate(eventSchedule.getDate());
+            eventSchedulePOJO.setDateFrom(eventSchedule.getDateFrom());
+            eventSchedulePOJO.setDateTo(eventSchedule.getDateTo());
             list.add(eventSchedulePOJO);
         }
     }

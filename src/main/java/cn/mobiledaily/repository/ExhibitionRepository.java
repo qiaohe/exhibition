@@ -12,4 +12,6 @@ public interface ExhibitionRepository {
     Exhibition findById(Long exhibitionId);
 
     Exhibition findByCode(String code);
+
+    void remove(Exhibition exhibition);
 }

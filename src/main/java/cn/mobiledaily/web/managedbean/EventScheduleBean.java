@@ -1,6 +1,6 @@
 package cn.mobiledaily.web.managedbean;
 
-import cn.mobiledaily.domain.Speaker;
+import cn.mobiledaily.domain.EventSchedule;
 import cn.mobiledaily.service.ExhibitionService;
 import org.primefaces.context.RequestContext;
 
@@ -17,14 +17,14 @@ import java.util.List;
 
 @ManagedBean
 @ViewScoped
-public class SpeakerBean implements Serializable {
-    private static final long serialVersionUID = -5896769720195338897L;
+public class EventScheduleBean implements Serializable {
+    private static final long serialVersionUID = -2146319579604881329L;
     @ManagedProperty("#{exhibitionService}")
     private ExhibitionService exhibitionService;
     @ManagedProperty("#{userBean}")
     private UserBean userBean;
-    private Speaker newSpeaker;
-    private Speaker editSpeaker;
+    private EventSchedule newEventSchedule;
+    private EventSchedule editEventSchedule;
 
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
@@ -40,43 +40,37 @@ public class SpeakerBean implements Serializable {
         this.userBean = userBean;
     }
 
-    public List<Speaker> getSpeakers() {
-        return exhibitionService.findSpeakerByCode(userBean.getExhibitionCode());
+    public List<EventSchedule> getEventSchedules() {
+        return exhibitionService.findEventScheduleByCode(userBean.getExhibitionCode());
     }
 
-    public Speaker getNewSpeaker() {
-        if (newSpeaker == null) {
-            newSpeaker = createSpeaker();
+    public EventSchedule getNewEventSchedule() {
+        if (newEventSchedule == null) {
+            newEventSchedule = createEventSchedule();
         }
-        return newSpeaker;
+        return newEventSchedule;
     }
 
-    public Speaker getEditSpeaker() {
-        return editSpeaker;
+    public EventSchedule getEditEventSchedule() {
+        return editEventSchedule;
     }
 
     public void persist() {
         try {
-            exhibitionService.persist(newSpeaker);
-            newSpeaker = createSpeaker();
+            exhibitionService.persist(newEventSchedule);
+            newEventSchedule = createEventSchedule();
         } catch (Exception e) {
-            FacesMessage msg;
-            if (newSpeaker.getCreatedBy() == null) {
-                msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid Credentials", "Please change login account");
-            } else {
-                msg = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Internal Error", e.getMessage());
-            }
-            FacesContext.getCurrentInstance().addMessage(null, msg);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage()));
         }
     }
 
     public void edit(long id) {
-        editSpeaker = exhibitionService.findSpeakerById(id);
+        editEventSchedule = exhibitionService.findEventScheduleById(id);
     }
 
     public void update(ActionEvent actionEvent) {
         try {
-            exhibitionService.persist(editSpeaker);
+            exhibitionService.persist(editEventSchedule);
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Internal Error", e.getMessage()));
             RequestContext.getCurrentInstance().addCallbackParam("error", 1);
@@ -84,13 +78,13 @@ public class SpeakerBean implements Serializable {
     }
 
     public void remove(ActionEvent actionEvent) {
-        exhibitionService.remove(editSpeaker);
+        exhibitionService.remove(editEventSchedule);
     }
 
-    private Speaker createSpeaker() {
-        Speaker speaker = new Speaker();
-        speaker.setCreatedBy(userBean.getUser());
-        speaker.setExhibition(exhibitionService.findByCode(userBean.getExhibitionCode()));
-        return speaker;
+    private EventSchedule createEventSchedule() {
+        EventSchedule eventSchedule = new EventSchedule();
+        eventSchedule.setExhibition(exhibitionService.findByCode(userBean.getExhibitionCode()));
+        eventSchedule.setCreatedBy(userBean.getUser());
+        return eventSchedule;
     }
 }
