@@ -11,17 +11,17 @@
                 <p:messages/>
                 <h:panelGrid columns="3" style="width: 100%">
                     <h:outputLabel for="title" value="主题"/>
-                    <p:inputText id="title" value="#{pushMessageBean.title}" style="width: 100%"/>
+                    <p:inputText id="title" required="true" value="#{pushMessageBean.title}" style="width: 100%"/>
                     <p:message for="title"/>
 
                     <h:outputLabel for="recipients" value="收信人"/>
-                    <p:inputText id="recipients" value="#{pushMessageBean.recipients}" style="width: 100%"/>
+                    <p:inputText id="recipients" required="true" value="#{pushMessageBean.recipients}" style="width: 100%"/>
                     <p:message for="recipients"/>
 
                     <h:outputLabel for="body" value="内容"/>
                     <p:inputTextarea id="body" value="#{pushMessageBean.body}" rows="15" style="width: 100%"/>
                     <p:message for="body"/>
-                    <p:commandButton widgetVar="btn" value="发送" update="panel" onclick="btn.disable()" oncomplete="dlg.show()"
+                    <p:commandButton required="true" widgetVar="btn" value="发送" update="panel" onclick="btn.disable()" oncomplete="dlg.show()"
                                      actionListener="#{pushMessageBean.push()}">
                         <f:ajax execute="panel" render="panel"/>
                     </p:commandButton>

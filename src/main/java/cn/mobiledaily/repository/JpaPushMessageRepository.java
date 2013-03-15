@@ -16,7 +16,7 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 @Repository(value = "pushMessageRepository")
-public class PushMessageRepositoryImpl implements PushMessageRepository {
+public class JpaPushMessageRepository implements PushMessageRepository {
     @PersistenceContext
     private EntityManager em;
 
