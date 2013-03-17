@@ -7,7 +7,10 @@
             WEB-INF/restService-servlet.xml,WEB-INF/applicationContext.xml,WEB-INF/spring-security.xml
         </param-value>
     </context-param>
-
+    <context-param>
+        <param-name>primefaces.THEME</param-name>
+        <param-value>cupertino</param-value>
+    </context-param>
     <context-param>
         <param-name>javax.faces.PROJECT_STAGE</param-name>
         <param-value>Development</param-value>

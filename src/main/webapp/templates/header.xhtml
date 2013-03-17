@@ -5,31 +5,39 @@
         <div id="logo">
             <h:graphicImage library="img" name="logo.png" alt="logo"/>
         </div>
-
         <div id="menu" class="ui-widget">
-            <ul id="main">
-                <li>
-                    <h:outputLink value="exhibition.xhtml" style="background:url('#{resource['img:exhibition.png']}') no-repeat center left;">选择展会</h:outputLink>
-                </li>
-                <li>
-                    <h:outputLink value="eventSchedule.xhtml" style="background:url('#{resource['img:schedule.png']}') no-repeat center left;">#{msg.header_event_schedule}</h:outputLink>
-                </li>
-                <li>
-                    <h:outputLink value="exhibitor.xhtml" style="background:url('#{resource['img:exhibitor.png']}') no-repeat center left;">#{msg.header_exhibitor}</h:outputLink>
-                </li>
-                <li>
-                    <h:outputLink value="speaker.xhtml" style="background:url('#{resource['img:speaker.png']}') no-repeat center left;">#{msg.header_speaker}</h:outputLink>
-                </li>
-                <li>
-                    <h:outputLink value="sponsor.xhtml" style="background:url('#{resource['img:sponsor.png']}') no-repeat center left;">#{msg.header_sponsor}</h:outputLink>
-                </li>
-                <li>
-                    <h:outputLink value="pushmessage.xhtml" style="background:url('#{resource['img:push.png']}') no-repeat center left;">#{msg.header_push}</h:outputLink>
-                </li>
-                <li>
-                    <h:outputLink value="j_spring_security_logout" style="background:url('#{resource['img:logout.png']}') no-repeat center left;">#{msg.logout}</h:outputLink>
-                </li>
-            </ul>
+            <ui:fragment rendered="#{userBean.logon}">
+                <ul id="main">
+                    <li>
+                        <h:outputLink value="exhibition.xhtml"
+                                      style="background:url('#{resource['img:exhibition.png']}') no-repeat center left;">选择展会</h:outputLink>
+                    </li>
+                    <li>
+                        <h:outputLink value="eventSchedule.xhtml"
+                                      style="background:url('#{resource['img:schedule.png']}') no-repeat center left;">#{msg.header_event_schedule}</h:outputLink>
+                    </li>
+                    <li>
+                        <h:outputLink value="exhibitor.xhtml"
+                                      style="background:url('#{resource['img:exhibitor.png']}') no-repeat center left;">#{msg.header_exhibitor}</h:outputLink>
+                    </li>
+                    <li>
+                        <h:outputLink value="speaker.xhtml"
+                                      style="background:url('#{resource['img:speaker.png']}') no-repeat center left;">#{msg.header_speaker}</h:outputLink>
+                    </li>
+                    <li>
+                        <h:outputLink value="sponsor.xhtml"
+                                      style="background:url('#{resource['img:sponsor.png']}') no-repeat center left;">#{msg.header_sponsor}</h:outputLink>
+                    </li>
+                    <li>
+                        <h:outputLink value="pushmessage.xhtml"
+                                      style="background:url('#{resource['img:push.png']}') no-repeat center left;">#{msg.header_push}</h:outputLink>
+                    </li>
+                    <li>
+                        <h:outputLink value="j_spring_security_logout"
+                                      style="background:url('#{resource['img:logout.png']}') no-repeat center left;">#{msg.logout}</h:outputLink>
+                    </li>
+                </ul>
+            </ui:fragment>
         </div>
     </div>
 </ui:composition>

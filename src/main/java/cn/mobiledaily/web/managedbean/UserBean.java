@@ -65,4 +65,8 @@ public class UserBean implements Serializable {
         exhibitionCode = (String) attributes.get("code");
         exhibitionName = (String) attributes.get("name");
     }
+
+    public boolean isLogon() {
+        return FacesContext.getCurrentInstance().getExternalContext().getRemoteUser() != null;
+    }
 }
