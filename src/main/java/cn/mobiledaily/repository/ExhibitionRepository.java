@@ -1,17 +1,10 @@
 package cn.mobiledaily.repository;
 
 import cn.mobiledaily.domain.Exhibition;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
-public interface ExhibitionRepository {
-    void persist(Exhibition exhibition);
-
-    List<Exhibition> findAll();
-
-    Exhibition findById(Long exhibitionId);
-
+@Transactional(readOnly = true)
+public interface ExhibitionRepository extends JpaRepository<Exhibition, Long> {
     Exhibition findByCode(String code);
-
-    void remove(Exhibition exhibition);
 }

@@ -8,27 +8,14 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Johnson
- * Date: 3/1/13
- * Time: 4:34 PM
- * To change this template use File | Settings | File Templates.
- */
 @Component
 public class RepositoryUserDetailService implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
 
-    /**
-     * get user by email
-     * @param username email
-     * @return User
-     * @throws UsernameNotFoundException
-     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByName(username);
+        User user = userRepository.findByUsername(username);
         if (user == null) {
             throw new UsernameNotFoundException(username);
         }

@@ -57,7 +57,7 @@ public class SpeakerBean implements Serializable {
 
     public void persist() {
         try {
-            exhibitionService.persist(newSpeaker);
+            exhibitionService.save(newSpeaker);
             newSpeaker = createSpeaker();
         } catch (Exception e) {
             FacesMessage msg;
@@ -76,7 +76,7 @@ public class SpeakerBean implements Serializable {
 
     public void update(ActionEvent actionEvent) {
         try {
-            exhibitionService.persist(editSpeaker);
+            exhibitionService.save(editSpeaker);
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Internal Error", e.getMessage()));
             RequestContext.getCurrentInstance().addCallbackParam("error", 1);
@@ -84,7 +84,7 @@ public class SpeakerBean implements Serializable {
     }
 
     public void remove(ActionEvent actionEvent) {
-        exhibitionService.remove(editSpeaker);
+        exhibitionService.delete(editSpeaker);
     }
 
     private Speaker createSpeaker() {

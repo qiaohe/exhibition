@@ -57,7 +57,7 @@ public class ExhibitorBean implements Serializable {
 
     public void persist() {
         try {
-            exhibitionService.persist(newExhibitor);
+            exhibitionService.save(newExhibitor);
             newExhibitor = createExhibitor();
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage()));
@@ -70,7 +70,7 @@ public class ExhibitorBean implements Serializable {
 
     public void update(ActionEvent actionEvent) {
         try {
-            exhibitionService.persist(editExhibitor);
+            exhibitionService.save(editExhibitor);
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Internal Error", e.getMessage()));
             RequestContext.getCurrentInstance().addCallbackParam("error", 1);
@@ -78,7 +78,7 @@ public class ExhibitorBean implements Serializable {
     }
 
     public void remove(ActionEvent actionEvent) {
-        exhibitionService.remove(editExhibitor);
+        exhibitionService.delete(editExhibitor);
     }
 
     private Exhibitor createExhibitor() {

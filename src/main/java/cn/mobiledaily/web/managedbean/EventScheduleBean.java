@@ -57,7 +57,7 @@ public class EventScheduleBean implements Serializable {
 
     public void persist() {
         try {
-            exhibitionService.persist(newEventSchedule);
+            exhibitionService.save(newEventSchedule);
             newEventSchedule = createEventSchedule();
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage()));
@@ -70,7 +70,7 @@ public class EventScheduleBean implements Serializable {
 
     public void update(ActionEvent actionEvent) {
         try {
-            exhibitionService.persist(editEventSchedule);
+            exhibitionService.save(editEventSchedule);
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Internal Error", e.getMessage()));
             RequestContext.getCurrentInstance().addCallbackParam("error", 1);
@@ -78,7 +78,7 @@ public class EventScheduleBean implements Serializable {
     }
 
     public void remove(ActionEvent actionEvent) {
-        exhibitionService.remove(editEventSchedule);
+        exhibitionService.delete(editEventSchedule);
     }
 
     private EventSchedule createEventSchedule() {

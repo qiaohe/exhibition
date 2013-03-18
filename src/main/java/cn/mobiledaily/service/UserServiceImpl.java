@@ -7,13 +7,12 @@ import cn.mobiledaily.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service("userService")
-@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+@Transactional(readOnly = true)
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
@@ -28,26 +27,26 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findByUsername(String username) {
-        return userRepository.findByName(username);
+        return userRepository.findByUsername(username);
     }
 
     @Transactional
     @Override
     public void register(String username, String password, String email) throws UsernameExistsException {
-        if (userRepository.findByName(username) != null) {
+        if (userRepository.findByUsername(username) != null) {
             throw new UsernameExistsException(username);
         }
         User user = new User(username, passwordEncoder.encode(password), email, Role.USER.getAuthority());
-        userRepository.persist(user);
+        userRepository.save(user);
     }
 
     @Transactional
     @Override
     public boolean changePassword(String username, String oldPassword, String newPassword) {
-        User user = userRepository.findByName(username);
+        User user = userRepository.findByUsername(username);
         if (user != null && passwordEncoder.matches(oldPassword, user.getPassword())) {
             user.setPassword(passwordEncoder.encode(newPassword));
-            userRepository.persist(user);
+            userRepository.save(user);
             return true;
         }
         return false;
@@ -56,24 +55,24 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public void changeUsername(String username, String newUsername) throws UsernameExistsException {
-        User user = userRepository.findByName(username);
+        User user = userRepository.findByUsername(username);
         if (user != null) {
-            User check = userRepository.findByName(newUsername);
+            User check = userRepository.findByUsername(newUsername);
             if (check != null && check != user) {
                 throw new UsernameExistsException(newUsername);
             }
             user.setUsername(newUsername);
-            userRepository.persist(user);
+            userRepository.save(user);
         }
     }
 
     @Transactional
     @Override
     public User changeEmail(String username, String newEmail) {
-        User user = userRepository.findByName(username);
+        User user = userRepository.findByUsername(username);
         if (user != null) {
             user.setEmail(newEmail);
-            userRepository.persist(user);
+            userRepository.save(user);
         }
         return user;
     }
@@ -81,10 +80,10 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public User changeAuthority(String username, String authority) {
-        User user = userRepository.findByName(username);
+        User user = userRepository.findByUsername(username);
         if (user != null) {
             user.setAuthority(authority);
-            userRepository.persist(user);
+            userRepository.save(user);
         }
         return user;
     }

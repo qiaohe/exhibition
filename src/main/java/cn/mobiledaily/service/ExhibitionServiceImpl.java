@@ -4,13 +4,12 @@ import cn.mobiledaily.domain.*;
 import cn.mobiledaily.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service("exhibitionService")
-@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+@Transactional(readOnly = true)
 public class ExhibitionServiceImpl implements ExhibitionService {
     @Autowired
     private ExhibitionRepository exhibitionRepository;
@@ -25,32 +24,32 @@ public class ExhibitionServiceImpl implements ExhibitionService {
 
     @Override
     @Transactional
-    public void persist(Exhibition exhibition) {
-        exhibitionRepository.persist(exhibition);
+    public void save(Exhibition exhibition) {
+        exhibitionRepository.save(exhibition);
     }
 
     @Override
     @Transactional
-    public void persist(Exhibitor exhibitor) {
-        exhibitorRepository.persist(exhibitor);
+    public void save(Exhibitor exhibitor) {
+        exhibitorRepository.save(exhibitor);
     }
 
     @Override
     @Transactional
-    public void persist(EventSchedule eventSchedule) {
-        eventScheduleRepository.persist(eventSchedule);
+    public void save(EventSchedule eventSchedule) {
+        eventScheduleRepository.save(eventSchedule);
     }
 
     @Override
     @Transactional
-    public void persist(Sponsor sponsor) {
-        sponsorRepository.persist(sponsor);
+    public void save(Sponsor sponsor) {
+        sponsorRepository.save(sponsor);
     }
 
     @Override
     @Transactional
-    public void persist(Speaker speaker) {
-        speakerRepository.persist(speaker);
+    public void save(Speaker speaker) {
+        speakerRepository.save(speaker);
     }
 
     @Override
@@ -65,76 +64,76 @@ public class ExhibitionServiceImpl implements ExhibitionService {
 
     @Override
     public Exhibition findById(Long id) {
-        return exhibitionRepository.findById(id);
+        return exhibitionRepository.findOne(id);
     }
 
     @Override
     public EventSchedule findEventScheduleById(long id) {
-        return eventScheduleRepository.findById(id);
+        return eventScheduleRepository.findOne(id);
     }
 
     @Override
     public Exhibitor findExhibitorById(long id) {
-        return exhibitorRepository.findById(id);
+        return exhibitorRepository.findOne(id);
     }
 
     @Override
     public Speaker findSpeakerById(long id) {
-        return speakerRepository.findById(id);
+        return speakerRepository.findOne(id);
     }
 
     @Override
     public Sponsor findSponsorById(long id) {
-        return sponsorRepository.findById(id);
+        return sponsorRepository.findOne(id);
     }
 
     @Override
     public List<EventSchedule> findEventScheduleByCode(String code) {
-        return eventScheduleRepository.findByCode(code);
+        return eventScheduleRepository.findByExhibitionCode(code);
     }
 
     @Override
     public List<Exhibitor> findExhibitorByCode(String code) {
-        return exhibitorRepository.findByCode(code);
+        return exhibitorRepository.findByExhibitionCode(code);
     }
 
     @Override
     public List<Speaker> findSpeakerByCode(String code) {
-        return speakerRepository.findByCode(code);
+        return speakerRepository.findByExhibitionCode(code);
     }
 
     @Override
     public List<Sponsor> findSponsorByCode(String code) {
-        return sponsorRepository.findByCode(code);
+        return sponsorRepository.findByExhibitionCode(code);
     }
 
     @Override
     @Transactional
-    public void remove(Exhibition exhibition) {
-        exhibitionRepository.remove(exhibition);
+    public void delete(Exhibition exhibition) {
+        exhibitionRepository.delete(exhibition);
     }
 
     @Override
     @Transactional
-    public void remove(Exhibitor exhibitor) {
-        exhibitorRepository.remove(exhibitor);
+    public void delete(Exhibitor exhibitor) {
+        exhibitorRepository.delete(exhibitor);
     }
 
     @Override
     @Transactional
-    public void remove(EventSchedule eventSchedule) {
-        eventScheduleRepository.remove(eventSchedule);
+    public void delete(EventSchedule eventSchedule) {
+        eventScheduleRepository.delete(eventSchedule);
     }
 
     @Override
     @Transactional
-    public void remove(Sponsor sponsor) {
-        sponsorRepository.remove(sponsor);
+    public void delete(Sponsor sponsor) {
+        sponsorRepository.delete(sponsor);
     }
 
     @Override
     @Transactional
-    public void remove(Speaker speaker) {
-        speakerRepository.remove(speaker);
+    public void delete(Speaker speaker) {
+        speakerRepository.delete(speaker);
     }
 }

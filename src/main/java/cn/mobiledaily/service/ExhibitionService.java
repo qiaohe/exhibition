@@ -5,15 +5,15 @@ import cn.mobiledaily.domain.*;
 import java.util.List;
 
 public interface ExhibitionService {
-    void persist(Exhibition exhibition);
+    void save(Exhibition exhibition);
 
-    void persist(Exhibitor exhibitor);
+    void save(Exhibitor exhibitor);
 
-    void persist(EventSchedule eventSchedule);
+    void save(EventSchedule eventSchedule);
 
-    void persist(Sponsor sponsor);
+    void save(Sponsor sponsor);
 
-    void persist(Speaker speaker);
+    void save(Speaker speaker);
 
     List<Exhibition> findAll();
 
@@ -37,13 +37,13 @@ public interface ExhibitionService {
 
     List<Sponsor> findSponsorByCode(String code);
 
-    void remove(Exhibition exhibition);
+    void delete(Exhibition exhibition);
 
-    void remove(Exhibitor exhibitor);
+    void delete(Exhibitor exhibitor);
 
-    void remove(EventSchedule eventSchedule);
+    void delete(EventSchedule eventSchedule);
 
-    void remove(Sponsor sponsor);
+    void delete(Sponsor sponsor);
 
-    void remove(Speaker speaker);
+    void delete(Speaker speaker);
 }

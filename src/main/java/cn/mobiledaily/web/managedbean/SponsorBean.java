@@ -57,7 +57,7 @@ public class SponsorBean implements Serializable {
 
     public void persist() {
         try {
-            exhibitionService.persist(newSponsor);
+            exhibitionService.save(newSponsor);
             newSponsor = createSponsor();
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage()));
@@ -70,7 +70,7 @@ public class SponsorBean implements Serializable {
 
     public void update(ActionEvent actionEvent) {
         try {
-            exhibitionService.persist(editSponsor);
+            exhibitionService.save(editSponsor);
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Internal Error", e.getMessage()));
             RequestContext.getCurrentInstance().addCallbackParam("error", 1);
@@ -78,7 +78,7 @@ public class SponsorBean implements Serializable {
     }
 
     public void remove(ActionEvent actionEvent) {
-        exhibitionService.remove(editSponsor);
+        exhibitionService.delete(editSponsor);
     }
 
     private Sponsor createSponsor() {

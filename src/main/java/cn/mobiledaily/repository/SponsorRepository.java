@@ -1,15 +1,12 @@
 package cn.mobiledaily.repository;
 
 import cn.mobiledaily.domain.Sponsor;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-public interface SponsorRepository {
-    List<Sponsor> findByCode(String code);
-
-    void persist(Sponsor sponsor);
-
-    Sponsor findById(long id);
-
-    void remove(Sponsor sponsor);
+@Transactional(readOnly = true)
+public interface SponsorRepository extends JpaRepository<Sponsor, Long> {
+    List<Sponsor> findByExhibitionCode(String code);
 }

@@ -19,14 +19,7 @@ import java.util.Set;
 
 import static cn.mobiledaily.exception.EntityNotFoundException.EXHIBITION_ERROR_FORMAT;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Johnson
- * Date: 3/14/13
- * Time: 1:58 PM
- * To change this template use File | Settings | File Templates.
- */
-@Transactional
+@Transactional(readOnly = true)
 @Service(value = "pushMessageService")
 public class PushMessageServiceImpl implements PushMessageService {
     @Autowired
@@ -39,18 +32,20 @@ public class PushMessageServiceImpl implements PushMessageService {
     private Pusher pusher;
 
     @Override
+    @Transactional
     public void pushMessage(String exhibitionCode, PushMessage message) {
         Exhibition exhibition = exhibitionRepository.findByCode(exhibitionCode);
         if (exhibition == null)
             throw new EntityNotFoundException(String.format(EXHIBITION_ERROR_FORMAT, exhibitionCode));
         message.setExhibition(exhibition);
         pusher.push(message.getBody(), getRecipients());
-        pushMessageRepository.persist(message);
+        pushMessageRepository.save(message);
     }
 
     @Override
+    @Transactional
     public List<PushMessage> getMessages(String exhibitionCode) {
-        return pushMessageRepository.findByCode(exhibitionCode);
+        return pushMessageRepository.findByExhibitionCode(exhibitionCode);
     }
 
     private List<String> getRecipients() {

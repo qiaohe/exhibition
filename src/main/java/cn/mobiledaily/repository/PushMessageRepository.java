@@ -1,18 +1,12 @@
 package cn.mobiledaily.repository;
 
 import cn.mobiledaily.domain.PushMessage;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Johnson
- * Date: 3/14/13
- * Time: 1:51 PM
- * To change this template use File | Settings | File Templates.
- */
-public interface PushMessageRepository {
-    List<PushMessage> findByCode(String code);
-
-    void persist(PushMessage pushMessage);
+@Transactional(readOnly = true)
+public interface PushMessageRepository extends JpaRepository<PushMessage, Long> {
+    List<PushMessage> findByExhibitionCode(String code);
 }

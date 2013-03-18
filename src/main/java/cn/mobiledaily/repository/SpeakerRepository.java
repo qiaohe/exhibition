@@ -1,15 +1,12 @@
 package cn.mobiledaily.repository;
 
 import cn.mobiledaily.domain.Speaker;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-public interface SpeakerRepository {
-    List<Speaker> findByCode(String code);
-
-    void persist(Speaker speaker);
-
-    Speaker findById(long id);
-
-    void remove(Speaker speaker);
+@Transactional(readOnly = true)
+public interface SpeakerRepository extends JpaRepository<Speaker, Long> {
+    List<Speaker> findByExhibitionCode(String code);
 }
