@@ -4,21 +4,26 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core"
                 template="/templates/default.xhtml">
+    <h:outputStylesheet library="css" name="site.css"/>
     <ui:define name="content">
-        <h:form prependId="false" id="loginForm" style="padding-top: 10%; padding-left: 40%"
-                onsubmit="document.getElementById('loginForm').action='j_spring_security_check';">
-            <h:panelGrid columns="2" cellpadding="5" styleClass="ui-widget-header">
-                <f:facet name="header">#{msg['login']}</f:facet>
-                <h:outputLabel for="j_username" value="#{msg['username']}:"/>
-                <p:inputText id="j_username" required="true" label="username"/>
-                <h:outputLabel for="j_password" value="密码:"/>
-                <h:inputSecret id="j_password" required="true" label="#{msg['password']}"/>
-                <f:facet name="footer">
-                    <p:commandButton ajax="submit" value="#{msg['login']}"/>
-                    <p:commandButton type="reset" value="重置"/>
-                </f:facet>
-            </h:panelGrid>
-
-        </h:form>
+        <div class="login_box">
+            <h:form prependId="false" id="loginForm"
+                    onsubmit="document.getElementById('loginForm').action='j_spring_security_check';">
+                <h:panelGrid columns="2" cellpadding="5" styleClass="ui-widget-header">
+                    <f:facet name="header">#{msg['login']}</f:facet>
+                    <h:outputLabel for="j_username" value="#{msg['username']}:"/>
+                    <p:inputText id="j_username" required="true" label="username" tabindex="1"/>
+                    <h:outputLabel for="j_password" value="密码:"/>
+                    <p:password id="j_password" required="true" label="#{msg['password']}" tabindex="2"/>
+                    <f:facet name="footer">
+                        <p:commandButton ajax="submit" value="#{msg['login']}" tabindex="3"/>
+                        <p:commandButton type="reset" value="重置" tabindex="4"/>
+                    </f:facet>
+                </h:panelGrid>
+            </h:form>
+        </div>
+        <script>
+            $('#j_username').focus();
+        </script>
     </ui:define>
 </ui:composition>
