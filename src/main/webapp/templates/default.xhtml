@@ -3,7 +3,7 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
 <h:head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <h:outputStylesheet library="css" name="site.css"/>
@@ -24,5 +24,13 @@
         </ui:insert>
         <ui:debug/>
     </div>
+    <p:growl widgetVar="growlVar" showDetail="true" sticky="true" showSummary="true"/>
+    <p:socket onMessage="popupPushMessage" channel="/notifications"/>
+    <script type="text/javascript">
+        function popupPushMessage(facesmessage) {
+            facesmessage.severity = 'info';
+            growlVar.show([facesmessage]);
+        }
+    </script>
 </h:body>
 </html>
