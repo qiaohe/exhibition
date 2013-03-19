@@ -34,6 +34,7 @@ public class Exhibitor implements Serializable {
     private String address;
     private String website;
     private String category;
+    private String location;
 
     @PrePersist
     void prePersist() {
@@ -171,5 +172,13 @@ public class Exhibitor implements Serializable {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 }

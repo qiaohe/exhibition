@@ -16,24 +16,12 @@
                     <h:outputText value="#{speaker.name}"/>
                 </p:column>
 
-                <p:column headerText="简介">
-                    <h:outputText value="#{speaker.profile}"/>
-                </p:column>
-
-                <p:column headerText="邮件">
-                    <h:outputText value="#{speaker.email}"/>
-                </p:column>
-
                 <p:column headerText="职位">
                     <h:outputText value="#{speaker.position}"/>
                 </p:column>
 
                 <p:column headerText="公司">
                     <h:outputText value="#{speaker.company}"/>
-                </p:column>
-
-                <p:column headerText="手机">
-                    <h:outputText value="#{speaker.mobilePhone}"/>
                 </p:column>
 
                 <p:column>
@@ -56,32 +44,25 @@
                     <p:messages/>
                     <h:panelGrid columns="3">
                         <h:outputLabel for="name" value="姓名"/>
-                        <p:inputText id="name" value="#{speakerBean.newSpeaker.name}"/>
+                        <p:inputText id="name" value="#{speakerBean.newSpeaker.name}" size="80"/>
                         <p:message for="name"/>
 
-                        <h:outputLabel for="profile" value="简介"/>
-                        <p:inputText id="profile" value="#{speakerBean.newSpeaker.profile}"/>
-                        <p:message for="profile"/>
-
-                        <h:outputLabel for="email" value="邮件"/>
-                        <p:inputTextarea id="email" value="#{speakerBean.newSpeaker.email}"/>
-                        <p:message for="email"/>
-
                         <h:outputLabel for="position" value="职位"/>
-                        <p:inputTextarea id="position" value="#{speakerBean.newSpeaker.position}"/>
+                        <p:inputText id="position" value="#{speakerBean.newSpeaker.position}" size="80"/>
                         <p:message for="position"/>
 
                         <h:outputLabel for="company" value="公司"/>
-                        <p:inputTextarea id="company" value="#{speakerBean.newSpeaker.company}"/>
+                        <p:inputText id="company" value="#{speakerBean.newSpeaker.company}" size="80" maxlength="100"/>
                         <p:message for="company"/>
 
-                        <h:outputLabel for="mobilePhone" value="手机"/>
-                        <p:inputTextarea id="mobilePhone" value="#{speakerBean.newSpeaker.mobilePhone}"/>
-                        <p:message for="mobilePhone"/>
+                        <h:outputLabel for="profile" value="简介"/>
+                        <p:editor id="profile" value="#{speakerBean.newSpeaker.profile}" maxlength="2000" width="500"/>
+                        <p:message for="profile"/>
 
                         <p:commandButton value="保存" update="panel"
                                          actionListener="#{speakerBean.persist}"
                                          oncomplete="closeAddDialog(xhr, status, args)"/>
+                        <p:commandButton value="取消" type="button" onclick="$addDialog.hide()"/>
                     </h:panelGrid>
 
                 </p:panel>
@@ -93,32 +74,25 @@
                     <p:messages/>
                     <h:panelGrid columns="3">
                         <h:outputLabel for="name" value="姓名"/>
-                        <p:inputText id="name" value="#{speakerBean.editSpeaker.name}"/>
+                        <p:inputText id="name" value="#{speakerBean.editSpeaker.name}" size="80"/>
                         <p:message for="name"/>
 
-                        <h:outputLabel for="profile" value="简介"/>
-                        <p:inputText id="profile" value="#{speakerBean.editSpeaker.profile}"/>
-                        <p:message for="profile"/>
-
-                        <h:outputLabel for="email" value="邮件"/>
-                        <p:inputTextarea id="email" value="#{speakerBean.editSpeaker.email}"/>
-                        <p:message for="email"/>
-
                         <h:outputLabel for="position" value="职位"/>
-                        <p:inputTextarea id="position" value="#{speakerBean.editSpeaker.position}"/>
+                        <p:inputText id="position" value="#{speakerBean.editSpeaker.position}" size="80"/>
                         <p:message for="position"/>
 
                         <h:outputLabel for="company" value="公司"/>
-                        <p:inputTextarea id="company" value="#{speakerBean.editSpeaker.company}"/>
+                        <p:inputText id="company" value="#{speakerBean.editSpeaker.company}" size="80" maxlength="100"/>
                         <p:message for="company"/>
 
-                        <h:outputLabel for="mobilePhone" value="手机"/>
-                        <p:inputTextarea id="mobilePhone" value="#{speakerBean.editSpeaker.mobilePhone}"/>
-                        <p:message for="mobilePhone"/>
+                        <h:outputLabel for="profile" value="简介"/>
+                        <p:editor id="profile" value="#{speakerBean.editSpeaker.profile}" maxlength="2000" width="500" />
+                        <p:message for="profile"/>
 
                         <p:commandButton value="保存" update="panel"
                                          actionListener="#{speakerBean.update}"
                                          oncomplete="closeEditDialog(xhr, status, args)"/>
+                        <p:commandButton value="取消" type="button" onclick="$editDialog.hide()"/>
                     </h:panelGrid>
 
                 </p:panel>

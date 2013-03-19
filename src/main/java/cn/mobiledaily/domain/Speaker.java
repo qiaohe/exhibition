@@ -6,6 +6,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -28,6 +29,7 @@ public class Speaker implements Serializable {
     @ManyToOne(optional = false)
     private Exhibition exhibition;
     private String name;
+    @Size(max = 2000)
     private String profile;
     private String email;
     private String position;

@@ -12,20 +12,12 @@
                     <p:button value="添加#{msg.header_exhibitor}" icon="ui-icon-plusthick" onclick="$addDialog.show();return false;"/>
                 </f:facet>
 
-                <p:column headerText="分类">
-                    <h:outputText value="#{exhibitor.category}"/>
-                </p:column>
-
                 <p:column headerText="公司">
                     <h:outputText value="#{exhibitor.company}"/>
                 </p:column>
 
-                <p:column headerText="地址">
-                    <h:outputText value="#{exhibitor.address}"/>
-                </p:column>
-
-                <p:column headerText="邮件">
-                    <h:outputText value="#{exhibitor.email}"/>
+                <p:column headerText="展位">
+                    <h:outputText value="#{exhibitor.location}"/>
                 </p:column>
 
                 <p:column>
@@ -47,25 +39,17 @@
                 <p:panel id="panel">
                     <p:messages globalOnly="true" showDetail="true"/>
                     <h:panelGrid columns="3">
-                        <h:outputLabel for="category" value="分类"/>
-                        <p:inputText id="category" value="#{exhibitorBean.newExhibitor.category}"/>
-                        <p:message for="category"/>
-
                         <h:outputLabel for="company" value="公司"/>
-                        <p:inputText id="company" value="#{exhibitorBean.newExhibitor.company}"/>
+                        <p:inputText id="company" value="#{exhibitorBean.newExhibitor.company}" size="40"/>
                         <p:message for="company"/>
 
-                        <h:outputLabel for="address" value="地址"/>
-                        <p:inputTextarea id="address" value="#{exhibitorBean.newExhibitor.address}"/>
-                        <p:message for="address"/>
-
-                        <h:outputLabel for="email" value="邮件"/>
-                        <p:inputTextarea id="email" value="#{exhibitorBean.newExhibitor.email}"/>
-                        <p:message for="email"/>
-
+                        <h:outputLabel for="location" value="展位"/>
+                        <p:inputText id="location" value="#{exhibitorBean.newExhibitor.location}" size="20"/>
+                        <p:message for="location"/>
                         <p:commandButton value="保存" update="panel"
                                          actionListener="#{exhibitorBean.persist}"
                                          oncomplete="closeAddDialog(xhr, status, args)"/>
+                        <p:commandButton value="取消" type="button" onclick="$addDialog.hide()"/>
                     </h:panelGrid>
 
                 </p:panel>
@@ -77,25 +61,17 @@
                 <p:panel id="panel">
                     <p:messages globalOnly="true" showDetail="true"/>
                     <h:panelGrid columns="3">
-                        <h:outputLabel for="category" value="分类"/>
-                        <p:inputText id="category" value="#{exhibitorBean.editExhibitor.category}"/>
-                        <p:message for="category"/>
-
                         <h:outputLabel for="company" value="公司"/>
-                        <p:inputText id="company" value="#{exhibitorBean.editExhibitor.company}"/>
+                        <p:inputText id="company" value="#{exhibitorBean.editExhibitor.company}" size="40"/>
                         <p:message for="company"/>
 
-                        <h:outputLabel for="address" value="地址"/>
-                        <p:inputTextarea id="address" value="#{exhibitorBean.editExhibitor.address}"/>
-                        <p:message for="address"/>
-
-                        <h:outputLabel for="email" value="邮件"/>
-                        <p:inputTextarea id="email" value="#{exhibitorBean.editExhibitor.email}"/>
-                        <p:message for="email"/>
-
+                        <h:outputLabel for="location" value="展位"/>
+                        <p:inputText id="location" value="#{exhibitorBean.editExhibitor.location}" size="20"/>
+                        <p:message for="location"/>
                         <p:commandButton value="保存" update="panel"
                                          actionListener="#{exhibitorBean.update}"
                                          oncomplete="closeEditDialog(xhr, status, args)"/>
+                        <p:commandButton value="取消" type="button" onclick="$editDialog.hide()"/>
                     </h:panelGrid>
 
                 </p:panel>
