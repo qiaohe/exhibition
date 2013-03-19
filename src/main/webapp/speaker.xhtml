@@ -18,6 +18,10 @@
                     <h:outputText value="#{speaker.name}"/>
                 </p:column>
 
+                <p:column headerText="照片">
+                    <p:graphicImage value="/upload/image/#{speaker.photo}"/>
+                </p:column>
+
                 <p:column headerText="职位">
                     <h:outputText value="#{speaker.position}"/>
                 </p:column>
@@ -27,7 +31,7 @@
                 </p:column>
 
                 <p:column headerText="简介">
-                    <h:outputText value="#{fn:length(speaker.profile) > 30 ? fn:substring(speaker.profile, 0, 27).concat('...') : speaker.profile}"/>
+                    <h:outputText value="#{speaker.profile}"/>
                 </p:column>
 
                 <p:column>
@@ -61,8 +65,16 @@
                         <p:inputText id="company" value="#{speakerBean.newSpeaker.company}" size="80" maxlength="100"/>
                         <p:message for="company"/>
 
+                        <h:outputLabel for="photo" value="照片"/>
+                        <h:panelGroup>
+                            <p:graphicImage value="/upload/image/#{speakerBean.newSpeaker.photo}" id="photo_view"/>
+                            <p:fileUpload id="photo"  fileUploadListener="#{speakerBean.createSpeakerPhoto}" update="photo_view"
+                                          allowTypes="/(\.|\/)(jpe?g|png)$/" sizeLimit="100000"/>
+                        </h:panelGroup>
+                        <p:message for="photo"/>
+
                         <h:outputLabel for="profile" value="简介"/>
-                        <p:editor id="profile" value="#{speakerBean.newSpeaker.profile}" maxlength="2000" width="500"/>
+                        <p:inputTextarea id="profile" value="#{speakerBean.newSpeaker.profile}" maxlength="2000" cols="82" rows="10" autoResize="false"/>
                         <p:message for="profile"/>
 
                         <p:commandButton value="保存" update="panel"
@@ -91,8 +103,16 @@
                         <p:inputText id="company" value="#{speakerBean.editSpeaker.company}" size="80" maxlength="100"/>
                         <p:message for="company"/>
 
+                        <h:outputLabel for="photo" value="照片"/>
+                        <h:panelGroup>
+                            <p:graphicImage value="/upload/image/#{speakerBean.editSpeaker.photo}" id="photo_view"/>
+                            <p:fileUpload id="photo" fileUploadListener="#{speakerBean.updateSpeakerPhoto}" update="photo_view"
+                                          allowTypes="/(\.|\/)(jpe?g|png)$/" sizeLimit="100000"/>
+                        </h:panelGroup>
+                        <p:message for="photo"/>
+
                         <h:outputLabel for="profile" value="简介"/>
-                        <p:editor id="profile" value="#{speakerBean.editSpeaker.profile}" maxlength="2000" width="500" />
+                        <p:inputTextarea id="profile" value="#{speakerBean.editSpeaker.profile}" maxlength="2000" cols="82" rows="10" autoResize="false" />
                         <p:message for="profile"/>
 
                         <p:commandButton value="保存" update="panel"
