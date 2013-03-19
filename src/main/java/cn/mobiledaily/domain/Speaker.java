@@ -35,6 +35,7 @@ public class Speaker implements Serializable {
     private String position;
     private String company;
     private String mobilePhone;
+    private String photo;
 
     @PrePersist
     void prePersist() {
@@ -168,6 +169,14 @@ public class Speaker implements Serializable {
 
     public void setMobilePhone(String mobilePhone) {
         this.mobilePhone = mobilePhone;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
     //</editor-fold>
 }

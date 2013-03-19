@@ -1,12 +1,17 @@
 package cn.mobiledaily.web.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class SpeakerPOJO {
     private String name;
     private String profile;
+    @JsonIgnore
     private String email;
     private String position;
     private String company;
+    @JsonIgnore
     private String mobilePhone;
+    private String photo;
 
     //<editor-fold desc="fields">
     public String getName() {
@@ -55,6 +60,14 @@ public class SpeakerPOJO {
 
     public void setMobilePhone(String mobilePhone) {
         this.mobilePhone = mobilePhone;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
     //</editor-fold>
 }

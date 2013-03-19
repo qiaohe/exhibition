@@ -2,7 +2,9 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
-                xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
                 template="/templates/default.xhtml">
     <ui:define name="content">
         <h:form>
@@ -22,6 +24,10 @@
 
                 <p:column headerText="公司">
                     <h:outputText value="#{speaker.company}"/>
+                </p:column>
+
+                <p:column headerText="简介">
+                    <h:outputText value="#{fn:length(speaker.profile) > 30 ? fn:substring(speaker.profile, 0, 27).concat('...') : speaker.profile}"/>
                 </p:column>
 
                 <p:column>
@@ -69,7 +75,7 @@
             </h:form>
         </p:dialog>
         <p:dialog id="editDialog" header="编辑" widgetVar="$editDialog" modal="true">
-            <h:form>
+            <h:form enctype="multipart/form-data">
                 <p:panel id="panel">
                     <p:messages/>
                     <h:panelGrid columns="3">

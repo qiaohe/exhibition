@@ -1,13 +1,22 @@
 package cn.mobiledaily.web.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class ExhibitorPOJO {
+    @JsonIgnore
     private String name;
+    @JsonIgnore
     private String stand;
     private String company;
+    @JsonIgnore
     private String email;
+    @JsonIgnore
     private String address;
+    @JsonIgnore
     private String website;
+    @JsonIgnore
     private String category;
+    private String location;
 
     //<editor-fold desc="fields">
     public String getName() {
@@ -64,6 +73,14 @@ public class ExhibitorPOJO {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
     //</editor-fold>
 }

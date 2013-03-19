@@ -2,7 +2,9 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
                 template="/templates/default.xhtml">
     <ui:define name="content">
         <h:form>
@@ -13,7 +15,7 @@
                 </f:facet>
 
                 <p:column headerText="主题">
-                    <h:outputText value="#{eventSchedule.name}"/>
+                    <h:outputText value="#{fn:length(eventSchedule.name) > 30 ? fn:substring(eventSchedule.name, 0, 27).concat('...') : eventSchedule.name}"/>
                 </p:column>
 
                 <p:column headerText="时间">
@@ -31,7 +33,7 @@
                 </p:column>
 
                 <p:column headerText="简介">
-                    <h:outputText value="#{eventSchedule.description}"/>
+                    <h:outputText value="#{fn:length(eventSchedule.description) > 50 ? fn:substring(eventSchedule.description, 0, 47).concat('...') : eventSchedule.description}"/>
                 </p:column>
 
                 <p:column>
