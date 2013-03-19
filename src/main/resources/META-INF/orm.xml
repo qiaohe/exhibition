@@ -14,8 +14,8 @@
         </named-query>
     </entity>
     <entity class="cn.mobiledaily.domain.Speaker">
-        <named-query name="Speaker.findByExhibitionCode">
-            <query>select o from Speaker o where o.exhibition.code=?1 order by name</query>
-        </named-query>
+        <named-native-query name="Speaker.findByExhibitionCode" result-class="cn.mobiledaily.domain.Speaker">
+            <query>SELECT s.* FROM speaker s, exhibition e WHERE s.exhibition=e.id AND e.code=?1 ORDER BY convert(s.name USING gbk)</query>
+        </named-native-query>
     </entity>
 </entity-mappings>
