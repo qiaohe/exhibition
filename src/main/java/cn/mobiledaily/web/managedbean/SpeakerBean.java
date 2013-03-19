@@ -74,7 +74,7 @@ public class SpeakerBean implements Serializable {
             editSpeaker.setPhoto(newFilename);
         } catch (IOException e) {
             FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_FATAL, "服务器错误", e.getMessage()));
+                    new FacesMessage(FacesMessage.SEVERITY_FATAL, "Internal Error", e.getMessage()));
         }
     }
 
@@ -88,7 +88,7 @@ public class SpeakerBean implements Serializable {
             newSpeaker.setPhoto(newFilename);
         } catch (IOException e) {
             FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_FATAL, "服务器错误", e.getMessage()));
+                    new FacesMessage(FacesMessage.SEVERITY_FATAL, "Internal Error", e.getMessage()));
         }
     }
 
