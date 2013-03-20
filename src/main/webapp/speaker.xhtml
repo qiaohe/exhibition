@@ -4,7 +4,6 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
                 template="/templates/default.xhtml">
     <ui:define name="content">
         <h:form>
@@ -19,7 +18,7 @@
                 </p:column>
 
                 <p:column headerText="照片" resizable="false">
-                    <p:graphicImage value="/upload/image/#{speaker.photo}"/>
+                    <p:graphicImage value="/upload/image/#{speaker.photo}" rendered="#{not empty speaker.photo}"/>
                 </p:column>
 
                 <p:column headerText="职位" width="150">
