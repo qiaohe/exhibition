@@ -1,5 +1,7 @@
 package cn.mobiledaily.web.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -12,6 +14,7 @@ public class ExhibitionPOJO {
     private Date startDate;
     private Date endDate;
     private String organizer;
+    @JsonIgnore
     private List<SponsorPOJO> sponsors = new ArrayList<>();
     private List<SpeakerPOJO> speakers = new ArrayList<>();
     private List<ExhibitorPOJO> exhibitors = new ArrayList<>();

@@ -4,6 +4,7 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:p="http://primefaces.org/ui"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
                 template="/templates/default.xhtml">
     <ui:define name="header">
         <div id="header" class="ui-widget ui-widget-header">
@@ -35,7 +36,7 @@
                 </p:column>
 
                 <p:column headerText="简介">
-                    <h:outputText value="#{exhibition.description}"/>
+                    <h:outputText value="#{fn:length(exhibition.description) > 50 ? fn:substring(exhibition.description, 0, 47).concat('...') : exhibition.description}"/>
                 </p:column>
 
                 <p:column>
@@ -63,21 +64,22 @@
                     <p:messages globalOnly="true" showDetail="true"/>
                     <h:panelGrid columns="3">
                         <h:outputLabel for="code" value="代码"/>
-                        <p:inputText id="code" value="#{exhibitionBean.newExhibition.code}"/>
+                        <p:inputText id="code" value="#{exhibitionBean.newExhibition.code}" size="20" maxlength="10"/>
                         <p:message for="code"/>
 
                         <h:outputLabel for="name" value="名称"/>
-                        <p:inputText id="name" value="#{exhibitionBean.newExhibition.name}"/>
+                        <p:inputText id="name" value="#{exhibitionBean.newExhibition.name}" size="40" maxlength="20"/>
                         <p:message for="name"/>
 
                         <h:outputLabel for="description" value="简介"/>
-                        <p:inputTextarea id="description" value="#{exhibitionBean.newExhibition.description}"/>
+                        <p:inputTextarea id="description" value="#{exhibitionBean.newExhibition.description}" maxlength="1000" cols="42" rows="10" autoResize="false"/>
                         <p:message for="description"/>
 
                         <f:facet name="footer">
                             <p:commandButton value="保存" update="panel"
                                              actionListener="#{exhibitionBean.persist}"
                                              oncomplete="closeAddDialog(xhr, status, args)"/>
+                            <p:commandButton value="取消" type="button" onclick="$addDialog.hide()"/>
                         </f:facet>
                     </h:panelGrid>
                 </p:panel>
@@ -90,20 +92,21 @@
                     <p:messages globalOnly="true" showDetail="true"/>
                     <h:panelGrid columns="3">
                         <h:outputLabel for="code" value="代码"/>
-                        <p:inputText id="code" value="#{exhibitionBean.editExhibition.code}"/>
+                        <p:inputText id="code" value="#{exhibitionBean.editExhibition.code}" size="20" maxlength="10"/>
                         <p:message for="code"/>
 
                         <h:outputLabel for="name" value="名称"/>
-                        <p:inputText id="name" value="#{exhibitionBean.editExhibition.name}"/>
+                        <p:inputText id="name" value="#{exhibitionBean.editExhibition.name}" size="40" maxlength="20"/>
                         <p:message for="name"/>
 
                         <h:outputLabel for="description" value="简介"/>
-                        <p:inputTextarea id="description" value="#{exhibitionBean.editExhibition.description}"/>
+                        <p:inputTextarea id="description" value="#{exhibitionBean.editExhibition.description}" maxlength="1000" cols="42" rows="10" autoResize="false"/>
                         <p:message for="description"/>
 
                         <p:commandButton value="保存" update="panel"
                                          actionListener="#{exhibitionBean.update}"
                                          oncomplete="closeEditDialog(xhr, status, args)"/>
+                        <p:commandButton value="取消" type="button" onclick="$editDialog.hide()"/>
                     </h:panelGrid>
                 </p:panel>
             </h:form>

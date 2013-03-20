@@ -1,29 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core"
-                template="/templates/default.xhtml">
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html">
+<h:head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <h:outputStylesheet library="css" name="site.css"/>
-    <ui:define name="content">
-        <div class="login_box">
-            <h:form prependId="false" id="loginForm"
-                    onsubmit="document.getElementById('loginForm').action='j_spring_security_check';">
-                <h:panelGrid columns="2" cellpadding="5" styleClass="ui-widget-header">
-                    <f:facet name="header">#{msg['login']}</f:facet>
-                    <h:outputLabel for="j_username" value="#{msg['username']}:"/>
-                    <p:inputText id="j_username" required="true" label="username" tabindex="1"/>
-                    <h:outputLabel for="j_password" value="密码:"/>
-                    <p:password id="j_password" required="true" label="#{msg['password']}" tabindex="2"/>
-                    <f:facet name="footer">
-                        <p:commandButton ajax="submit" value="#{msg['login']}" tabindex="3"/>
-                        <p:commandButton type="reset" value="重置" tabindex="4"/>
-                    </f:facet>
-                </h:panelGrid>
-            </h:form>
+    <title>Exhibition</title>
+</h:head>
+<h:body style="height: 100%">
+    <div id="page" style="height: 100%">
+        <div id="header" class="ui-widget ui-widget-header">
+            <div id="logo"><h:graphicImage library="img" name="logo.png"/></div>
         </div>
-        <script>
-            $('#j_username').focus();
-        </script>
-    </ui:define>
-</ui:composition>
+        <div style="padding: 3px 3px;">
+            <div class="login_box">
+                <form id="loginForm" name="loginForm" method="post" action="#{request.contextPath}/j_spring_security_check">
+                    <table class="ui-widget-header" cellpadding="5">
+                        <thead>
+                        <tr>
+                            <th colspan="2" scope="colgroup">登陆</th>
+                        </tr>
+                        </thead>
+                        <tfoot>
+                        <tr>
+                            <td colspan="2">
+                                <button class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
+                                        tabindex="3" type="submit">
+                                    <span class="ui-button-text">登陆</span>
+                                </button>
+                                <button class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
+                                        tabindex="4" type="reset">
+                                    <span class="ui-button-text">重置</span>
+                                </button>
+                            </td>
+                        </tr>
+                        </tfoot>
+                        <tbody>
+                        <tr>
+                            <td>
+                                <label for="j_username">用户名:</label>
+                            </td>
+                            <td>
+                                <input id="j_username" name="j_username" type="text" tabindex="1" autofocus="autofocus"
+                                       class="ui-inputfield ui-inputtext ui-widget ui-state-default ui-corner-all" />
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="j_password">密码:</label>
+                            </td>
+                            <td>
+                                <input id="j_password" name="j_password" type="password"
+                                       class="ui-inputfield ui-password ui-widget ui-state-default ui-corner-all" tabindex="2" />
+
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+        <div id="footer" class="ui-widget ui-widget-header ui-corner-all" style="text-align: center">
+            <p class="copyright">Copyright 2012-2013 All Rights Reserved 版权所有 </p>
+        </div>
+    </div>
+</h:body>
+</html>

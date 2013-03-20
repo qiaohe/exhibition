@@ -33,6 +33,7 @@ public class Exhibition implements Serializable {
     @NotNull
     @Size(min = 1, max = 20)
     private String name;
+    @Size(max = 1000)
     private String description;
     private String address;
     @Temporal(TemporalType.TIMESTAMP)

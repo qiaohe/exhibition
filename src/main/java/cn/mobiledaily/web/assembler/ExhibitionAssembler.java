@@ -61,6 +61,7 @@ public class ExhibitionAssembler {
             speakerPOJO.setPosition(speaker.getPosition());
             speakerPOJO.setCompany(speaker.getCompany());
             speakerPOJO.setMobilePhone(speaker.getMobilePhone());
+            speakerPOJO.setPhoto(speaker.getPhoto());
             list.add(speakerPOJO);
         }
     }
