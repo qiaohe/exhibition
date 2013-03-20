@@ -1,8 +1,10 @@
 package cn.mobiledaily.web.controller;
 
+import cn.mobiledaily.domain.Exhibition;
 import cn.mobiledaily.domain.mobile.Attendee;
 import cn.mobiledaily.domain.mobile.Location;
 import cn.mobiledaily.service.AttendeeService;
+import cn.mobiledaily.service.ExhibitionService;
 import cn.mobiledaily.web.common.DownstreamPusher;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Range;
@@ -28,6 +30,8 @@ import java.util.List;
 public class AttendeeController {
     @Autowired
     private AttendeeService attendeeService;
+    @Autowired
+    private ExhibitionService exhibitionService;
 
     @RequestMapping(value = "/exhibition/{exhibitionCode}", method = RequestMethod.GET)
     @ResponseBody
@@ -41,7 +45,8 @@ public class AttendeeController {
     @ResponseStatus(value = HttpStatus.CREATED)
     public void register(@RequestBody @Valid AttendeeRegisterRequest arg) {
         attendeeService.register(arg.getServiceToken(), arg.getExhibitionCode());
-        DownstreamPusher.push(arg.getExhibitionCode(), arg.getServiceToken());
+        Exhibition exhibition = exhibitionService.findByCode(arg.getExhibitionCode());
+        DownstreamPusher.push(exhibition.getName());
     }
 
     @RequestMapping(value = "/{attendeeId}", method = RequestMethod.POST)
