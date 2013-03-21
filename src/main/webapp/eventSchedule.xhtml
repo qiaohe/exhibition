@@ -8,35 +8,35 @@
                 template="/templates/default.xhtml">
     <ui:define name="content">
         <h:form>
-            <p:dataTable var="eventSchedule" value="#{eventScheduleBean.eventSchedules}" selectionMode="single" rowKey="#{eventSchedule.id}">
+            <p:dataTable var="eventSchedule" value="#{eventScheduleBean.eventSchedules}" selectionMode="single" rowKey="#{eventSchedule.id}" resizableColumns="true">
                 <f:facet name="header">
                     #{userBean.exhibitionName}
                     <p:button value="添加#{msg.header_event_schedule}" icon="ui-icon-plusthick" onclick="$addDialog.show();return false;"/>
                 </f:facet>
 
-                <p:column headerText="主题">
-                    <h:outputText value="#{fn:length(eventSchedule.name) > 30 ? fn:substring(eventSchedule.name, 0, 27).concat('...') : eventSchedule.name}"/>
+                <p:column headerText="主题" width="200">
+                    <h:outputText value="#{eventSchedule.name}"/>
                 </p:column>
 
-                <p:column headerText="时间">
+                <p:column headerText="时间" width="120">
                     <h:outputText value="#{eventSchedule.dateFrom}">
                         <f:convertDateTime pattern="yyyy-M-d HH:mm"/>
-                    </h:outputText>
-                    ~
+                    </h:outputText>(始)
+                    <br/>
                     <h:outputText value="#{eventSchedule.dateTo}">
                         <f:convertDateTime pattern="yyyy-M-d HH:mm"/>
-                    </h:outputText>
+                    </h:outputText>(终)
                 </p:column>
 
-                <p:column headerText="地点">
+                <p:column headerText="地点" width="100">
                     <h:outputText value="#{eventSchedule.place}"/>
                 </p:column>
 
-                <p:column headerText="简介">
-                    <h:outputText value="#{fn:length(eventSchedule.description) > 50 ? fn:substring(eventSchedule.description, 0, 47).concat('...') : eventSchedule.description}"/>
+                <p:column headerText="简介" width="500">
+                    <h:outputText value="#{eventSchedule.description}"/>
                 </p:column>
 
-                <p:column>
+                <p:column width="138" resizable="false">
                     <p:commandButton value="编辑" action="#{eventScheduleBean.edit(eventSchedule.id)}" icon="ui-icon-note" oncomplete="$editDialog.show()" update=":editDialog"/>
                     <p:commandButton value="删除" action="#{eventScheduleBean.edit(eventSchedule.id)}" icon="ui-icon-closethick" oncomplete="$deleteDialog.show()" update=":deleteDialog"/>
                 </p:column>
@@ -64,7 +64,7 @@
                         <p:message for="dateFrom"/>
 
                         <h:outputLabel for="dateTo" value="结束时间"/>
-                        <p:calendar id="dateTo" value="#{eventScheduleBean.newEventSchedule.dateTo}" pattern="yyyy-M-d HH:mm"/>
+                        <p:calendar id="dateTo" value="#{eventScheduleBean.newEventSchedule.dateTo}" pattern="yyyy-M-d HH:mm" timeZone="+0800"/>
                         <p:message for="dateTo"/>
 
                         <h:outputLabel for="place" value="地点"/>

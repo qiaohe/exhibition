@@ -4,37 +4,36 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
                 template="/templates/default.xhtml">
     <ui:define name="content">
         <h:form>
-            <p:dataTable var="speaker" value="#{speakerBean.speakers}" rowKey="#{speaker.id}" selectionMode="single">
+            <p:dataTable var="speaker" value="#{speakerBean.speakers}" rowKey="#{speaker.id}" selectionMode="single" resizableColumns="true">
                 <f:facet name="header">
                     #{userBean.exhibitionName}
                     <p:button value="添加#{msg.header_speaker}" icon="ui-icon-plusthick" onclick="$addDialog.show();return false;"/>
                 </f:facet>
 
-                <p:column headerText="姓名">
+                <p:column headerText="姓名" width="50">
                     <h:outputText value="#{speaker.name}"/>
                 </p:column>
 
-                <p:column headerText="照片">
-                    <p:graphicImage value="/upload/image/#{speaker.photo}"/>
+                <p:column headerText="照片" resizable="false">
+                    <p:graphicImage value="/upload/image/#{speaker.photo}" rendered="#{not empty speaker.photo}"/>
                 </p:column>
 
-                <p:column headerText="职位">
+                <p:column headerText="职位" width="150">
                     <h:outputText value="#{speaker.position}"/>
                 </p:column>
 
-                <p:column headerText="公司">
+                <p:column headerText="公司" width="150">
                     <h:outputText value="#{speaker.company}"/>
                 </p:column>
 
-                <p:column headerText="简介">
+                <p:column headerText="简介" width="300">
                     <h:outputText value="#{speaker.profile}"/>
                 </p:column>
 
-                <p:column>
+                <p:column resizable="false" width="138">
                     <p:commandButton value="编辑" action="#{speakerBean.edit(speaker.id)}" icon="ui-icon-note" oncomplete="$editDialog.show()" update=":editDialog"/>
                     <p:commandButton value="删除" action="#{speakerBean.edit(speaker.id)}" icon="ui-icon-closethick" oncomplete="$deleteDialog.show()" update=":deleteDialog"/>
                 </p:column>
