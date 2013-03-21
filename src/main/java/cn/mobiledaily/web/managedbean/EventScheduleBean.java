@@ -20,7 +20,7 @@ import java.util.List;
 public class EventScheduleBean implements Serializable {
     private static final long serialVersionUID = -2146319579604881329L;
     @ManagedProperty("#{exhibitionService}")
-    private ExhibitionService exhibitionService;
+    transient private ExhibitionService exhibitionService;
     @ManagedProperty("#{userBean}")
     private UserBean userBean;
     private EventSchedule newEventSchedule;

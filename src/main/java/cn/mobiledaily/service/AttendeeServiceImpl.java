@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 import static cn.mobiledaily.exception.EntityNotFoundException.EXHIBITION_ERROR_FORMAT;
@@ -48,6 +49,7 @@ public class AttendeeServiceImpl implements AttendeeService {
         Location location = new Location(longitude, latitude, address);
         attendee.setLocation(location);
         attendee.addCheckInHistory(new CheckInEntry(location));
+        attendee.setCheckInAt(new Date());
         attendeeRepository.save(attendee);
     }
 

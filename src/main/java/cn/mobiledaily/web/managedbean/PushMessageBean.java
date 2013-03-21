@@ -3,18 +3,13 @@ package cn.mobiledaily.web.managedbean;
 import cn.mobiledaily.domain.PushMessage;
 import cn.mobiledaily.service.PushMessageService;
 import org.primefaces.context.RequestContext;
-import org.springframework.web.servlet.support.RequestContextUtils;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.context.FacesContext;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Johnson
- * Date: 3/14/13
- * Time: 2:34 PM
- * To change this template use File | Settings | File Templates.
- */
 @ManagedBean
 public class PushMessageBean {
     private String title;
@@ -23,7 +18,13 @@ public class PushMessageBean {
     @ManagedProperty("#{userBean}")
     private UserBean userBean;
     @ManagedProperty("#{pushMessageService}")
-    private PushMessageService pushMessageService;
+    transient private PushMessageService pushMessageService;
+
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        in.defaultReadObject();
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        setPushMessageService(facesContext.getApplication().evaluateExpressionGet(facesContext, "#{pushMessageService}", PushMessageService.class));
+    }
 
     public String getTitle() {
         return title;

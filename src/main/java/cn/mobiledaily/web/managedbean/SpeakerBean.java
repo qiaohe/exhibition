@@ -28,7 +28,6 @@ public class SpeakerBean implements Serializable {
     transient private FileService fileService;
     private Speaker newSpeaker;
     private Speaker editSpeaker;
-    transient int counter = 0;
 
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();

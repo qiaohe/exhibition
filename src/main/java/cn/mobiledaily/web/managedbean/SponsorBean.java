@@ -20,7 +20,7 @@ import java.util.List;
 public class SponsorBean implements Serializable {
     private static final long serialVersionUID = -1969885364302011224L;
     @ManagedProperty("#{exhibitionService}")
-    private ExhibitionService exhibitionService;
+    transient private ExhibitionService exhibitionService;
     @ManagedProperty("#{userBean}")
     private UserBean userBean;
     private Sponsor newSponsor;

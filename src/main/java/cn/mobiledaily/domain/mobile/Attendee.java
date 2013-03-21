@@ -29,6 +29,8 @@ public class Attendee implements Serializable {
     @Embedded
     private Location location;
     private int distance;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date checkInAt;
 
     public Attendee() {
         registerDate = new Date();
@@ -132,6 +134,14 @@ public class Attendee implements Serializable {
 
     public void setMobilePlatform(MobilePlatform mobilePlatform) {
         this.mobilePlatform = mobilePlatform;
+    }
+
+    public Date getCheckInAt() {
+        return checkInAt;
+    }
+
+    public void setCheckInAt(Date checkInAt) {
+        this.checkInAt = checkInAt;
     }
     //</editor-fold>
 }
