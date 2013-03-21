@@ -11,15 +11,21 @@ import org.jboss.netty.channel.*;
  */
 public class ServerHandler extends SimpleChannelHandler {
 
-    @Override
-    public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) {
+    public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
+        if (e.getMessage() instanceof StartupMessage) {
+            ChannelManager.getInstance().bind(ctx.getChannel(), e.getMessage().toString());
+        }
     }
 
     @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, ExceptionEvent e) {
-        Channel ch = e.getChannel();
-        ch.close();
+    public void channelOpen(ChannelHandlerContext ctx, ChannelStateEvent e) throws Exception {
+        super.channelOpen(ctx, e);
+        ChannelManager.getInstance().addChannel(ctx.getChannel());
+    }
+
+    public void exceptionCaught(ChannelHandlerContext ctx, ExceptionEvent e) throws Exception {
+        e.getChannel().close();
+        ChannelManager.getInstance().unbind(ctx.getChannel());
+        ChannelManager.getInstance().removeChannel(ctx.getChannel());
     }
 }
-
-

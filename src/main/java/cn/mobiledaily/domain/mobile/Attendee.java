@@ -1,6 +1,7 @@
 package cn.mobiledaily.domain.mobile;
 
 import cn.mobiledaily.domain.Exhibition;
+import cn.mobiledaily.domain.mobile.pushnotification.MobilePlatform;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -20,6 +21,8 @@ public class Attendee implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date registerDate;
     private String serviceToken;
+    @Enumerated(EnumType.STRING)
+    private MobilePlatform mobilePlatform;
     @ManyToOne
     private Exhibition exhibition;
     @OneToMany(mappedBy = "attendee", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -33,6 +36,11 @@ public class Attendee implements Serializable {
         this();
         this.serviceToken = serviceToken;
         this.exhibition = exhibition;
+    }
+
+    public Attendee(String serviceToken, Exhibition exhibition, MobilePlatform mobilePlatform) {
+        this(serviceToken, exhibition);
+        this.mobilePlatform = mobilePlatform;
     }
 
     public void addCheckInHistory(CheckInEntry entry) {
@@ -98,6 +106,14 @@ public class Attendee implements Serializable {
 
     public void setExhibition(Exhibition exhibition) {
         this.exhibition = exhibition;
+    }
+
+    public MobilePlatform getMobilePlatform() {
+        return mobilePlatform;
+    }
+
+    public void setMobilePlatform(MobilePlatform mobilePlatform) {
+        this.mobilePlatform = mobilePlatform;
     }
     //</editor-fold>
 }
