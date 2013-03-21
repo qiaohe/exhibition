@@ -3,7 +3,9 @@ package cn.mobiledaily.service;
 import cn.mobiledaily.domain.Exhibition;
 import cn.mobiledaily.domain.PushMessage;
 import cn.mobiledaily.domain.mobile.Attendee;
-import cn.mobiledaily.domain.mobile.Pusher;
+import cn.mobiledaily.domain.mobile.pushnotification.AndroidPusher;
+import cn.mobiledaily.domain.mobile.pushnotification.IosPusher;
+import cn.mobiledaily.domain.mobile.pushnotification.MobilePlatform;
 import cn.mobiledaily.exception.EntityNotFoundException;
 import cn.mobiledaily.repository.AttendeeRepository;
 import cn.mobiledaily.repository.ExhibitionRepository;
@@ -12,10 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import static cn.mobiledaily.exception.EntityNotFoundException.EXHIBITION_ERROR_FORMAT;
 
@@ -29,7 +28,9 @@ public class PushMessageServiceImpl implements PushMessageService {
     @Autowired
     private AttendeeRepository attendeeRepository;
     @Autowired
-    private Pusher pusher;
+    private IosPusher iosPusher;
+    @Autowired
+    private AndroidPusher androidPusher;
 
     @Override
     @Transactional
@@ -38,7 +39,7 @@ public class PushMessageServiceImpl implements PushMessageService {
         if (exhibition == null)
             throw new EntityNotFoundException(String.format(EXHIBITION_ERROR_FORMAT, exhibitionCode));
         message.setExhibition(exhibition);
-        pusher.push(message.getBody(), getRecipients());
+        push(message);
         pushMessageRepository.save(message);
     }
 
@@ -48,11 +49,13 @@ public class PushMessageServiceImpl implements PushMessageService {
         return pushMessageRepository.findByExhibitionCode(exhibitionCode);
     }
 
-    private List<String> getRecipients() {
-        Set<String> result = new HashSet<>();
+    private void push(PushMessage message) {
         for (Attendee ad : attendeeRepository.findAll()) {
-            result.add(ad.getServiceToken());
+            if (ad.getMobilePlatform().equals(MobilePlatform.ANDROID)) {
+                androidPusher.push(message.getBody(), ad.getServiceToken());
+            } else if (ad.getMobilePlatform().equals(MobilePlatform.IOS)) {
+                iosPusher.push(message.getBody(), ad.getServiceToken());
+            }
         }
-        return new ArrayList<>(result);
     }
 }

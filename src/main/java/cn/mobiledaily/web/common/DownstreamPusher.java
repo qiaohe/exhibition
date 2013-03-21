@@ -16,7 +16,7 @@ import java.util.Date;
  */
 public final class DownstreamPusher {
     private static final String DEFAULT_CHANEL = "/notifications";
-    private static final String MESSAGE_TEMPLATE_REGISTRATION = "新手机用户{0,date,yyyy年MM月dd HH:mm:ss}登陆成功";
+    private static final String MESSAGE_TEMPLATE_REGISTRATION = "新手机用户登陆成功<br>{0,date,yyyy年MM月dd HH:mm:ss}";
 
     public static void push(final String title, final String message) {
         push(DEFAULT_CHANEL, title, message);

@@ -2,6 +2,7 @@ package cn.mobiledaily.web.controller;
 
 import cn.mobiledaily.domain.Exhibition;
 import cn.mobiledaily.domain.mobile.Attendee;
+import cn.mobiledaily.domain.mobile.pushnotification.MobilePlatform;
 import cn.mobiledaily.service.AttendeeService;
 import cn.mobiledaily.service.ExhibitionService;
 import cn.mobiledaily.web.common.DownstreamPusher;
@@ -36,7 +37,7 @@ public class AttendeeController {
     @ResponseBody
     @ResponseStatus(value = HttpStatus.CREATED)
     public void register(@RequestBody @Valid AttendeeRegisterRequest arg) {
-        attendeeService.register(arg.getServiceToken(), arg.getExhibitionCode());
+        attendeeService.register(arg.getServiceToken(), arg.getExhibitionCode(), arg.getMobilePlatform());
         Exhibition exhibition = exhibitionService.findByCode(arg.getExhibitionCode());
         DownstreamPusher.push(exhibition.getName());
     }
@@ -54,6 +55,8 @@ public class AttendeeController {
         @Range
         private String exhibitionCode;
 
+        private MobilePlatform mobilePlatform;
+
         public String getServiceToken() {
             return serviceToken;
         }
@@ -68,6 +71,14 @@ public class AttendeeController {
 
         public void setExhibitionCode(String exhibitionCode) {
             this.exhibitionCode = exhibitionCode;
+        }
+
+        public MobilePlatform getMobilePlatform() {
+            return mobilePlatform;
+        }
+
+        public void setMobilePlatform(MobilePlatform mobilePlatform) {
+            this.mobilePlatform = mobilePlatform;
         }
     }
 }

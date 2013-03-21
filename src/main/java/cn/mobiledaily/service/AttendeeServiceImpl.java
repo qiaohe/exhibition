@@ -4,6 +4,7 @@ import cn.mobiledaily.domain.Exhibition;
 import cn.mobiledaily.domain.mobile.Attendee;
 import cn.mobiledaily.domain.mobile.CheckInEntry;
 import cn.mobiledaily.domain.mobile.Location;
+import cn.mobiledaily.domain.mobile.pushnotification.MobilePlatform;
 import cn.mobiledaily.exception.EntityNotFoundException;
 import cn.mobiledaily.repository.AttendeeRepository;
 import cn.mobiledaily.repository.ExhibitionRepository;
@@ -25,11 +26,11 @@ public class AttendeeServiceImpl implements AttendeeService {
 
     @Override
     @Transactional
-    public void register(String serviceToken, String exhibitionCode) throws EntityNotFoundException {
+    public void register(String serviceToken, String exhibitionCode, MobilePlatform mobilePlatform) throws EntityNotFoundException {
         Exhibition exhibition = exhibitionRepository.findByCode(exhibitionCode);
         if (exhibition == null)
             throw new EntityNotFoundException(String.format(EXHIBITION_ERROR_FORMAT, exhibitionCode));
-        Attendee attendee = new Attendee(serviceToken, exhibition);
+        Attendee attendee = new Attendee(serviceToken, exhibition, mobilePlatform);
         attendeeRepository.save(attendee);
     }
 
