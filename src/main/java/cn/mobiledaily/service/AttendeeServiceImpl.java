@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static cn.mobiledaily.exception.EntityNotFoundException.ATTENDEE_ERROR_FORMAT;
 import static cn.mobiledaily.exception.EntityNotFoundException.EXHIBITION_ERROR_FORMAT;
 
 @Service(value = "attendeeService")
@@ -36,10 +35,17 @@ public class AttendeeServiceImpl implements AttendeeService {
 
     @Override
     @Transactional
-    public void checkIn(Long attendeeId, Location location) throws EntityNotFoundException {
-        Attendee attendee = attendeeRepository.findOne(attendeeId);
-        if (attendee == null)
-            throw new EntityNotFoundException(String.format(ATTENDEE_ERROR_FORMAT, attendeeId));
+    public void checkIn(String serviceToken, String exhibitionCode, double latitude, double longitude, String address) {
+        List<Attendee> attendees = attendeeRepository.findByServiceTokenAndExhibition_Code(serviceToken, exhibitionCode);
+        Attendee attendee;
+        if (attendees.isEmpty()) {
+            Exhibition exhibition = exhibitionRepository.findByCode(exhibitionCode);
+            attendee = new Attendee(serviceToken, exhibition);
+        } else {
+            attendee = attendees.get(0);
+        }
+        Location location = new Location(longitude, latitude, address);
+        attendee.setLocation(location);
         attendee.addCheckInHistory(new CheckInEntry(location));
         attendeeRepository.save(attendee);
     }

@@ -4,46 +4,61 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import java.io.Serializable;
-import java.math.BigDecimal;
 
 @Embeddable
 public final class Location implements Serializable {
     private static final long serialVersionUID = 4736828905659788836L;
     @Column(name = "longitude")
-    private BigDecimal longitude;
+    private double longitude;
     @Column(name = "latitude")
-    private BigDecimal latitude;
+    private double latitude;
+    private String address;
 
     public Location() {
     }
 
-    public Location(BigDecimal longitude, BigDecimal latitude) {
+    public Location(double longitude, double latitude) {
         this.latitude = latitude;
         this.longitude = longitude;
+    }
+
+    public Location(double longitude, double latitude, String address) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.address = address;
     }
 
     //<editor-fold desc="fields">
 
-    public BigDecimal getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    void setLongitude(BigDecimal longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 
-    public BigDecimal getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    void setLatitude(BigDecimal latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
     //</editor-fold>
 
-    public static Location valueOf(final BigDecimal longitude, final BigDecimal latitude) {
+    public static Location valueOf(final double longitude, final double latitude) {
         return new Location(longitude, latitude);
     }
 

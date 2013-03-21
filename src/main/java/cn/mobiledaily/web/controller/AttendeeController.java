@@ -2,7 +2,6 @@ package cn.mobiledaily.web.controller;
 
 import cn.mobiledaily.domain.Exhibition;
 import cn.mobiledaily.domain.mobile.Attendee;
-import cn.mobiledaily.domain.mobile.Location;
 import cn.mobiledaily.service.AttendeeService;
 import cn.mobiledaily.service.ExhibitionService;
 import cn.mobiledaily.web.common.DownstreamPusher;
@@ -17,13 +16,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Johnson
- * Date: 3/6/13
- * Time: 11:54 PM
- * To change this template use File | Settings | File Templates.
- */
 @Controller
 @RequestMapping(value = "/attendees")
 @Transactional
@@ -49,11 +41,11 @@ public class AttendeeController {
         DownstreamPusher.push(exhibition.getName());
     }
 
-    @RequestMapping(value = "/{attendeeId}", method = RequestMethod.POST)
-    @ResponseBody
+    @RequestMapping(value = "/check_in", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    public void checkIn(@PathVariable long attendeeId, @RequestBody Location location) {
-        attendeeService.checkIn(attendeeId, location);
+    public void checkIn(String serviceToken, String exhibitionCode,
+                        double latitude, double longitude, String address) {
+        attendeeService.checkIn(serviceToken, exhibitionCode, latitude, longitude, address);
     }
 
     public static final class AttendeeRegisterRequest {

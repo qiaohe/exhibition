@@ -16,7 +16,6 @@ public class Attendee implements Serializable {
     private Long id;
     @Version
     private int version;
-
     @Temporal(TemporalType.TIMESTAMP)
     private Date registerDate;
     private String serviceToken;
@@ -24,6 +23,9 @@ public class Attendee implements Serializable {
     private Exhibition exhibition;
     @OneToMany(mappedBy = "attendee", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CheckInEntry> checkInHistories = new ArrayList<>();
+    @Embedded
+    private Location location;
+    private int distance;
 
     public Attendee() {
         registerDate = new Date();
@@ -36,15 +38,16 @@ public class Attendee implements Serializable {
     }
 
     public void addCheckInHistory(CheckInEntry entry) {
-        if (!checkInHistories.contains(entry))
+        if (!checkInHistories.contains(entry)) {
             checkInHistories.add(entry);
+            entry.setAttendee(this);
+        }
     }
 
     public void removeCheckInHistory(CheckInEntry entry) {
         if (checkInHistories.contains(entry))
             checkInHistories.remove(entry);
     }
-
 
     //<editor-fold desc="fields">
     public Long getId() {
@@ -75,7 +78,6 @@ public class Attendee implements Serializable {
         return "v" + id;
     }
 
-
     public String getServiceToken() {
         return serviceToken;
     }
@@ -98,6 +100,22 @@ public class Attendee implements Serializable {
 
     public void setExhibition(Exhibition exhibition) {
         this.exhibition = exhibition;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
+    public int getDistance() {
+        return distance;
+    }
+
+    public void setDistance(int distance) {
+        this.distance = distance;
     }
     //</editor-fold>
 }
