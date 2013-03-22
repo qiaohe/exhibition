@@ -8,7 +8,7 @@
         <h:outputScript library="js" name="checkInMap.js" target="head"/>
         <div id="mapPane" style="width: 100%; height: 80%"></div>
         <ui:repeat value="#{checkInMapBean.attendees}" var="attendee">
-            <script>checkInMap.addAttendee('#{attendee.id}', '#{attendee.location.latitude}', '#{attendee.location.longitude}');</script>
+            <script>checkInMap.addAttendee('#{attendee.id}','#{attendee.location.latitude}','#{attendee.location.longitude}','#{attendee.location.address}','#{attendee.checkInAt}');</script>
         </ui:repeat>
         <script>
             checkInMap.init().showCheckInPoint();
