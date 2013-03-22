@@ -14,5 +14,5 @@ public interface AttendeeService {
 
     List<CheckInEntry> findCheckInEntries(String exhibitionCode);
 
-    void checkIn(String serviceToken, String exhibitionCode, double latitude, double longitude, String address);
+    Attendee checkIn(String serviceToken, String exhibitionCode, double latitude, double longitude, String address);
 }

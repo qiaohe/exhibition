@@ -37,7 +37,7 @@ public class AttendeeServiceImpl implements AttendeeService {
 
     @Override
     @Transactional
-    public void checkIn(String serviceToken, String exhibitionCode, double latitude, double longitude, String address) {
+    public Attendee checkIn(String serviceToken, String exhibitionCode, double latitude, double longitude, String address) {
         List<Attendee> attendees = attendeeRepository.findByServiceTokenAndExhibition_Code(serviceToken, exhibitionCode);
         Attendee attendee;
         if (attendees.isEmpty()) {
@@ -51,6 +51,7 @@ public class AttendeeServiceImpl implements AttendeeService {
         attendee.addCheckInHistory(new CheckInEntry(location));
         attendee.setCheckInAt(new Date());
         attendeeRepository.save(attendee);
+        return attendee;
     }
 
     @Override

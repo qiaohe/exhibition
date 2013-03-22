@@ -5,9 +5,12 @@ import cn.mobiledaily.domain.mobile.Attendee;
 import cn.mobiledaily.domain.mobile.pushnotification.MobilePlatform;
 import cn.mobiledaily.service.AttendeeService;
 import cn.mobiledaily.service.ExhibitionService;
+import cn.mobiledaily.web.assembler.CheckInAssembler;
 import cn.mobiledaily.web.common.DownstreamPusher;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Range;
+import org.primefaces.push.PushContext;
+import org.primefaces.push.PushContextFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -25,6 +28,8 @@ public class AttendeeController {
     private AttendeeService attendeeService;
     @Autowired
     private ExhibitionService exhibitionService;
+    @Autowired
+    private CheckInAssembler checkInAssembler;
 
     @RequestMapping(value = "/exhibition/{exhibitionCode}", method = RequestMethod.GET)
     @ResponseBody
@@ -46,7 +51,9 @@ public class AttendeeController {
     @ResponseStatus(HttpStatus.CREATED)
     public void checkIn(String serviceToken, String exhibitionCode,
                         double latitude, double longitude, String address) {
-        attendeeService.checkIn(serviceToken, exhibitionCode, latitude, longitude, address);
+        Attendee attendee = attendeeService.checkIn(serviceToken, exhibitionCode, latitude, longitude, address);
+        PushContext pushContext = PushContextFactory.getDefault().getPushContext();
+        pushContext.push("/check-in", checkInAssembler.toCheckIn(attendee));
     }
 
     public static final class AttendeeRegisterRequest {
