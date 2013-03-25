@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 @Service("exhibitionService")
@@ -25,6 +26,7 @@ public class ExhibitionServiceImpl implements ExhibitionService {
     @Override
     @Transactional
     public void save(Exhibition exhibition) {
+        exhibition.setUpdatedAt(new Date());
         exhibitionRepository.save(exhibition);
     }
 
@@ -32,24 +34,32 @@ public class ExhibitionServiceImpl implements ExhibitionService {
     @Transactional
     public void save(Exhibitor exhibitor) {
         exhibitorRepository.save(exhibitor);
+        exhibitor.getExhibition().setUpdatedAt(new Date());
+        exhibitionRepository.save(exhibitor.getExhibition());
     }
 
     @Override
     @Transactional
     public void save(EventSchedule eventSchedule) {
         eventScheduleRepository.save(eventSchedule);
+        eventSchedule.getExhibition().setUpdatedAt(new Date());
+        exhibitionRepository.save(eventSchedule.getExhibition());
     }
 
     @Override
     @Transactional
     public void save(Sponsor sponsor) {
         sponsorRepository.save(sponsor);
+        sponsor.getExhibition().setUpdatedAt(new Date());
+        exhibitionRepository.save(sponsor.getExhibition());
     }
 
     @Override
     @Transactional
     public void save(Speaker speaker) {
         speakerRepository.save(speaker);
+        speaker.getExhibition().setUpdatedAt(new Date());
+        exhibitionRepository.save(speaker.getExhibition());
     }
 
     @Override
