@@ -1,6 +1,7 @@
 package cn.mobiledaily.domain.mobile.socketserver;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.codec.digest.DigestUtils;
 
 /**
@@ -43,6 +44,7 @@ public final class StartupMessage {
         this.appCode = appCode;
     }
 
+    @JsonIgnore
     public String getServiceToken() {
         String t = String.format(TOKEN_PATTERN, macAddress, appCode);
         return DigestUtils.sha256Hex(t);

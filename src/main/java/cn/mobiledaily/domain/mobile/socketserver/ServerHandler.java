@@ -1,6 +1,9 @@
 package cn.mobiledaily.domain.mobile.socketserver;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.lang3.StringUtils;
 import org.jboss.netty.channel.*;
+import org.jboss.netty.util.internal.StringUtil;
 
 /**
  * Created with IntelliJ IDEA.
@@ -11,9 +14,18 @@ import org.jboss.netty.channel.*;
  */
 public class ServerHandler extends SimpleChannelHandler {
 
+    private boolean isStartupMessage(final Object message) {
+        return StringUtils.isNotEmpty(message.toString()) &&
+                StringUtils.contains(message.toString(), "macAddress") &&
+                StringUtils.contains(message.toString(), "appCode");
+
+    }
+
     public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
-        if (e.getMessage() instanceof StartupMessage) {
-            ChannelManager.getInstance().bind(ctx.getChannel(), e.getMessage().toString());
+        if (isStartupMessage(e.getMessage())) {
+            ObjectMapper mapper = new ObjectMapper();
+            StartupMessage message = mapper.readValue(StringUtil.stripControlCharacters(e.getMessage()), StartupMessage.class);
+            ChannelManager.getInstance().bind(ctx.getChannel(), message.getServiceToken());
         }
     }
 
