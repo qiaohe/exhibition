@@ -14,34 +14,35 @@ function createCheckInMap(mapPane){
             this.checkIns.push({key:key, lat:lat, lng:lng, address:address, time:time});
         },
         showCheckInPoint: function() {
-            for (var i = 0; i < this.checkIns.length; i++) {
-                var checkIn = this.checkIns[i];
-                var marker = this.createMarker(checkIn);
-                this.map.addOverlay(marker);
-            }
+            this.checkIns.forEach(function(checkIn) {
+                this.map.addOverlay(this.$createMarker(checkIn));
+            }, this);
         },
         onCheckIn: function(checkIn) {
-            var index = -1;
-            for (var i = 0; i < this.checkIns.length; i++) {
-                if (this.checkIns[i].key === checkIn.key) {
-                    index = i;
+            for (var i in this.checkIns) {
+                if (this.checkIns[i].key == checkIn.key) {
+                    this.map.removeOverlay(this.checkIns.splice(i)[0].marker);
                     break;
                 }
             }
-            if (index != -1) {
-                this.map.removeOverlay(this.checkIns.splice(index)[0].marker);
-            }
-            var marker = this.createMarker(checkIn);
+            var marker = this.$createMarker(checkIn);
             this.checkIns.push(checkIn);
             this.map.addOverlay(marker);
+            marker.setAnimation(BMAP_ANIMATION_BOUNCE);
+            setTimeout((function(marker) {
+                return function() {
+                    marker.setAnimation(null);
+                }
+            })(marker), 3000);
         },
-        createMarker: function(data) {
-            var marker = new BMap.Marker(new BMap.Point(data.lng, data.lat));
-            marker.checkIn = data;
-            data.marker = marker;
+        $createMarker: function(checkIn) {
+            var marker = new BMap.Marker(new BMap.Point(checkIn.lng, checkIn.lat));
+            marker.checkIn = checkIn;
+            checkIn.marker = marker;
             marker.addEventListener('mouseover', function() {
-                marker.openInfoWindow(new BMap.InfoWindow(data.time + '<br>' + data.address));
+                marker.openInfoWindow(new BMap.InfoWindow(checkIn.time + '<br>' + checkIn.address));
             });
+            marker.setAnimation(BMAP_ANIMATION_DROP);
             return marker;
         }
     };

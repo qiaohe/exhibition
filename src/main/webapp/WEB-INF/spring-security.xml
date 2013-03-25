@@ -19,7 +19,7 @@
         <form-login login-page="/login.xhtml" default-target-url="/exhibition.xhtml" always-use-default-target="true"/>
         <logout delete-cookies="JSESSIONID"/>
         <session-management>
-            <concurrency-control max-sessions="1"/>
+            <!--<concurrency-control max-sessions="1"/>-->
         </session-management>
     </http>
     <authentication-manager>
