@@ -2,7 +2,7 @@ package cn.mobiledaily.web.managedbean;
 
 import cn.mobiledaily.domain.Exhibition;
 import cn.mobiledaily.service.ExhibitionService;
-import org.primefaces.context.RequestContext;
+import cn.mobiledaily.web.common.SpringContext;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -15,81 +15,58 @@ import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.List;
 
-@ManagedBean
+@ManagedBean(name = "exhibition")
 @ViewScoped
 public class ExhibitionBean implements Serializable {
-    private static final long serialVersionUID = 8754820461982771280L;
     @ManagedProperty("#{exhibitionService}")
     transient private ExhibitionService exhibitionService;
-    @ManagedProperty("#{userBean}")
-    private UserBean userBean;
-    private Exhibition newExhibition;
-    private Exhibition editExhibition;
+    private Exhibition item;
+    private boolean edit;
 
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        setExhibitionService(facesContext.getApplication().evaluateExpressionGet(facesContext, "#{exhibitionService}", ExhibitionService.class));
+        exhibitionService = SpringContext.getExhibitionService();
     }
 
     public void setExhibitionService(ExhibitionService exhibitionService) {
         this.exhibitionService = exhibitionService;
     }
 
-    public void setUserBean(UserBean userBean) {
-        this.userBean = userBean;
-    }
-
-    public List<Exhibition> getExhibitions() {
+    public List<Exhibition> getItems() {
         return exhibitionService.findAll();
     }
 
-    public Exhibition getNewExhibition() {
-        if (newExhibition == null) {
-            newExhibition = createExhibition();
-        }
-        return newExhibition;
+    public Exhibition getItem() {
+        return item;
     }
 
-    public Exhibition getEditExhibition() {
-        return editExhibition;
-    }
-
-    public void persist(ActionEvent actionEvent) {
+    public void save(ActionEvent actionEvent) {
         try {
-            exhibitionService.save(newExhibition);
-            newExhibition = createExhibition();
-        } catch (Exception e) {
-            FacesMessage msg;
-            if (newExhibition.getCreatedBy() == null) {
-                msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid Credentials", "Please change login account");
-            } else {
-                msg = new FacesMessage(FacesMessage.SEVERITY_FATAL, "Internal Error", e.getMessage());
-            }
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-        }
-    }
-
-    public void edit(long id) {
-        editExhibition = exhibitionService.findById(id);
-    }
-
-    public void update(ActionEvent actionEvent) {
-        try {
-            exhibitionService.save(editExhibition);
+            exhibitionService.save(item);
+            item = null;
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Internal Error", e.getMessage()));
-            RequestContext.getCurrentInstance().addCallbackParam("error", 1);
+        }
+    }
+
+    public void edit(String id) {
+        item = exhibitionService.findById(id);
+        edit = true;
+    }
+
+    public void create() {
+        if (edit || item == null) {
+            item = createItem();
         }
     }
 
     public void remove(ActionEvent actionEvent) {
-        exhibitionService.delete(editExhibition);
+        exhibitionService.delete(item);
     }
 
-    private Exhibition createExhibition() {
+    private Exhibition createItem() {
         Exhibition exhibition = new Exhibition();
-        exhibition.setCreatedBy(userBean.getUser());
+        edit = false;
         return exhibition;
     }
 }

@@ -6,82 +6,57 @@
                 template="/templates/default.xhtml">
     <ui:define name="content">
         <h:form>
-            <p:dataTable var="sponsor" value="#{sponsorBean.sponsors}" selectionMode="single" rowKey="#{sponsor.id}">
+            <p:dataTable var="v" value="#{sponsor.items}" selectionMode="single" rowKey="#{v.id}">
                 <f:facet name="header">
                     #{userBean.exhibitionName}
-                    <p:button value="添加#{msg.header_sponsor}" icon="ui-icon-plusthick" onclick="$addDialog.show();return false;"/>
+                    <p:commandButton value="添加#{msg.header_sponsor}" icon="ui-icon-plusthick" action="#{sponsor.create}" oncomplete="$editDialog.show()" update=":editDialog"/>
                 </f:facet>
 
                 <p:column headerText="名称">
-                    <h:outputText value="#{sponsor.name}"/>
+                    <h:outputText value="#{v.name}"/>
                 </p:column>
 
                 <p:column headerText="横幅图片">
-                    <h:outputText value="#{sponsor.bannerImage}"/>
+                    <h:outputText value="#{v.bannerImage}"/>
                 </p:column>
 
                 <p:column headerText="网址">
-                    <h:outputText value="#{sponsor.website}"/>
+                    <h:outputText value="#{v.website}"/>
                 </p:column>
 
                 <p:column>
-                    <p:commandButton value="编辑" action="#{sponsorBean.edit(sponsor.id)}" icon="ui-icon-note" oncomplete="$editDialog.show()" update=":editDialog"/>
-                    <p:commandButton value="删除" action="#{sponsorBean.edit(sponsor.id)}" icon="ui-icon-closethick" oncomplete="$deleteDialog.show()" update=":deleteDialog"/>
+                    <p:commandButton value="编辑" action="#{sponsor.edit(v.id)}" icon="ui-icon-note" oncomplete="$editDialog.show()" update=":editDialog"/>
+                    <p:commandButton value="删除" action="#{sponsor.edit(v.id)}" icon="ui-icon-closethick" oncomplete="$deleteDialog.show()" update=":deleteDialog"/>
                 </p:column>
             </p:dataTable>
         </h:form>
 
         <p:confirmDialog id="deleteDialog" message="是否删除#{msg.header_sponsor}" widgetVar="$deleteDialog">
             <h:form>
-                <p:commandButton value="确定" actionListener="#{sponsorBean.remove}" oncomplete="$deleteDialog.hide();location.reload()"/>
+                <p:commandButton value="确定" actionListener="#{sponsor.delete}" oncomplete="$deleteDialog.hide();location.reload()"/>
                 <p:commandButton value="取消" onclick="$deleteDialog.hide()" type="button"/>
             </h:form>
         </p:confirmDialog>
 
-        <p:dialog id="addDialog" header="添加" widgetVar="$addDialog" modal="true">
-            <h:form>
-                <p:panel id="panel">
-                    <p:messages globalOnly="true" showDetail="true"/>
-                    <h:panelGrid columns="3">
-                        <h:outputLabel for="name" value="名称"/>
-                        <p:inputText id="name" value="#{sponsorBean.newSponsor.name}"/>
-                        <p:message for="name"/>
-
-                        <h:outputLabel for="bannerImage" value="横幅图片"/>
-                        <p:inputText id="bannerImage" value="#{sponsorBean.newSponsor.bannerImage}"/>
-                        <p:message for="bannerImage"/>
-
-                        <h:outputLabel for="website" value="网址"/>
-                        <p:inputTextarea id="website" value="#{sponsorBean.newSponsor.website}"/>
-                        <p:message for="website"/>
-
-                        <p:commandButton value="保存" update="panel"
-                                         actionListener="#{sponsorBean.persist}"
-                                         oncomplete="closeAddDialog(xhr, status, args)"/>
-                    </h:panelGrid>
-
-                </p:panel>
-            </h:form>
-        </p:dialog>
         <p:dialog id="editDialog" header="编辑" widgetVar="$editDialog" modal="true">
             <h:form>
                 <p:panel id="panel">
                     <p:messages globalOnly="true" showDetail="true"/>
                     <h:panelGrid columns="3">
                         <h:outputLabel for="name" value="名称"/>
-                        <p:inputText id="name" value="#{sponsorBean.editSponsor.name}"/>
+                        <p:inputText id="name" value="#{sponsor.item.name}"/>
                         <p:message for="name"/>
 
                         <h:outputLabel for="bannerImage" value="横幅图片"/>
-                        <p:inputText id="bannerImage" value="#{sponsorBean.editSponsor.bannerImage}"/>
+                        <p:inputText id="bannerImage" value="#{sponsor.item.bannerImage}"/>
                         <p:message for="bannerImage"/>
 
                         <h:outputLabel for="website" value="网址"/>
-                        <p:inputTextarea id="website" value="#{sponsorBean.editSponsor.website}"/>
+                        <p:inputTextarea id="website" value="#{sponsor.item.website}"/>
                         <p:message for="website"/>
 
                         <p:commandButton value="保存" update="panel"
-                                         actionListener="#{sponsorBean.update}"
+                                         actionListener="#{sponsor.save}"
                                          oncomplete="closeEditDialog(xhr, status, args)"/>
                     </h:panelGrid>
 
@@ -89,14 +64,6 @@
             </h:form>
         </p:dialog>
         <script type="text/javascript">
-            function closeAddDialog(xhr, status, args) {
-                if (args.validationFailed || args.error) {
-                    jQuery('addDialog').effect('shake', {times: 1}, 100);
-                } else {
-                    $addDialog.hide();
-                    location.reload();
-                }
-            }
             function closeEditDialog(xhr, status, args) {
                 if (args.validationFailed || args.error) {
                     jQuery('editDialog').effect('shake', {times: 1}, 100);

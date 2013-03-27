@@ -11,14 +11,14 @@
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
     <context:component-scan base-package="cn.mobiledaily.web"/>
     <util:properties id="config" location="classpath:config.properties"/>
-    <mvc:resources mapping="/image/**" location="#{config['upload.path']}" cache-period="31556926"/>
+    <mvc:resources mapping="/image/**" location="file:#{config['upload.path']}" cache-period="31556926"/>
     <mvc:annotation-driven>
-        <mvc:message-converters>
-            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
-                <property name="objectMapper">
-                    <bean class="cn.mobiledaily.web.common.HibernateAwareObjectMapper"/>
-                </property>
-            </bean>
-        </mvc:message-converters>
+        <!--<mvc:message-converters>-->
+            <!--<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">-->
+                <!--<property name="objectMapper">-->
+                    <!--<bean class="cn.mobiledaily.web.common.HibernateAwareObjectMapper"/>-->
+                <!--</property>-->
+            <!--</bean>-->
+        <!--</mvc:message-converters>-->
     </mvc:annotation-driven>
 </beans>

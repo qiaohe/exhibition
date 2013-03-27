@@ -4,86 +4,50 @@
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
                 template="/templates/default.xhtml">
     <ui:define name="content">
         <h:form>
-            <p:dataTable var="eventSchedule" value="#{eventScheduleBean.eventSchedules}" selectionMode="single" rowKey="#{eventSchedule.id}" resizableColumns="true">
+            <p:dataTable var="v" value="#{eventSchedule.items}" selectionMode="single" rowKey="#{v.id}" resizableColumns="true">
                 <f:facet name="header">
                     #{userBean.exhibitionName}
-                    <p:button value="添加#{msg.header_event_schedule}" icon="ui-icon-plusthick" onclick="$addDialog.show();return false;"/>
+                    <p:commandButton value="添加#{msg.header_event_schedule}" icon="ui-icon-plusthick" action="#{eventSchedule.create}" oncomplete="$editDialog.show()" update=":editDialog"/>
                 </f:facet>
 
                 <p:column headerText="主题" width="200">
-                    <h:outputText value="#{eventSchedule.name}"/>
+                    <h:outputText value="#{v.name}"/>
                 </p:column>
 
                 <p:column headerText="时间" width="120">
-                    <h:outputText value="#{eventSchedule.dateFrom}">
+                    <h:outputText value="#{v.dateFrom}">
                         <f:convertDateTime pattern="yyyy-M-d HH:mm"/>
                     </h:outputText>(始)
                     <br/>
-                    <h:outputText value="#{eventSchedule.dateTo}">
+                    <h:outputText value="#{v.dateTo}">
                         <f:convertDateTime pattern="yyyy-M-d HH:mm"/>
                     </h:outputText>(终)
                 </p:column>
 
                 <p:column headerText="地点" width="100">
-                    <h:outputText value="#{eventSchedule.place}"/>
+                    <h:outputText value="#{v.place}"/>
                 </p:column>
 
-                <p:column headerText="简介" width="500">
-                    <h:outputText value="#{eventSchedule.description}"/>
+                <p:column headerText="简介">
+                    <h:outputText value="#{v.description}"/>
                 </p:column>
 
-                <p:column width="138" resizable="false">
-                    <p:commandButton value="编辑" action="#{eventScheduleBean.edit(eventSchedule.id)}" icon="ui-icon-note" oncomplete="$editDialog.show()" update=":editDialog"/>
-                    <p:commandButton value="删除" action="#{eventScheduleBean.edit(eventSchedule.id)}" icon="ui-icon-closethick" oncomplete="$deleteDialog.show()" update=":deleteDialog"/>
+                <p:column>
+                    <p:commandButton value="编辑" action="#{eventSchedule.edit(v.id)}" icon="ui-icon-note" oncomplete="$editDialog.show()" update=":editDialog"/>
+                    <p:commandButton value="删除" action="#{eventSchedule.edit(v.id)}" icon="ui-icon-closethick" oncomplete="$deleteDialog.show()" update=":deleteDialog"/>
                 </p:column>
             </p:dataTable>
         </h:form>
 
         <p:confirmDialog id="deleteDialog" message="是否删除#{msg.header_event_schedule}" widgetVar="$deleteDialog">
             <h:form>
-                <p:commandButton value="确定" actionListener="#{eventScheduleBean.remove}" oncomplete="$deleteDialog.hide();location.reload()"/>
+                <p:commandButton value="确定" actionListener="#{eventSchedule.delete}" oncomplete="$deleteDialog.hide();location.reload()"/>
                 <p:commandButton value="取消" onclick="$deleteDialog.hide()" type="button"/>
             </h:form>
         </p:confirmDialog>
-
-        <p:dialog id="addDialog" header="添加" widgetVar="$addDialog" modal="true">
-            <h:form>
-                <p:panel id="panel">
-                    <p:messages globalOnly="true" showDetail="true"/>
-                    <h:panelGrid columns="3">
-                        <h:outputLabel for="name" value="主题"/>
-                        <p:inputText id="name" value="#{eventScheduleBean.newEventSchedule.name}" size="40"/>
-                        <p:message for="name"/>
-
-                        <h:outputLabel for="dateFrom" value="开始时间"/>
-                        <p:calendar id="dateFrom" value="#{eventScheduleBean.newEventSchedule.dateFrom}" pattern="yyyy-M-d HH:mm"/>
-                        <p:message for="dateFrom"/>
-
-                        <h:outputLabel for="dateTo" value="结束时间"/>
-                        <p:calendar id="dateTo" value="#{eventScheduleBean.newEventSchedule.dateTo}" pattern="yyyy-M-d HH:mm" timeZone="+0800"/>
-                        <p:message for="dateTo"/>
-
-                        <h:outputLabel for="place" value="地点"/>
-                        <p:inputText id="place" value="#{eventScheduleBean.newEventSchedule.place}" size="40"/>
-                        <p:message for="place"/>
-
-                        <h:outputLabel for="description" value="简介"/>
-                        <p:inputTextarea id="description" value="#{eventScheduleBean.newEventSchedule.description}" maxlength="255" cols="42" rows="8" autoResize="false"/>
-                        <p:message for="description"/>
-
-                        <p:commandButton value="保存" update="panel"
-                                         actionListener="#{eventScheduleBean.persist}"
-                                         oncomplete="closeAddDialog(xhr, status, args)"/>
-                        <p:commandButton value="取消" type="button" onclick="$addDialog.hide()"/>
-                    </h:panelGrid>
-
-                </p:panel>
-            </h:form>
-        </p:dialog>
 
         <p:dialog id="editDialog" header="编辑" widgetVar="$editDialog" modal="true">
             <h:form>
@@ -91,28 +55,28 @@
                     <p:messages globalOnly="true" showDetail="true"/>
                     <h:panelGrid columns="3">
                         <h:outputLabel for="name" value="主题"/>
-                        <p:inputText id="name" value="#{eventScheduleBean.editEventSchedule.name}" size="40"/>
+                        <p:inputText id="name" value="#{eventSchedule.item.name}" size="40"/>
                         <p:message for="name"/>
 
                         <h:outputLabel for="dateFrom" value="开始时间"/>
-                        <p:calendar id="dateFrom" value="#{eventScheduleBean.editEventSchedule.dateFrom}" pattern="yyyy-M-d HH:mm"/>
+                        <p:calendar id="dateFrom" value="#{eventSchedule.item.dateFrom}" pattern="yyyy-M-d HH:mm"/>
                         <p:message for="dateFrom"/>
 
                         <h:outputLabel for="dateTo" value="结束时间"/>
-                        <p:calendar id="dateTo" value="#{eventScheduleBean.editEventSchedule.dateTo}" pattern="yyyy-M-d HH:mm"/>
+                        <p:calendar id="dateTo" value="#{eventSchedule.item.dateTo}" pattern="yyyy-M-d HH:mm"/>
                         <p:message for="dateTo"/>
 
                         <h:outputLabel for="place" value="地点"/>
-                        <p:inputText id="place" value="#{eventScheduleBean.editEventSchedule.place}" size="40"/>
+                        <p:inputText id="place" value="#{eventSchedule.item.place}" size="40"/>
                         <p:message for="place"/>
 
                         <h:outputLabel for="description" value="简介"/>
-                        <p:inputTextarea id="description" value="#{eventScheduleBean.editEventSchedule.description}" maxlength="255" cols="42" rows="8" autoResize="false"/>
+                        <p:inputTextarea id="description" value="#{eventSchedule.item.description}" maxlength="255" cols="42" rows="8" autoResize="false"/>
                         <p:message for="description"/>
 
                         <p:commandButton value="保存" update="panel"
-                                         actionListener="#{eventScheduleBean.update}"
-                                         oncomplete="closeAddDialog(xhr, status, args)"/>
+                                         actionListener="#{eventSchedule.save}"
+                                         oncomplete="closeEditDialog(xhr, status, args)"/>
                         <p:commandButton value="取消" type="button" onclick="$editDialog.hide()"/>
                     </h:panelGrid>
 
@@ -120,14 +84,6 @@
             </h:form>
         </p:dialog>
         <script type="text/javascript">
-            function closeAddDialog(xhr, status, args) {
-                if (args.validationFailed) {
-                    jQuery('#addDialog').effect('shake', {times: 1}, 100);
-                } else {
-                    $addDialog.hide();
-                    location.reload();
-                }
-            }
             function closeEditDialog(xhr, status, args) {
                 if (args.validationFailed || args.error) {
                     jQuery('#editDialog').effect('shake', {times: 1}, 100);

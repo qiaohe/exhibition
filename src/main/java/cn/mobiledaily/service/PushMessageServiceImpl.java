@@ -2,14 +2,10 @@ package cn.mobiledaily.service;
 
 import cn.mobiledaily.domain.Exhibition;
 import cn.mobiledaily.domain.PushMessage;
-import cn.mobiledaily.domain.mobile.Attendee;
 import cn.mobiledaily.domain.mobile.pushnotification.AndroidPusher;
 import cn.mobiledaily.domain.mobile.pushnotification.IosPusher;
-import cn.mobiledaily.domain.mobile.pushnotification.MobilePlatform;
 import cn.mobiledaily.exception.EntityNotFoundException;
-import cn.mobiledaily.repository.AttendeeRepository;
 import cn.mobiledaily.repository.ExhibitionRepository;
-import cn.mobiledaily.repository.PushMessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,10 +20,6 @@ public class PushMessageServiceImpl implements PushMessageService {
     @Autowired
     private ExhibitionRepository exhibitionRepository;
     @Autowired
-    private PushMessageRepository pushMessageRepository;
-    @Autowired
-    private AttendeeRepository attendeeRepository;
-    @Autowired
     private IosPusher iosPusher;
     @Autowired
     private AndroidPusher androidPusher;
@@ -40,22 +32,23 @@ public class PushMessageServiceImpl implements PushMessageService {
             throw new EntityNotFoundException(String.format(EXHIBITION_ERROR_FORMAT, exhibitionCode));
         message.setExhibition(exhibition);
         push(message);
-        pushMessageRepository.save(message);
+        exhibitionRepository.save(message);
     }
 
     @Override
     @Transactional
     public List<PushMessage> getMessages(String exhibitionCode) {
-        return pushMessageRepository.findByExhibitionCode(exhibitionCode);
+        Exhibition exhibition = exhibitionRepository.findByCode(exhibitionCode);
+        return exhibitionRepository.findContents(exhibition, PushMessage.class);
     }
 
     private void push(PushMessage message) {
-        for (Attendee ad : attendeeRepository.findAll()) {
-            if (ad.getMobilePlatform().equals(MobilePlatform.ANDROID)) {
-                androidPusher.push(message.getBody(), ad.getServiceToken());
-            } else if (ad.getMobilePlatform().equals(MobilePlatform.IOS)) {
-                iosPusher.push(message.getBody(), ad.getServiceToken());
-            }
-        }
+//        for (Attendee ad : attendeeRepository.findAll()) {
+//            if (ad.getMobilePlatform().equals(MobilePlatform.ANDROID)) {
+//                androidPusher.push(message.getBody(), ad.getServiceToken());
+//            } else if (ad.getMobilePlatform().equals(MobilePlatform.IOS)) {
+//                iosPusher.push(message.getBody(), ad.getServiceToken());
+//            }
+//        }
     }
 }

@@ -11,7 +11,7 @@
         <script>
             var checkInMap = createCheckInMap('mapPane');
         </script>
-        <ui:repeat value="#{checkInMapBean.checkIns}" var="v">
+        <ui:repeat value="#{checkInMap.checkIns}" var="v">
             <script>checkInMap.addCheckIn('#{v.key}','#{v.lat}','#{v.lng}','#{v.address}','#{v.time}');</script>
         </ui:repeat>
         <script>
