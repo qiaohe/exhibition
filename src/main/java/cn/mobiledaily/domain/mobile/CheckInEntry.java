@@ -1,11 +1,14 @@
 package cn.mobiledaily.domain.mobile;
 
+import org.springframework.data.annotation.Transient;
+
 import java.io.Serializable;
 import java.util.Date;
 
 public class CheckInEntry implements Serializable {
     private static final long serialVersionUID = 3891325785188793952L;
     private String id;
+    @Transient
     private Attendee attendee;
     private Location location;
     private Date date;

@@ -61,11 +61,15 @@ public class MongoExhibitionRepository implements ExhibitionRepository {
     }
 
     @Override
-    public <T extends ExhibitionContent> List<T> findContents(Exhibition exhibition, Class<T> type) {
+    public <T extends ExhibitionContent> List<T> findContents(Exhibition exhibition, Class<T> type, Sort sort) {
         try {
-//            List<T> list = mongoOperations.findAll(type, exhibition.getCode() + type.newInstance().getCollectionSuffix());
-            List<T> list = mongoOperations.find(new Query().with(new Sort(Sort.Direction.DESC, "createdAt")),
-                    type, exhibition.getCode() + type.newInstance().getCollectionSuffix());
+            List<T> list;
+            if (sort != null) {
+                list = mongoOperations.find(new Query().with(sort),
+                        type, exhibition.getCode() + type.newInstance().getCollectionSuffix());
+            } else {
+                list = mongoOperations.findAll(type, exhibition.getCode() + type.newInstance().getCollectionSuffix());
+            }
             for (T t : list) {
                 t.setExhibition(exhibition);
             }
@@ -73,6 +77,11 @@ public class MongoExhibitionRepository implements ExhibitionRepository {
         } catch (Exception e) {
             return new ArrayList<>();
         }
+    }
+
+    @Override
+    public <T extends ExhibitionContent> List<T> findContents(Exhibition exhibition, Class<T> type) {
+        return findContents(exhibition, type, null);
     }
 
     @Override

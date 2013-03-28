@@ -4,6 +4,7 @@ import cn.mobiledaily.domain.Exhibition;
 import cn.mobiledaily.domain.mobile.ExhibitionContent;
 import cn.mobiledaily.service.ExhibitionService;
 import cn.mobiledaily.web.common.SpringContext;
+import org.springframework.data.domain.Sort;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedProperty;
@@ -26,6 +27,7 @@ public abstract class ExhibitionContentBean<T extends ExhibitionContent> impleme
     private UserBean userBean;
     private T item;
     private boolean edit;
+    private Sort sort = new Sort(Sort.Direction.DESC, "createdAt");
 
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
@@ -64,8 +66,16 @@ public abstract class ExhibitionContentBean<T extends ExhibitionContent> impleme
         this.edit = edit;
     }
 
+    protected Sort getSort() {
+        return sort;
+    }
+
+    protected void setSort(Sort sort) {
+        this.sort = sort;
+    }
+
     public List<T> getItems() {
-        return exhibitionService.findContents(userBean.getExhibitionCode(), contentType);
+        return exhibitionService.findContents(userBean.getExhibitionCode(), contentType, sort);
     }
 
     public T getItem() {

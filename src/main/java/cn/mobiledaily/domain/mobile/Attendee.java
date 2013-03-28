@@ -2,7 +2,7 @@ package cn.mobiledaily.domain.mobile;
 
 import cn.mobiledaily.domain.Exhibition;
 import cn.mobiledaily.domain.mobile.pushnotification.MobilePlatform;
-import org.springframework.data.mongodb.core.mapping.DBRef;
+import org.springframework.data.annotation.Transient;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ public class Attendee implements Serializable, ExhibitionContent {
     private Date registerDate;
     private String serviceToken;
     private MobilePlatform mobilePlatform;
-    @DBRef
+    @Transient
     private Exhibition exhibition;
     private List<CheckInEntry> checkInHistories = new ArrayList<>();
     private Location location;

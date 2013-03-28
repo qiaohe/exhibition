@@ -4,6 +4,7 @@ import cn.mobiledaily.domain.Exhibition;
 import cn.mobiledaily.domain.mobile.ExhibitionContent;
 import cn.mobiledaily.repository.ExhibitionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -53,13 +54,18 @@ public class ExhibitionServiceImpl implements ExhibitionService {
     }
 
     @Override
-    public <T extends ExhibitionContent> List<T> findContents(String exhibitionCode, Class<T> type) {
+    public <T extends ExhibitionContent> List<T> findContents(String exhibitionCode, Class<T> type, Sort sort) {
         try {
             Exhibition exhibition = findByCode(exhibitionCode);
-            return exhibitionRepository.findContents(exhibition, type);
+            return exhibitionRepository.findContents(exhibition, type, sort);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public <T extends ExhibitionContent> List<T> findContents(String exhibitionCode, Class<T> type) {
+        return findContents(exhibitionCode, type, null);
     }
 
     @Override
