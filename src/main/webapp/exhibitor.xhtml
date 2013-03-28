@@ -3,6 +3,7 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
                 template="/templates/default.xhtml">
     <ui:define name="content">
         <h:form>
@@ -12,12 +13,28 @@
                     <p:commandButton value="添加#{msg.header_exhibitor}" icon="ui-icon-plusthick" action="#{exhibitor.create}" oncomplete="$editDialog.show()" update=":editDialog"/>
                 </f:facet>
 
-                <p:column headerText="公司">
+                <p:column headerText="公司" width="150">
                     <h:outputText value="#{v.company}"/>
                 </p:column>
 
-                <p:column headerText="展位">
+                <p:column headerText="展位" width="60">
                     <h:outputText value="#{v.location}"/>
+                </p:column>
+
+                <p:column headerText="地址" width="125">
+                    <h:outputText value="#{v.address}"/>
+                </p:column>
+
+                <p:column headerText="电话" width="100">
+                    <h:outputText value="#{v.phone}"/>
+                </p:column>
+
+                <p:column headerText="主页" width="150">
+                    <h:outputLink value="#{v.website}">#{v.website}</h:outputLink>
+                </p:column>
+
+                <p:column headerText="简介" width="230">
+                    <h:outputText value="#{fn:length(v.description)>50 ? fn:substring(v.description, 0, 50).concat('...') : v.description}"/>
                 </p:column>
 
                 <p:column>
@@ -44,8 +61,25 @@
                         <p:message for="company"/>
 
                         <h:outputLabel for="location" value="展位"/>
-                        <p:inputText id="location" value="#{exhibitor.item.location}" size="20"/>
+                        <p:inputText id="location" value="#{exhibitor.item.location}" size="40"/>
                         <p:message for="location"/>
+
+                        <h:outputLabel for="address" value="地址"/>
+                        <p:inputText id="address" value="#{exhibitor.item.address}" size="40"/>
+                        <p:message for="address"/>
+
+                        <h:outputLabel for="phone" value="电话"/>
+                        <p:inputText id="phone" value="#{exhibitor.item.phone}" size="40"/>
+                        <p:message for="phone"/>
+
+                        <h:outputLabel for="website" value="主页"/>
+                        <p:inputText id="website" value="#{exhibitor.item.website}" size="40"/>
+                        <p:message for="website"/>
+
+                        <h:outputLabel for="description" value="简介"/>
+                        <p:inputTextarea id="description" value="#{exhibitor.item.description}" maxlength="2000" cols="82" rows="10" autoResize="false"/>
+                        <p:message for="description"/>
+
                         <p:commandButton value="保存" update="panel"
                                          actionListener="#{exhibitor.save}"
                                          oncomplete="closeEditDialog(xhr, status, args)"/>

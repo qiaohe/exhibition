@@ -34,6 +34,8 @@ public class Exhibitor implements Serializable, ExhibitionContent {
     private String website;
     private String category;
     private String location;
+    private String phone;
+    private String description;
 
     public Exhibitor() {
     }
@@ -173,5 +175,21 @@ public class Exhibitor implements Serializable, ExhibitionContent {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
