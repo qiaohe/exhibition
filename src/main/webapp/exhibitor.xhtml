@@ -2,38 +2,40 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
                 template="/templates/default.xhtml">
     <ui:define name="content">
         <h:form>
-            <p:dataTable var="exhibitor" value="#{exhibitorBean.exhibitors}" selectionMode="single" rowKey="#{exhibitor.id}" resizableColumns="true">
+            <p:dataTable var="exhibitor" value="#{exhibitorBean.exhibitors}" selectionMode="single" rowKey="#{exhibitor.id}">
                 <f:facet name="header">
                     #{userBean.exhibitionName}
                     <p:button value="添加#{msg.header_exhibitor}" icon="ui-icon-plusthick" onclick="$addDialog.show();return false;"/>
                 </f:facet>
 
-                <p:column headerText="公司">
+                <p:column headerText="公司" width="150">
                     <h:outputText value="#{exhibitor.company}"/>
                 </p:column>
 
-                <p:column headerText="展位">
+                <p:column headerText="展位" width="60">
                     <h:outputText value="#{exhibitor.location}"/>
                 </p:column>
 
-                <p:column headerText="地址">
+                <p:column headerText="地址" width="125">
                     <h:outputText value="#{exhibitor.address}"/>
                 </p:column>
 
-                <p:column headerText="电话">
+                <p:column headerText="电话" width="100">
                     <h:outputText value="#{exhibitor.phone}"/>
                 </p:column>
 
-                <p:column headerText="主页">
-                    <h:outputText value="#{exhibitor.website}"/>
+                <p:column headerText="主页" width="150">
+                    <h:outputLink value="#{exhibitor.website}">#{exhibitor.website}</h:outputLink>
                 </p:column>
 
-                <p:column headerText="简介">
-                    <h:outputText value="#{exhibitor.description}"/>
+                <p:column headerText="简介" width="230">
+                    <h:outputText value="#{fn:length(exhibitor.description)>50 ? fn:substring(exhibitor.description, 0, 50).concat('...') : exhibitor.description}"/>
                 </p:column>
 
                 <p:column>
