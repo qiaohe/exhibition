@@ -5,6 +5,7 @@ import cn.mobiledaily.service.FileService;
 import cn.mobiledaily.web.common.SpringContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
+import org.springframework.data.domain.Sort;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -15,16 +16,29 @@ import javax.faces.context.FacesContext;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
+import java.text.Collator;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Locale;
 
 @ManagedBean(name = "speaker")
 @ViewScoped
 public class SpeakerBean extends ExhibitionContentBean<Speaker> {
     @ManagedProperty("#{fileService}")
     transient private FileService fileService;
+    private Collator zhCollator = Collator.getInstance(Locale.CHINESE);
+    private Comparator<Speaker> speakerComparator = new Comparator<Speaker>() {
+        @Override
+        public int compare(Speaker o1, Speaker o2) {
+            return zhCollator.compare(o1.getName(), o2.getName());
+        }
+    };
 
     @PostConstruct
     private void init() {
         setContentType(Speaker.class);
+        setSort(new Sort("id"));
     }
 
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
@@ -48,5 +62,12 @@ public class SpeakerBean extends ExhibitionContentBean<Speaker> {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_FATAL, "Internal Error", e.getMessage()));
         }
+    }
+
+    @Override
+    public List<Speaker> getItems() {
+        List<Speaker> list = super.getItems();
+        Collections.sort(list, speakerComparator);
+        return list;
     }
 }

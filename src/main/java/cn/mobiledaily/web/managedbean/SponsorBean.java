@@ -1,6 +1,7 @@
 package cn.mobiledaily.web.managedbean;
 
 import cn.mobiledaily.domain.Sponsor;
+import org.springframework.data.domain.Sort;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
@@ -12,5 +13,6 @@ public class SponsorBean extends ExhibitionContentBean<Sponsor> {
     @PostConstruct
     private void init() {
         setContentType(Sponsor.class);
+        setSort(new Sort("name"));
     }
 }
