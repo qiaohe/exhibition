@@ -6,6 +6,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -35,6 +36,9 @@ public class Exhibitor implements Serializable {
     private String website;
     private String category;
     private String location;
+    private String phone;
+    @Size(max = 2000)
+    private String description;
 
     @PrePersist
     void prePersist() {
@@ -180,5 +184,21 @@ public class Exhibitor implements Serializable {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

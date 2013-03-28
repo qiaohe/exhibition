@@ -46,6 +46,9 @@ public class ExhibitionAssembler {
             exhibitorPOJO.setAddress(exhibitor.getAddress());
             exhibitorPOJO.setWebsite(exhibitor.getWebsite());
             exhibitorPOJO.setCategory(exhibitor.getCategory());
+            exhibitorPOJO.setLocation(exhibitor.getLocation());
+            exhibitorPOJO.setPhone(exhibitor.getPhone());
+            exhibitorPOJO.setDescription(exhibitor.getDescription());
             list.add(exhibitorPOJO);
         }
     }

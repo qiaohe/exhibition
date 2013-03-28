@@ -20,6 +20,22 @@
                     <h:outputText value="#{exhibitor.location}"/>
                 </p:column>
 
+                <p:column headerText="地址">
+                    <h:outputText value="#{exhibitor.address}"/>
+                </p:column>
+
+                <p:column headerText="电话">
+                    <h:outputText value="#{exhibitor.phone}"/>
+                </p:column>
+
+                <p:column headerText="主页">
+                    <h:outputText value="#{exhibitor.website}"/>
+                </p:column>
+
+                <p:column headerText="简介">
+                    <h:outputText value="#{exhibitor.description}"/>
+                </p:column>
+
                 <p:column>
                     <p:commandButton value="编辑" action="#{exhibitorBean.edit(exhibitor.id)}" icon="ui-icon-note" oncomplete="$editDialog.show()" update=":editDialog"/>
                     <p:commandButton value="删除" action="#{exhibitorBean.edit(exhibitor.id)}" icon="ui-icon-closethick" oncomplete="$deleteDialog.show()" update=":deleteDialog"/>
@@ -44,8 +60,24 @@
                         <p:message for="company"/>
 
                         <h:outputLabel for="location" value="展位"/>
-                        <p:inputText id="location" value="#{exhibitorBean.newExhibitor.location}" size="20"/>
+                        <p:inputText id="location" value="#{exhibitorBean.newExhibitor.location}" size="40"/>
                         <p:message for="location"/>
+
+                        <h:outputLabel for="address" value="地址"/>
+                        <p:inputText id="address" value="#{exhibitorBean.newExhibitor.address}" size="40"/>
+                        <p:message for="address"/>
+
+                        <h:outputLabel for="phone" value="电话"/>
+                        <p:inputText id="phone" value="#{exhibitorBean.newExhibitor.phone}" size="40"/>
+                        <p:message for="phone"/>
+
+                        <h:outputLabel for="website" value="主页"/>
+                        <p:inputText id="website" value="#{exhibitorBean.newExhibitor.website}" size="40"/>
+                        <p:message for="website"/>
+
+                        <h:outputLabel for="description" value="简介"/>
+                        <p:inputTextarea id="description" value="#{exhibitorBean.newExhibitor.description}" maxlength="2000" cols="82" rows="10" autoResize="false"/>
+                        <p:message for="description"/>
                         <p:commandButton value="保存" update="panel"
                                          actionListener="#{exhibitorBean.persist}"
                                          oncomplete="closeAddDialog(xhr, status, args)"/>
@@ -66,8 +98,24 @@
                         <p:message for="company"/>
 
                         <h:outputLabel for="location" value="展位"/>
-                        <p:inputText id="location" value="#{exhibitorBean.editExhibitor.location}" size="20"/>
+                        <p:inputText id="location" value="#{exhibitorBean.editExhibitor.location}" size="40"/>
                         <p:message for="location"/>
+
+                        <h:outputLabel for="address" value="地址"/>
+                        <p:inputText id="address" value="#{exhibitorBean.editExhibitor.address}" size="40"/>
+                        <p:message for="address"/>
+
+                        <h:outputLabel for="phone" value="电话"/>
+                        <p:inputText id="phone" value="#{exhibitorBean.editExhibitor.phone}" size="40"/>
+                        <p:message for="phone"/>
+
+                        <h:outputLabel for="website" value="主页"/>
+                        <p:inputText id="website" value="#{exhibitorBean.editExhibitor.website}" size="40"/>
+                        <p:message for="website"/>
+
+                        <h:outputLabel for="description" value="简介"/>
+                        <p:inputTextarea id="description" value="#{exhibitorBean.editExhibitor.description}" maxlength="2000" cols="82" rows="10" autoResize="false"/>
+                        <p:message for="description"/>
                         <p:commandButton value="保存" update="panel"
                                          actionListener="#{exhibitorBean.update}"
                                          oncomplete="closeEditDialog(xhr, status, args)"/>

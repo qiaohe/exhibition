@@ -10,13 +10,13 @@ public class ExhibitorPOJO {
     private String company;
     @JsonIgnore
     private String email;
-    @JsonIgnore
     private String address;
-    @JsonIgnore
     private String website;
     @JsonIgnore
     private String category;
     private String location;
+    private String phone;
+    private String description;
 
     //<editor-fold desc="fields">
     public String getName() {
@@ -81,6 +81,22 @@ public class ExhibitorPOJO {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
     //</editor-fold>
 }
