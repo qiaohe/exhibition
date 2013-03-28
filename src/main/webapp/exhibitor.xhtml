@@ -6,7 +6,7 @@
                 template="/templates/default.xhtml">
     <ui:define name="content">
         <h:form>
-            <p:dataTable var="exhibitor" value="#{exhibitorBean.exhibitors}" selectionMode="single" rowKey="#{exhibitor.id}">
+            <p:dataTable var="exhibitor" value="#{exhibitorBean.exhibitors}" selectionMode="single" rowKey="#{exhibitor.id}" resizableColumns="true">
                 <f:facet name="header">
                     #{userBean.exhibitionName}
                     <p:button value="添加#{msg.header_exhibitor}" icon="ui-icon-plusthick" onclick="$addDialog.show();return false;"/>
