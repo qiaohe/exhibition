@@ -44,7 +44,7 @@ public class Migration {
 //            conn = DriverManager.getConnection("jdbc:mysql://localhost/exhibitionDB?user=root&useUnicode=true&characterEncoding=UTF-8");
             conn = DriverManager.getConnection("jdbc:mysql://180.168.35.37/exhibitionDB?user=root&password=tmsql2012#&useUnicode=true&characterEncoding=UTF-8");
             st = conn.createStatement();
-            context = new ClassPathXmlApplicationContext("/applicationContext.xml");
+            context = new ClassPathXmlApplicationContext("/applicationContext-migration.xml");
             userService = context.getBean(UserService.class);
             mongoOperations = context.getBean(MongoOperations.class);
             exhibitionService = context.getBean(ExhibitionService.class);
