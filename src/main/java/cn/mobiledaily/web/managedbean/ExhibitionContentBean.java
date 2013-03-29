@@ -29,6 +29,10 @@ public abstract class ExhibitionContentBean<T extends ExhibitionContent> impleme
     private boolean edit;
     private Sort sort = new Sort(Sort.Direction.DESC, "createdAt");
 
+    protected ExhibitionContentBean(Class<T> contentType) {
+        this.contentType = contentType;
+    }
+
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
         exhibitionService = SpringContext.getExhibitionService();
@@ -52,10 +56,6 @@ public abstract class ExhibitionContentBean<T extends ExhibitionContent> impleme
 
     protected Class<T> getContentType() {
         return contentType;
-    }
-
-    protected void setContentType(Class<T> contentType) {
-        this.contentType = contentType;
     }
 
     protected boolean isEdit() {

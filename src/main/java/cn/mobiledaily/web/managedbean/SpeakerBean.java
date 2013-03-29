@@ -7,7 +7,6 @@ import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
 import org.springframework.data.domain.Sort;
 
-import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -35,9 +34,8 @@ public class SpeakerBean extends ExhibitionContentBean<Speaker> {
         }
     };
 
-    @PostConstruct
-    private void init() {
-        setContentType(Speaker.class);
+    public SpeakerBean() {
+        super(Speaker.class);
         setSort(new Sort("id"));
     }
 
