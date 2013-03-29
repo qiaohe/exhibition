@@ -4,57 +4,34 @@ import cn.mobiledaily.domain.identity.User;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
 
-@Entity
 public class Exhibition implements Serializable {
-    private static final long serialVersionUID = 1710597666726709381L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Version
-    private int version;
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdAt;
-    @ManyToOne(optional = false)
+    private String id;
+    @DBRef
+    @CreatedBy
     private User createdBy;
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date updatedAt;
-    @ManyToOne(optional = false)
+    @CreatedDate
+    private Date createdAt;
+    @DBRef
+    @LastModifiedBy
     private User updatedBy;
-    @NotNull
-    @Size(min = 3, max = 10)
+    @LastModifiedDate
+    private Date updatedAt;
     private String code;
-    @NotNull
-    @Size(min = 1, max = 20)
     private String name;
-    @Size(max = 1000)
     private String description;
     private String address;
-    @Temporal(TemporalType.TIMESTAMP)
     private Date startDate;
-    @Temporal(TemporalType.TIMESTAMP)
     private Date endDate;
     private String organizer;
-
-    @PrePersist
-    void prePersist() {
-        createdAt = new Date();
-        updatedAt = new Date();
-        if (updatedBy == null) {
-            updatedBy = createdBy;
-        }
-    }
-
-    @PreUpdate
-    void preUpdate() {
-        updatedAt = new Date();
-    }
 
     @Override
     public String toString() {
@@ -72,52 +49,12 @@ public class Exhibition implements Serializable {
     }
 
     //<editor-fold desc="fields">
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
-    }
-
-    public int getVersion() {
-        return version;
-    }
-
-    public void setVersion(int version) {
-        this.version = version;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public User getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(User createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public User getUpdatedBy() {
-        return updatedBy;
-    }
-
-    public void setUpdatedBy(User updatedBy) {
-        this.updatedBy = updatedBy;
     }
 
     public String getCode() {
@@ -174,6 +111,38 @@ public class Exhibition implements Serializable {
 
     public void setOrganizer(String organizer) {
         this.organizer = organizer;
+    }
+
+    public User getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(User createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public User getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(User updatedBy) {
+        this.updatedBy = updatedBy;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
     }
     //</editor-fold>
 }

@@ -3,58 +3,53 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
                 template="/templates/default.xhtml">
     <ui:define name="content">
         <h:form>
-            <p:dataTable var="exhibitor" value="#{exhibitorBean.exhibitors}" selectionMode="single" rowKey="#{exhibitor.id}">
+            <p:dataTable var="v" value="#{exhibitor.items}" selectionMode="single" rowKey="#{v.id}">
                 <f:facet name="header">
                     #{userBean.exhibitionName}
-                    <p:button value="添加#{msg.header_exhibitor}" icon="ui-icon-plusthick" onclick="$addDialog.show();return false;"/>
+                    <p:commandButton value="添加#{msg.header_exhibitor}" icon="ui-icon-plusthick" action="#{exhibitor.create}" oncomplete="$editDialog.show()" update=":editDialog"/>
                 </f:facet>
 
-                <p:column headerText="公司">
-                    <h:outputText value="#{exhibitor.company}"/>
+                <p:column headerText="公司" width="150">
+                    <h:outputText value="#{v.company}"/>
                 </p:column>
 
-                <p:column headerText="展位">
-                    <h:outputText value="#{exhibitor.location}"/>
+                <p:column headerText="展位" width="60">
+                    <h:outputText value="#{v.location}"/>
+                </p:column>
+
+                <p:column headerText="地址" width="125">
+                    <h:outputText value="#{v.address}"/>
+                </p:column>
+
+                <p:column headerText="电话" width="100">
+                    <h:outputText value="#{v.phone}"/>
+                </p:column>
+
+                <p:column headerText="主页" width="150">
+                    <h:outputLink value="#{v.website}">#{v.website}</h:outputLink>
+                </p:column>
+
+                <p:column headerText="简介" width="230">
+                    <h:outputText value="#{fn:length(v.description)>50 ? fn:substring(v.description, 0, 50).concat('...') : v.description}"/>
                 </p:column>
 
                 <p:column>
-                    <p:commandButton value="编辑" action="#{exhibitorBean.edit(exhibitor.id)}" icon="ui-icon-note" oncomplete="$editDialog.show()" update=":editDialog"/>
-                    <p:commandButton value="删除" action="#{exhibitorBean.edit(exhibitor.id)}" icon="ui-icon-closethick" oncomplete="$deleteDialog.show()" update=":deleteDialog"/>
+                    <p:commandButton value="编辑" action="#{exhibitor.edit(v.id)}" icon="ui-icon-note" oncomplete="$editDialog.show()" update=":editDialog"/>
+                    <p:commandButton value="删除" action="#{exhibitor.edit(v.id)}" icon="ui-icon-closethick" oncomplete="$deleteDialog.show()" update=":deleteDialog"/>
                 </p:column>
             </p:dataTable>
         </h:form>
 
         <p:confirmDialog id="deleteDialog" message="是否删除#{msg.header_exhibitor}" widgetVar="$deleteDialog">
             <h:form>
-                <p:commandButton value="确定" actionListener="#{exhibitorBean.remove}" oncomplete="$deleteDialog.hide();location.reload()"/>
+                <p:commandButton value="确定" actionListener="#{exhibitor.delete}" oncomplete="$deleteDialog.hide();location.reload()"/>
                 <p:commandButton value="取消" onclick="$deleteDialog.hide()" type="button"/>
             </h:form>
         </p:confirmDialog>
-
-        <p:dialog id="addDialog" header="添加" widgetVar="$addDialog" modal="true">
-            <h:form>
-                <p:panel id="panel">
-                    <p:messages globalOnly="true" showDetail="true"/>
-                    <h:panelGrid columns="3">
-                        <h:outputLabel for="company" value="公司"/>
-                        <p:inputText id="company" value="#{exhibitorBean.newExhibitor.company}" size="40"/>
-                        <p:message for="company"/>
-
-                        <h:outputLabel for="location" value="展位"/>
-                        <p:inputText id="location" value="#{exhibitorBean.newExhibitor.location}" size="20"/>
-                        <p:message for="location"/>
-                        <p:commandButton value="保存" update="panel"
-                                         actionListener="#{exhibitorBean.persist}"
-                                         oncomplete="closeAddDialog(xhr, status, args)"/>
-                        <p:commandButton value="取消" type="button" onclick="$addDialog.hide()"/>
-                    </h:panelGrid>
-
-                </p:panel>
-            </h:form>
-        </p:dialog>
 
         <p:dialog id="editDialog" header="编辑" widgetVar="$editDialog" modal="true">
             <h:form>
@@ -62,14 +57,31 @@
                     <p:messages globalOnly="true" showDetail="true"/>
                     <h:panelGrid columns="3">
                         <h:outputLabel for="company" value="公司"/>
-                        <p:inputText id="company" value="#{exhibitorBean.editExhibitor.company}" size="40"/>
+                        <p:inputText id="company" value="#{exhibitor.item.company}" size="40"/>
                         <p:message for="company"/>
 
                         <h:outputLabel for="location" value="展位"/>
-                        <p:inputText id="location" value="#{exhibitorBean.editExhibitor.location}" size="20"/>
+                        <p:inputText id="location" value="#{exhibitor.item.location}" size="40"/>
                         <p:message for="location"/>
+
+                        <h:outputLabel for="address" value="地址"/>
+                        <p:inputText id="address" value="#{exhibitor.item.address}" size="40"/>
+                        <p:message for="address"/>
+
+                        <h:outputLabel for="phone" value="电话"/>
+                        <p:inputText id="phone" value="#{exhibitor.item.phone}" size="40"/>
+                        <p:message for="phone"/>
+
+                        <h:outputLabel for="website" value="主页"/>
+                        <p:inputText id="website" value="#{exhibitor.item.website}" size="40"/>
+                        <p:message for="website"/>
+
+                        <h:outputLabel for="description" value="简介"/>
+                        <p:inputTextarea id="description" value="#{exhibitor.item.description}" maxlength="2000" cols="82" rows="10" autoResize="false"/>
+                        <p:message for="description"/>
+
                         <p:commandButton value="保存" update="panel"
-                                         actionListener="#{exhibitorBean.update}"
+                                         actionListener="#{exhibitor.save}"
                                          oncomplete="closeEditDialog(xhr, status, args)"/>
                         <p:commandButton value="取消" type="button" onclick="$editDialog.hide()"/>
                     </h:panelGrid>
@@ -78,14 +90,6 @@
             </h:form>
         </p:dialog>
         <script type="text/javascript">
-            function closeAddDialog(xhr, status, args) {
-                if (args.validationFailed) {
-                    jQuery('#addDialog').effect('shake', {times: 1}, 100);
-                } else {
-                    $addDialog.hide();
-                    location.reload();
-                }
-            }
             function closeEditDialog(xhr, status, args) {
                 if (args.validationFailed || args.error) {
                     jQuery('#editDialog').effect('shake', {times: 1}, 100);

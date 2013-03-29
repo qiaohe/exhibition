@@ -1,6 +1,6 @@
 package cn.mobiledaily.web.controller;
 
-import cn.mobiledaily.domain.Exhibition;
+import cn.mobiledaily.domain.*;
 import cn.mobiledaily.service.ExhibitionService;
 import cn.mobiledaily.web.assembler.ExhibitionAssembler;
 import cn.mobiledaily.web.pojo.ExhibitionPOJO;
@@ -23,10 +23,10 @@ public class ExhibitionController {
     public ExhibitionPOJO getByCode(@PathVariable String code) {
         Exhibition exhibition = exhibitionService.findByCode(code);
         ExhibitionPOJO exhibitionPOJO = exhibitionAssembler.toPOJO(exhibition);
-        exhibitionAssembler.combineEventSchedules(exhibitionPOJO, exhibitionService.findEventScheduleByCode(code));
-        exhibitionAssembler.combineExhibitors(exhibitionPOJO, exhibitionService.findExhibitorByCode(code));
-        exhibitionAssembler.combineSpeakers(exhibitionPOJO, exhibitionService.findSpeakerByCode(code));
-        exhibitionAssembler.combineSponsors(exhibitionPOJO, exhibitionService.findSponsorByCode(code));
+        exhibitionAssembler.combineEventSchedules(exhibitionPOJO, exhibitionService.findContents(code, EventSchedule.class));
+        exhibitionAssembler.combineExhibitors(exhibitionPOJO, exhibitionService.findContents(code, Exhibitor.class));
+        exhibitionAssembler.combineSpeakers(exhibitionPOJO, exhibitionService.findContents(code, Speaker.class));
+        exhibitionAssembler.combineSponsors(exhibitionPOJO, exhibitionService.findContents(code, Sponsor.class));
         return exhibitionPOJO;
     }
 }

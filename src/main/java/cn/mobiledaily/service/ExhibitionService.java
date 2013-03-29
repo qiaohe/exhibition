@@ -1,49 +1,29 @@
 package cn.mobiledaily.service;
 
-import cn.mobiledaily.domain.*;
+import cn.mobiledaily.domain.Exhibition;
+import cn.mobiledaily.domain.mobile.ExhibitionContent;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 
 public interface ExhibitionService {
     void save(Exhibition exhibition);
 
-    void save(Exhibitor exhibitor);
-
-    void save(EventSchedule eventSchedule);
-
-    void save(Sponsor sponsor);
-
-    void save(Speaker speaker);
+    void save(ExhibitionContent content);
 
     List<Exhibition> findAll();
 
     Exhibition findByCode(String code);
 
-    Exhibition findById(Long id);
-
-    EventSchedule findEventScheduleById(long id);
-
-    Exhibitor findExhibitorById(long id);
-
-    Speaker findSpeakerById(long id);
-
-    Sponsor findSponsorById(long id);
-
-    List<EventSchedule> findEventScheduleByCode(String code);
-
-    List<Exhibitor> findExhibitorByCode(String code);
-
-    List<Speaker> findSpeakerByCode(String code);
-
-    List<Sponsor> findSponsorByCode(String code);
+    Exhibition findById(String id);
 
     void delete(Exhibition exhibition);
 
-    void delete(Exhibitor exhibitor);
+    <T extends ExhibitionContent> List<T> findContents(String exhibitionCode, Class<T> type);
 
-    void delete(EventSchedule eventSchedule);
+    <T extends ExhibitionContent> List<T> findContents(String exhibitionCode, Class<T> type, Sort sort);
 
-    void delete(Sponsor sponsor);
+    <T extends ExhibitionContent> T findContentById(String exhibitionCode, String id, Class<T> type);
 
-    void delete(Speaker speaker);
+    <T extends ExhibitionContent> void delete(ExhibitionContent content);
 }

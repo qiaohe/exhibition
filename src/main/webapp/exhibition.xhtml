@@ -23,88 +23,60 @@
 
     <ui:define name="content">
         <h:form>
-            <p:dataTable var="exhibition" value="#{exhibitionBean.exhibitions}" selectionMode="single" rowKey="#{exhibition.id}">
+            <p:dataTable var="v" value="#{exhibition.items}" selectionMode="single" rowKey="#{v.id}">
                 <f:facet name="header">
-                    <p:commandButton value="添加展会" icon="ui-icon-plusthick" onclick="$addDialog.show()" type="button"/>
+                    <p:commandButton value="添加展会" icon="ui-icon-plusthick" action="#{exhibition.create}" oncomplete="$editDialog.show()" update=":editDialog"/>
                 </f:facet>
                 <p:column headerText="代码">
-                    <h:outputText value="#{exhibition.code}"/>
+                    <h:outputText value="#{v.code}"/>
                 </p:column>
 
                 <p:column headerText="名称">
-                    <h:outputText value="#{exhibition.name}"/>
+                    <h:outputText value="#{v.name}"/>
                 </p:column>
 
                 <p:column headerText="简介">
-                    <h:outputText value="#{fn:length(exhibition.description) > 50 ? fn:substring(exhibition.description, 0, 47).concat('...') : exhibition.description}"/>
+                    <h:outputText value="#{fn:length(v.description) > 50 ? fn:substring(v.description, 0, 47).concat('...') : v.description}"/>
                 </p:column>
 
                 <p:column>
                     <p:commandButton action="eventSchedule.xhtml?faces-redirect=true" actionListener="#{userBean.changeExhibitionCode}"
                                      value="内容管理" icon="ui-icon-calculator">
-                        <f:attribute name="code" value="#{exhibition.code}"/>
-                        <f:attribute name="name" value="#{exhibition.name}"/>
+                        <f:attribute name="code" value="#{v.code}"/>
+                        <f:attribute name="name" value="#{v.name}"/>
                     </p:commandButton>
-                    <p:commandButton action="#{exhibitionBean.edit(exhibition.id)}" value="编辑" icon="ui-icon-note" oncomplete="$editDialog.show()" update=":editDialog"/>
-                    <p:commandButton action="#{exhibitionBean.edit(exhibition.id)}" value="删除" icon="ui-icon-closethick" oncomplete="$deleteDialog.show()" update=":deleteDialog"/>
+                    <p:commandButton action="#{exhibition.edit(v.id)}" value="编辑" icon="ui-icon-note" oncomplete="$editDialog.show()" update=":editDialog"/>
+                    <p:commandButton action="#{exhibition.edit(v.id)}" value="删除" icon="ui-icon-closethick" oncomplete="$deleteDialog.show()" update=":deleteDialog"/>
                 </p:column>
             </p:dataTable>
         </h:form>
 
         <p:confirmDialog id="deleteDialog" message="是否删除展会" widgetVar="$deleteDialog">
             <h:form>
-                <p:commandButton value="确定" actionListener="#{exhibitionBean.remove}" oncomplete="$deleteDialog.hide();location.reload()"/>
+                <p:commandButton value="确定" actionListener="#{exhibition.remove}" oncomplete="$deleteDialog.hide();location.reload()"/>
                 <p:commandButton value="取消" onclick="$deleteDialog.hide()" type="button"/>
             </h:form>
         </p:confirmDialog>
 
-        <p:dialog id="addDialog" header="添加" widgetVar="$addDialog" modal="true">
+        <p:dialog id="editDialog" widgetVar="$editDialog" modal="true">
             <h:form>
                 <p:panel id="panel">
                     <p:messages globalOnly="true" showDetail="true"/>
                     <h:panelGrid columns="3">
                         <h:outputLabel for="code" value="代码"/>
-                        <p:inputText id="code" value="#{exhibitionBean.newExhibition.code}" size="20" maxlength="10"/>
+                        <p:inputText id="code" value="#{exhibition.item.code}" size="20" maxlength="10" required="true"/>
                         <p:message for="code"/>
 
                         <h:outputLabel for="name" value="名称"/>
-                        <p:inputText id="name" value="#{exhibitionBean.newExhibition.name}" size="40" maxlength="20"/>
+                        <p:inputText id="name" value="#{exhibition.item.name}" size="40" maxlength="20"/>
                         <p:message for="name"/>
 
                         <h:outputLabel for="description" value="简介"/>
-                        <p:inputTextarea id="description" value="#{exhibitionBean.newExhibition.description}" maxlength="1000" cols="42" rows="10" autoResize="false"/>
-                        <p:message for="description"/>
-
-                        <f:facet name="footer">
-                            <p:commandButton value="保存" update="panel"
-                                             actionListener="#{exhibitionBean.persist}"
-                                             oncomplete="closeAddDialog(xhr, status, args)"/>
-                            <p:commandButton value="取消" type="button" onclick="$addDialog.hide()"/>
-                        </f:facet>
-                    </h:panelGrid>
-                </p:panel>
-            </h:form>
-        </p:dialog>
-        <p:dialog id="editDialog" header="编辑" widgetVar="$editDialog" modal="true">
-            <h:form>
-                <p:panel id="panel">
-                    <h:inputHidden value="#{exhibitionBean.editExhibition.id}"/>
-                    <p:messages globalOnly="true" showDetail="true"/>
-                    <h:panelGrid columns="3">
-                        <h:outputLabel for="code" value="代码"/>
-                        <p:inputText id="code" value="#{exhibitionBean.editExhibition.code}" size="20" maxlength="10"/>
-                        <p:message for="code"/>
-
-                        <h:outputLabel for="name" value="名称"/>
-                        <p:inputText id="name" value="#{exhibitionBean.editExhibition.name}" size="40" maxlength="20"/>
-                        <p:message for="name"/>
-
-                        <h:outputLabel for="description" value="简介"/>
-                        <p:inputTextarea id="description" value="#{exhibitionBean.editExhibition.description}" maxlength="1000" cols="42" rows="10" autoResize="false"/>
+                        <p:inputTextarea id="description" value="#{exhibition.item.description}" maxlength="1000" cols="42" rows="10" autoResize="false"/>
                         <p:message for="description"/>
 
                         <p:commandButton value="保存" update="panel"
-                                         actionListener="#{exhibitionBean.update}"
+                                         actionListener="#{exhibition.save}"
                                          oncomplete="closeEditDialog(xhr, status, args)"/>
                         <p:commandButton value="取消" type="button" onclick="$editDialog.hide()"/>
                     </h:panelGrid>
@@ -112,14 +84,6 @@
             </h:form>
         </p:dialog>
         <script type="text/javascript">
-            function closeAddDialog(xhr, status, args) {
-                if (args.validationFailed || args.error) {
-                    jQuery('addDialog').effect('shake', {times: 1}, 100);
-                } else {
-                    $addDialog.hide();
-                    location.reload();
-                }
-            }
             function closeEditDialog(xhr, status, args) {
                 if (args.validationFailed || args.error) {
                     jQuery('editDialog').effect('shake', {times: 1}, 100);

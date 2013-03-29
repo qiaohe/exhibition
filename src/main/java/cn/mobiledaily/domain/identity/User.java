@@ -7,32 +7,18 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-@Entity
-@Table
 public class User implements Serializable, UserDetails {
     private static final long serialVersionUID = 5287506518470722535L;
     private static final char ROLE_AUTHORITY_SEPARATOR = ',';
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Version
+    private String id;
     private int version;
-    @Column(unique = true, nullable = false)
-    @Size(min = 3, max = 50)
     private String email;
-    @NotNull
-    @Size(max = 100)
     private String password;
-    @NotNull
-    @Size(min = 1, max = 10)
     private String username;
     private String authority;
 
@@ -52,11 +38,11 @@ public class User implements Serializable, UserDetails {
     }
 
     //<editor-fold desc="fields">
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
