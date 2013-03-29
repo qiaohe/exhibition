@@ -28,8 +28,11 @@ public class AttendeeServiceImpl implements AttendeeService {
         Exhibition exhibition = exhibitionRepository.findByCode(exhibitionCode);
         if (exhibition == null)
             throw new EntityNotFoundException(String.format(EXHIBITION_ERROR_FORMAT, exhibitionCode));
-        Attendee attendee = new Attendee(serviceToken, exhibition, mobilePlatform);
-        exhibitionRepository.save(attendee);
+        List<Attendee> attendees = exhibitionRepository.findAttendeesByServiceToken(exhibition, serviceToken);
+        if (attendees.isEmpty()) {
+            Attendee attendee = new Attendee(serviceToken, exhibition, mobilePlatform);
+            exhibitionRepository.save(attendee);
+        }
     }
 
     @Override
