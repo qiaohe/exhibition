@@ -33,7 +33,7 @@ function createCheckInMap(mapPane){
                 return function() {
                     marker.setAnimation(null);
                 }
-            })(marker), 3000);
+            })(marker), 30000);
         },
         $createMarker: function(checkIn) {
             var marker = new BMap.Marker(new BMap.Point(checkIn.lng, checkIn.lat));

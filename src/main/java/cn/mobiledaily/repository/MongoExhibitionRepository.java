@@ -97,8 +97,12 @@ public class MongoExhibitionRepository implements ExhibitionRepository {
 
     @Override
     public List<Attendee> findAttendeesByServiceToken(Exhibition exhibition, String token) {
-        return  mongoOperations.find(Query.query(Criteria.where("serviceToken").is(token)),
+        List<Attendee> list = mongoOperations.find(Query.query(Criteria.where("serviceToken").is(token)),
                 Attendee.class,
                 exhibition.getCode() + new Attendee().getCollectionSuffix());
+        for (Attendee attendee : list) {
+            attendee.setExhibition(exhibition);
+        }
+        return list;
     }
 }
