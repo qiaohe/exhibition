@@ -7,8 +7,6 @@ import cn.mobiledaily.service.AttendeeService;
 import cn.mobiledaily.service.ExhibitionService;
 import cn.mobiledaily.web.assembler.CheckInAssembler;
 import cn.mobiledaily.web.common.DownstreamPusher;
-import org.hibernate.validator.constraints.NotEmpty;
-import org.hibernate.validator.constraints.Range;
 import org.primefaces.push.PushContext;
 import org.primefaces.push.PushContextFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +15,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -41,7 +38,7 @@ public class AttendeeController {
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
     @ResponseStatus(value = HttpStatus.CREATED)
-    public void register(@RequestBody @Valid AttendeeRegisterRequest arg) {
+    public void register(@RequestBody AttendeeRegisterRequest arg) {
         attendeeService.register(arg.getServiceToken(), arg.getExhibitionCode(), arg.getMobilePlatform());
         Exhibition exhibition = exhibitionService.findByCode(arg.getExhibitionCode());
         DownstreamPusher.push(exhibition.getName());
@@ -57,9 +54,7 @@ public class AttendeeController {
     }
 
     public static final class AttendeeRegisterRequest {
-        @NotEmpty
         private String serviceToken;
-        @Range
         private String exhibitionCode;
 
         private MobilePlatform mobilePlatform;

@@ -1,32 +1,30 @@
 package cn.mobiledaily.domain;
 
 import cn.mobiledaily.domain.identity.User;
+import cn.mobiledaily.domain.mobile.ExhibitionContent;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.springframework.data.annotation.*;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 
-import javax.persistence.*;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
 
-@Entity
-public class Exhibitor implements Serializable {
-    private static final long serialVersionUID = 1024772810990904656L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Version
-    private int version;
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdAt;
-    @ManyToOne
+public class Exhibitor implements Serializable, ExhibitionContent {
+    private static final String COLLECTION_SUFFIX = ".exhibitor";
+    private String id;
+    @DBRef
+    @CreatedBy
     private User createdBy;
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date updatedAt;
-    @ManyToOne
+    @CreatedDate
+    private Date createdAt;
+    @DBRef
+    @LastModifiedBy
     private User updatedBy;
-    @ManyToOne
+    @LastModifiedDate
+    private Date updatedAt;
+    @Transient
     private Exhibition exhibition;
     private String name;
     private String stand;
@@ -37,18 +35,18 @@ public class Exhibitor implements Serializable {
     private String category;
     private String location;
     private String phone;
-    @Size(max = 2000)
     private String description;
 
-    @PrePersist
-    void prePersist() {
-        createdAt = new Date();
-        updatedAt = new Date();
+    public Exhibitor() {
     }
 
-    @PreUpdate
-    void preUpdate() {
-        updatedAt = new Date();
+    public Exhibitor(Exhibition exhibition) {
+        this.exhibition = exhibition;
+    }
+
+    @Override
+    public String getCollectionSuffix() {
+        return COLLECTION_SUFFIX;
     }
 
     @Override
@@ -66,20 +64,12 @@ public class Exhibitor implements Serializable {
         return HashCodeBuilder.reflectionHashCode(this);
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
-    }
-
-    public int getVersion() {
-        return version;
-    }
-
-    public void setVersion(int version) {
-        this.version = version;
     }
 
     public Date getCreatedAt() {
@@ -114,6 +104,7 @@ public class Exhibitor implements Serializable {
         this.updatedBy = updatedBy;
     }
 
+    @Override
     public Exhibition getExhibition() {
         return exhibition;
     }

@@ -2,34 +2,24 @@ package cn.mobiledaily.domain.mobile;
 
 import cn.mobiledaily.domain.Exhibition;
 import cn.mobiledaily.domain.mobile.pushnotification.MobilePlatform;
+import org.springframework.data.annotation.Transient;
 
-import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@Entity
-public class Attendee implements Serializable {
-    private static final long serialVersionUID = 4018851031616246794L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Version
-    private int version;
-    @Temporal(TemporalType.TIMESTAMP)
+public class Attendee implements Serializable, ExhibitionContent {
+    private static final String COLLECTION_SUFFIX = ".attendee";
+    private String id;
     private Date registerDate;
     private String serviceToken;
-    @Enumerated(EnumType.STRING)
     private MobilePlatform mobilePlatform;
-    @ManyToOne
+    @Transient
     private Exhibition exhibition;
-    @OneToMany(mappedBy = "attendee", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CheckInEntry> checkInHistories = new ArrayList<>();
-    @Embedded
     private Location location;
     private int distance;
-    @Temporal(TemporalType.TIMESTAMP)
     private Date checkInAt;
 
     public Attendee() {
@@ -47,6 +37,11 @@ public class Attendee implements Serializable {
         this.mobilePlatform = mobilePlatform;
     }
 
+    @Override
+    public String getCollectionSuffix() {
+        return COLLECTION_SUFFIX;
+    }
+
     public void addCheckInHistory(CheckInEntry entry) {
         if (!checkInHistories.contains(entry)) {
             checkInHistories.add(entry);
@@ -60,20 +55,12 @@ public class Attendee implements Serializable {
     }
 
     //<editor-fold desc="fields">
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
-    }
-
-    public int getVersion() {
-        return version;
-    }
-
-    public void setVersion(int version) {
-        this.version = version;
     }
 
     public Date getRegisterDate() {

@@ -3,8 +3,10 @@ package cn.mobiledaily.service;
 import cn.mobiledaily.domain.identity.Role;
 import cn.mobiledaily.domain.identity.User;
 import cn.mobiledaily.exception.UsernameExistsException;
-import cn.mobiledaily.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,38 +17,37 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class UserServiceImpl implements UserService {
     @Autowired
-    private UserRepository userRepository;
-
+    private MongoOperations mongoOperations;
     @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Override
     public List<User> getUsers() {
-        return userRepository.findAll();
+        return mongoOperations.findAll(User.class);
     }
 
     @Override
     public User findByUsername(String username) {
-        return userRepository.findByUsername(username);
+        return mongoOperations.findOne(Query.query(Criteria.where("username").is(username)), User.class);
     }
 
     @Transactional
     @Override
     public void register(String username, String password, String email) throws UsernameExistsException {
-        if (userRepository.findByUsername(username) != null) {
+        if (findByUsername(username) != null) {
             throw new UsernameExistsException(username);
         }
         User user = new User(username, passwordEncoder.encode(password), email, Role.USER.getAuthority());
-        userRepository.save(user);
+        mongoOperations.save(user);
     }
 
     @Transactional
     @Override
     public boolean changePassword(String username, String oldPassword, String newPassword) {
-        User user = userRepository.findByUsername(username);
+        User user = findByUsername(username);
         if (user != null && passwordEncoder.matches(oldPassword, user.getPassword())) {
             user.setPassword(passwordEncoder.encode(newPassword));
-            userRepository.save(user);
+            mongoOperations.save(user);
             return true;
         }
         return false;
@@ -55,24 +56,24 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public void changeUsername(String username, String newUsername) throws UsernameExistsException {
-        User user = userRepository.findByUsername(username);
+        User user = findByUsername(username);
         if (user != null) {
-            User check = userRepository.findByUsername(newUsername);
+            User check = findByUsername(newUsername);
             if (check != null && check != user) {
                 throw new UsernameExistsException(newUsername);
             }
             user.setUsername(newUsername);
-            userRepository.save(user);
+            mongoOperations.save(user);
         }
     }
 
     @Transactional
     @Override
     public User changeEmail(String username, String newEmail) {
-        User user = userRepository.findByUsername(username);
+        User user = findByUsername(username);
         if (user != null) {
             user.setEmail(newEmail);
-            userRepository.save(user);
+            mongoOperations.save(user);
         }
         return user;
     }
@@ -80,10 +81,10 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public User changeAuthority(String username, String authority) {
-        User user = userRepository.findByUsername(username);
+        User user = findByUsername(username);
         if (user != null) {
             user.setAuthority(authority);
-            userRepository.save(user);
+            mongoOperations.save(user);
         }
         return user;
     }

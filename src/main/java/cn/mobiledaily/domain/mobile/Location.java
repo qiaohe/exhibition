@@ -4,16 +4,11 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
 import java.io.Serializable;
 
-@Embeddable
 public final class Location implements Serializable {
     private static final long serialVersionUID = 4736828905659788836L;
-    @Column(name = "longitude")
     private double longitude;
-    @Column(name = "latitude")
     private double latitude;
     private String address;
 

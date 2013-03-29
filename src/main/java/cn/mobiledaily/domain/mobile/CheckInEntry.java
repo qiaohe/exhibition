@@ -1,23 +1,15 @@
 package cn.mobiledaily.domain.mobile;
 
-import javax.persistence.*;
+import org.springframework.data.annotation.Transient;
+
 import java.io.Serializable;
 import java.util.Date;
 
-@Entity
 public class CheckInEntry implements Serializable {
-    private static final long serialVersionUID = 3891325785188793952L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Version
-    private int version;
-
-    @ManyToOne
+    private String id;
+    @Transient
     private Attendee attendee;
-    @Embedded
     private Location location;
-    @Temporal(TemporalType.TIMESTAMP)
     private Date date;
 
     public CheckInEntry() {
@@ -34,11 +26,11 @@ public class CheckInEntry implements Serializable {
     }
 
     //<editor-fold desc="fields">
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -64,14 +56,6 @@ public class CheckInEntry implements Serializable {
 
     public void setDate(Date date) {
         this.date = date;
-    }
-
-    public int getVersion() {
-        return version;
-    }
-
-    public void setVersion(int version) {
-        this.version = version;
     }
     //</editor-fold>
 }

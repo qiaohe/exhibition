@@ -1,36 +1,23 @@
 package cn.mobiledaily.domain;
 
+import cn.mobiledaily.domain.mobile.ExhibitionContent;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 
-import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Johnson
- * Date: 3/14/13
- * Time: 1:39 PM
- * To change this template use File | Settings | File Templates.
- */
-@Entity
-public class PushMessage implements Serializable {
-    private static final long serialVersionUID = 6756504156322794898L;
+public class PushMessage implements ExhibitionContent {
+    public static final String COLLECTION_SUFFIX = ".push_message";
     public static final char RECIPIENT_SEPARATOR = ',';
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @ManyToOne
+    private String id;
+    @DBRef
     private Exhibition exhibition;
     private String title;
     private String body;
     private String recipients;
-    @Temporal(TemporalType.TIMESTAMP)
     private Date deliverDate = new Date();
-    @Version
-    private int version;
     public PushMessage() {}
 
     public PushMessage(String title, String body, String recipients) {
@@ -40,11 +27,16 @@ public class PushMessage implements Serializable {
         this.recipients = recipients;
     }
 
-    public Long getId() {
+    @Override
+    public String getCollectionSuffix() {
+        return COLLECTION_SUFFIX;
+    }
+
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -91,13 +83,4 @@ public class PushMessage implements Serializable {
     public void setDeliverDate(Date deliverDate) {
         this.deliverDate = deliverDate;
     }
-
-    public int getVersion() {
-        return version;
-    }
-
-    public void setVersion(int version) {
-        this.version = version;
-    }
-
 }
