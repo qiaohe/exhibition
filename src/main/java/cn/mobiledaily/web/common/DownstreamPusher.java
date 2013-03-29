@@ -15,16 +15,21 @@ import java.util.Date;
  * To change this template use File | Settings | File Templates.
  */
 public final class DownstreamPusher {
-    private static final String DEFAULT_CHANEL = "/notifications";
+    public static final String DEFAULT_CHANNEL = "/notifications";
+    public static final String CHECK_IN_CHANNEL = "/check-in";
     private static final String MESSAGE_TEMPLATE_REGISTRATION = "新手机用户登陆成功<br>{0,date,yyyy年MM月dd HH:mm:ss}";
 
     public static void push(final String title, final String message) {
-        push(DEFAULT_CHANEL, title, message);
+        push(DEFAULT_CHANNEL, title, message);
+    }
+
+    public static <T> void push(final String channel, final T message) {
+        PushContext pushContext = PushContextFactory.getDefault().getPushContext();
+        pushContext.push(channel, message);
     }
 
     public static void push(final String channel, final String title, final String message) {
-        PushContext pushContext = PushContextFactory.getDefault().getPushContext();
-        pushContext.push(channel, new FacesMessage(title, message));
+        push(channel, new FacesMessage(title, message));
     }
 
     public static void push(final String title) {

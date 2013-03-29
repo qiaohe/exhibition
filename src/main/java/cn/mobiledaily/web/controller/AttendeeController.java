@@ -7,10 +7,6 @@ import cn.mobiledaily.service.AttendeeService;
 import cn.mobiledaily.service.ExhibitionService;
 import cn.mobiledaily.web.assembler.CheckInAssembler;
 import cn.mobiledaily.web.common.DownstreamPusher;
-import org.hibernate.validator.constraints.NotEmpty;
-import org.hibernate.validator.constraints.Range;
-import org.primefaces.push.PushContext;
-import org.primefaces.push.PushContextFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -52,14 +48,11 @@ public class AttendeeController {
     public void checkIn(String serviceToken, String exhibitionCode,
                         double latitude, double longitude, String address) {
         Attendee attendee = attendeeService.checkIn(serviceToken, exhibitionCode, latitude, longitude, address);
-        PushContext pushContext = PushContextFactory.getDefault().getPushContext();
-        pushContext.push("/check-in", checkInAssembler.toCheckIn(attendee));
+        DownstreamPusher.push(DownstreamPusher.CHECK_IN_CHANNEL, checkInAssembler.toCheckIn(attendee));
     }
 
     public static final class AttendeeRegisterRequest {
-        @NotEmpty
         private String serviceToken;
-        @Range
         private String exhibitionCode;
 
         private MobilePlatform mobilePlatform;

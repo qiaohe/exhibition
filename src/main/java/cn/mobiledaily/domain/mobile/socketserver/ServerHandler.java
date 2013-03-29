@@ -18,7 +18,6 @@ public class ServerHandler extends SimpleChannelHandler {
         return StringUtils.isNotEmpty(message.toString()) &&
                 StringUtils.contains(message.toString(), "macAddress") &&
                 StringUtils.contains(message.toString(), "appCode");
-
     }
 
     public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
@@ -26,6 +25,7 @@ public class ServerHandler extends SimpleChannelHandler {
             ObjectMapper mapper = new ObjectMapper();
             StartupMessage message = mapper.readValue(StringUtil.stripControlCharacters(e.getMessage()), StartupMessage.class);
             ChannelManager.getInstance().bind(ctx.getChannel(), message.getServiceToken());
+            ctx.getChannel().write(message.getServiceToken());
         }
     }
 
