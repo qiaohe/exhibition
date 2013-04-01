@@ -9,8 +9,15 @@ import javax.faces.bean.ViewScoped;
 @ManagedBean(name = "sponsor")
 @ViewScoped
 public class SponsorBean extends ExhibitionContentBean<Sponsor> {
-    public SponsorBean() {
-        super(Sponsor.class);
-        setSort(new Sort("name"));
+    private Sort sort = new Sort("name");
+
+    @Override
+    protected Class<Sponsor> getContentType() {
+        return Sponsor.class;
+    }
+
+    @Override
+    protected Sort getSort() {
+        return sort;
     }
 }

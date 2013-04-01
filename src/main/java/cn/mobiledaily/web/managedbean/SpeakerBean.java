@@ -5,7 +5,6 @@ import cn.mobiledaily.service.FileService;
 import cn.mobiledaily.web.common.SpringContext;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
-import org.springframework.data.domain.Sort;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -34,14 +33,14 @@ public class SpeakerBean extends ExhibitionContentBean<Speaker> {
         }
     };
 
-    public SpeakerBean() {
-        super(Speaker.class);
-        setSort(new Sort("id"));
-    }
-
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
         fileService = SpringContext.getFileService();
+    }
+
+    @Override
+    protected Class<Speaker> getContentType() {
+        return Speaker.class;
     }
 
     public void setFileService(FileService fileService) {
