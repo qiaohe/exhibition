@@ -64,7 +64,7 @@ public abstract class ExhibitionContentBean<T extends ExhibitionContent> impleme
     }
 
     public List<T> getItems() {
-        return exhibitionService.findContents(userBean.getExhibitionCode(), getContentType(), sort);
+        return exhibitionService.findContents(userBean.getExhibitionCode(), getContentType(), getSort());
     }
 
     public T getItem() {

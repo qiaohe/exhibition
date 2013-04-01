@@ -48,6 +48,7 @@ public class AttendeeController {
                         double latitude, double longitude, String address) {
         Attendee attendee = attendeeService.checkIn(serviceToken, exhibitionCode, latitude, longitude, address);
         DownstreamPusher.push(DownstreamPusher.CHECK_IN_CHANNEL, checkInAssembler.toCheckIn(attendee));
+        DownstreamPusher.pushCheckInMessage(attendee.getLocation().getAddress());
     }
 
     public static final class AttendeeRegisterRequest {

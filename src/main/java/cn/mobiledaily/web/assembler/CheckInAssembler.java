@@ -16,11 +16,13 @@ public class CheckInAssembler {
         List<CheckIn> list = new ArrayList<>(attendees.size());
         DateFormat dateFormat = new SimpleDateFormat("yyyy-M-d H:mm");
         for (Attendee attendee : attendees) {
-            list.add(new CheckIn(String.valueOf(attendee.getId()),
-                    attendee.getLocation().getLatitude(),
-                    attendee.getLocation().getLongitude(),
-                    attendee.getLocation().getAddress(),
-                    dateFormat.format(attendee.getCheckInAt())));
+            if (attendee.getLocation() != null) {
+                list.add(new CheckIn(String.valueOf(attendee.getId()),
+                        attendee.getLocation().getLatitude(),
+                        attendee.getLocation().getLongitude(),
+                        attendee.getLocation().getAddress(),
+                        dateFormat.format(attendee.getCheckInAt())));
+            }
         }
         return list;
     }

@@ -24,7 +24,7 @@
         </ui:insert>
         <ui:debug/>
     </div>
-    <p:growl widgetVar="growlVar" showDetail="true" sticky="true" showSummary="true"/>
+    <p:growl widgetVar="growlVar" showDetail="true"/>
     <p:socket onMessage="popupPushMessage" channel="/notifications"/>
     <script type="text/javascript">
         function popupPushMessage(facesmessage) {
