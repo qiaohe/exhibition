@@ -17,7 +17,7 @@
                     <h:outputText value="#{v.name}"/>
                 </p:column>
 
-                <p:column headerText="照片" resizable="false">
+                <p:column headerText="照片" width="150">
                     <p:graphicImage value="/upload/image/#{v.photo}" rendered="#{not empty v.photo}"/>
                 </p:column>
 
@@ -29,7 +29,7 @@
                     <h:outputText value="#{v.company}"/>
                 </p:column>
 
-                <p:column headerText="简介" width="300">
+                <p:column headerText="简介" width="500">
                     <h:outputText value="#{v.profile}"/>
                 </p:column>
 

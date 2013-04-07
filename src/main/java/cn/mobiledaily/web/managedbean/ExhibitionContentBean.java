@@ -16,11 +16,10 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * Base class for exhibition content beans. {@link #setContentType(Class)} must be called after construct.
+ * Base class for exhibition content beans.
  * @param <T> ExhibitionContent
  */
 public abstract class ExhibitionContentBean<T extends ExhibitionContent> implements Serializable {
-    private Class<T> contentType;
     @ManagedProperty("#{exhibitionService}")
     transient private ExhibitionService exhibitionService;
     @ManagedProperty("#{userBean}")
@@ -50,13 +49,7 @@ public abstract class ExhibitionContentBean<T extends ExhibitionContent> impleme
         this.userBean = userBean;
     }
 
-    protected Class<T> getContentType() {
-        return contentType;
-    }
-
-    protected void setContentType(Class<T> contentType) {
-        this.contentType = contentType;
-    }
+    protected abstract Class<T> getContentType();
 
     protected boolean isEdit() {
         return edit;
@@ -70,12 +63,8 @@ public abstract class ExhibitionContentBean<T extends ExhibitionContent> impleme
         return sort;
     }
 
-    protected void setSort(Sort sort) {
-        this.sort = sort;
-    }
-
     public List<T> getItems() {
-        return exhibitionService.findContents(userBean.getExhibitionCode(), contentType, sort);
+        return exhibitionService.findContents(userBean.getExhibitionCode(), getContentType(), getSort());
     }
 
     public T getItem() {
@@ -89,7 +78,7 @@ public abstract class ExhibitionContentBean<T extends ExhibitionContent> impleme
     protected T createItem() {
         try {
             Exhibition exhibition = exhibitionService.findByCode(userBean.getExhibitionCode());
-            T item = contentType.newInstance();
+            T item = getContentType().newInstance();
             item.setExhibition(exhibition);
             edit = false;
             return item;
@@ -115,7 +104,7 @@ public abstract class ExhibitionContentBean<T extends ExhibitionContent> impleme
     }
 
     public void edit(String id) {
-        item = exhibitionService.findContentById(userBean.getExhibitionCode(), id, contentType);
+        item = exhibitionService.findContentById(userBean.getExhibitionCode(), id, getContentType());
         edit = true;
     }
 
