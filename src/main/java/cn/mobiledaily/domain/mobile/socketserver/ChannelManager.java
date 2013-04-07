@@ -61,7 +61,9 @@ public final class ChannelManager {
     }
 
     public void sendDownStreamMessage(final String serviceToken, final String message) {
-        getChannel(serviceToken).write(message);
+        Channel ch = getChannel(serviceToken);
+        if (ch == null) return;
+        ch.write(message);
     }
 
     public void sendDownStreamMessage(List<String> serviceTokens, String message) {

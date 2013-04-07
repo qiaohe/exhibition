@@ -2,8 +2,10 @@ package cn.mobiledaily.service;
 
 import cn.mobiledaily.domain.Exhibition;
 import cn.mobiledaily.domain.PushMessage;
+import cn.mobiledaily.domain.mobile.Attendee;
 import cn.mobiledaily.domain.mobile.pushnotification.AndroidPusher;
 import cn.mobiledaily.domain.mobile.pushnotification.IosPusher;
+import cn.mobiledaily.domain.mobile.pushnotification.MobilePlatform;
 import cn.mobiledaily.exception.EntityNotFoundException;
 import cn.mobiledaily.repository.ExhibitionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +33,7 @@ public class PushMessageServiceImpl implements PushMessageService {
         if (exhibition == null)
             throw new EntityNotFoundException(String.format(EXHIBITION_ERROR_FORMAT, exhibitionCode));
         message.setExhibition(exhibition);
-        push(message);
+        push(message, exhibition);
         exhibitionRepository.save(message);
     }
 
@@ -42,13 +44,13 @@ public class PushMessageServiceImpl implements PushMessageService {
         return exhibitionRepository.findContents(exhibition, PushMessage.class);
     }
 
-    private void push(PushMessage message) {
-//        for (Attendee ad : attendeeRepository.findAll()) {
-//            if (ad.getMobilePlatform().equals(MobilePlatform.ANDROID)) {
-//                androidPusher.push(message.getBody(), ad.getServiceToken());
-//            } else if (ad.getMobilePlatform().equals(MobilePlatform.IOS)) {
-//                iosPusher.push(message.getBody(), ad.getServiceToken());
-//            }
-//        }
+    private void push(PushMessage message, Exhibition exhibition) {
+        for (Attendee ad : exhibitionRepository.findContents(exhibition, Attendee.class)) {
+            if (ad.getMobilePlatform().equals(MobilePlatform.ANDROID)) {
+                androidPusher.push(message.getBody(), ad.getServiceToken());
+            } else if (ad.getMobilePlatform().equals(MobilePlatform.IOS)) {
+                iosPusher.push(message.getBody(), ad.getServiceToken());
+            }
+        }
     }
 }
