@@ -46,10 +46,13 @@ public class PushMessageServiceImpl implements PushMessageService {
 
     private void push(PushMessage message, Exhibition exhibition) {
         for (Attendee ad : exhibitionRepository.findContents(exhibition, Attendee.class)) {
-            if (ad.getMobilePlatform().equals(MobilePlatform.ANDROID)) {
-                androidPusher.push(message.getBody(), ad.getServiceToken());
-            } else if (ad.getMobilePlatform().equals(MobilePlatform.IOS)) {
-                iosPusher.push(message.getBody(), ad.getServiceToken());
+            try {
+                if (ad.getMobilePlatform().equals(MobilePlatform.ANDROID)) {
+                    androidPusher.push(message.getBody(), ad.getServiceToken());
+                } else if (ad.getMobilePlatform().equals(MobilePlatform.IOS)) {
+                    iosPusher.push(message.getBody(), ad.getServiceToken());
+                }
+            } catch (Exception ignore) {
             }
         }
     }
