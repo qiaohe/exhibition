@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="/templates/default.xhtml">
+    <ui:define name="content">
+        <h:form id="form">
+            <div style="margin: 5px 20px; text-align: right">
+                <p:selectOneButton value="1" onchange="location='checkInMap.xhtml'">
+                    <f:selectItem itemLabel="地图模式" itemValue="0"/>
+                    <f:selectItem itemLabel="列表模式" itemValue="1"/>
+                </p:selectOneButton>
+            </div>
+            <p:dataTable var="v" value="#{checkInMap.attendees}" rowKey="#{v.id}" widgetVar="$grid" id="grid">
+                <p:column>
+                    <p:rowToggler rendered="#{not empty v.checkInAt}"/>
+                </p:column>
+
+                <p:column headerText="手机标识">
+                    <h:outputText value="#{v.serviceToken}"/>
+                </p:column>
+
+                <p:column headerText="手机平台">
+                    <h:outputText value="#{v.mobilePlatform}"/>
+                </p:column>
+
+                <p:column headerText="展会">
+                    <h:outputText value="#{v.exhibition.name}"/>
+                </p:column>
+
+                <p:column headerText="注册时间">
+                    <h:outputText value="#{v.registerDate}">
+                        <f:convertDateTime pattern="yyyy-MM-dd"/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="签到时间">
+                    <h:outputText value="#{v.checkInAt}" rendered="#{not empty v.checkInAt}">
+                        <f:convertDateTime pattern="yyyy-MM-dd HH:mm"/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="签到地点">
+                    <h:outputText value="#{v.location.address}"/>
+                </p:column>
+
+                <p:rowExpansion>
+                    <p:dataTable value="#{v.checkInHistories}" var="h">
+                        <p:column headerText="签到时间">
+                            <h:outputText value="#{h.date}">
+                                <f:convertDateTime pattern="yyyy-MM-dd HH:mm"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="签到地点">
+                            <h:outputText value="#{h.location.address}"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:rowExpansion>
+            </p:dataTable>
+        </h:form>
+        <p:socket channel="/check-in">
+            <p:ajax event="message" update="form:grid"/>
+        </p:socket>
+    </ui:define>
+
+</ui:composition>
