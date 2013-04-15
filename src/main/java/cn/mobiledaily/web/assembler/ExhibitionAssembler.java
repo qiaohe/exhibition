@@ -20,6 +20,33 @@ public class ExhibitionAssembler {
         return exhibitionPOJO;
     }
 
+    public ExhibitorPOJO toPOJO(Exhibitor exhibitor) {
+        ExhibitorPOJO pojo = new ExhibitorPOJO();
+        pojo.setName(exhibitor.getName());
+        pojo.setStand(exhibitor.getStand());
+        pojo.setCompany(exhibitor.getCompany());
+        pojo.setEmail(exhibitor.getEmail());
+        pojo.setAddress(exhibitor.getAddress());
+        pojo.setWebsite(exhibitor.getWebsite());
+        pojo.setCategory(exhibitor.getCategory());
+        pojo.setLocation(exhibitor.getLocation());
+        pojo.setPhone(exhibitor.getPhone());
+        pojo.setDescription(exhibitor.getDescription());
+        return pojo;
+    }
+
+    public SpeakerPOJO toPOJO(Speaker speaker) {
+        SpeakerPOJO pojo = new SpeakerPOJO();
+        pojo.setName(speaker.getName());
+        pojo.setProfile(speaker.getProfile());
+        pojo.setEmail(speaker.getEmail());
+        pojo.setPosition(speaker.getPosition());
+        pojo.setCompany(speaker.getCompany());
+        pojo.setMobilePhone(speaker.getMobilePhone());
+        pojo.setPhoto(speaker.getPhoto());
+        return pojo;
+    }
+
     public void combineEventSchedules(ExhibitionPOJO exhibitionPOJO, List<EventSchedule> eventSchedules) {
         List<EventSchedulePOJO> list = exhibitionPOJO.getEventSchedules();
         list.clear();
@@ -38,18 +65,7 @@ public class ExhibitionAssembler {
         List<ExhibitorPOJO> list = exhibitionPOJO.getExhibitors();
         list.clear();
         for (Exhibitor exhibitor : exhibitors) {
-            ExhibitorPOJO exhibitorPOJO = new ExhibitorPOJO();
-            exhibitorPOJO.setName(exhibitor.getName());
-            exhibitorPOJO.setStand(exhibitor.getStand());
-            exhibitorPOJO.setCompany(exhibitor.getCompany());
-            exhibitorPOJO.setEmail(exhibitor.getEmail());
-            exhibitorPOJO.setAddress(exhibitor.getAddress());
-            exhibitorPOJO.setWebsite(exhibitor.getWebsite());
-            exhibitorPOJO.setCategory(exhibitor.getCategory());
-            exhibitorPOJO.setLocation(exhibitor.getLocation());
-            exhibitorPOJO.setPhone(exhibitor.getPhone());
-            exhibitorPOJO.setDescription(exhibitor.getDescription());
-            list.add(exhibitorPOJO);
+            list.add(toPOJO(exhibitor));
         }
     }
 
@@ -57,15 +73,7 @@ public class ExhibitionAssembler {
         List<SpeakerPOJO> list = exhibitionPOJO.getSpeakers();
         list.clear();
         for (Speaker speaker : speakers) {
-            SpeakerPOJO speakerPOJO = new SpeakerPOJO();
-            speakerPOJO.setName(speaker.getName());
-            speakerPOJO.setProfile(speaker.getProfile());
-            speakerPOJO.setEmail(speaker.getEmail());
-            speakerPOJO.setPosition(speaker.getPosition());
-            speakerPOJO.setCompany(speaker.getCompany());
-            speakerPOJO.setMobilePhone(speaker.getMobilePhone());
-            speakerPOJO.setPhoto(speaker.getPhoto());
-            list.add(speakerPOJO);
+            list.add(toPOJO(speaker));
         }
     }
 

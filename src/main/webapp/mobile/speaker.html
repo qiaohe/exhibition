@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>CCBN展会</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/themes/default/jquery.mobile-1.3.1.min.css"/>
+    <script src="js/jquery.js"></script>
+    <script src="js/moment-2.0-min.js"></script>
+    <script src="js/jquery.mobile-1.3.1.min.js"></script>
+    <script src="js/app-config.js"></script>
+    <script>
+        $(document).bind('pageinit', function () {
+            $.getJSON(appConfig.url_speakers, function (data) {
+                var list = $('#list');
+                list.html('');
+                data.forEach(function (o) {
+                    list.append($('<li>').append($('<a>').attr('href', '#detailPage?id=' + o.i).data('transition','slide')
+                            .append($('<img>').attr('src', appConfig.url_image + o.p))
+                            .append($('<h3>').text(o.n))
+                            .append($('<p>').addClass('').text(o.c))));
+                })
+                list.listview('refresh');
+            })
+        });
+        function loadSpeaker(id, callback) {
+            $.getJSON(appConfig.url_speaker + id, function (v) {
+                callback(v);
+            })
+        }
+
+        function showSpeaker(urlObj, options) {
+            var id = urlObj.hash.replace(/.*id=/, ""),
+                    pageSelector = urlObj.hash.replace(/\?.*$/, "");
+            loadSpeaker(id, function(v) {
+                if (v) {
+                    $('#image').attr('src', appConfig.url_image + v.photo);
+                    $('#speakerName').text(v.name);
+                    $('#company').text(v.company || '');
+                    $('#position').text(v.position || '');
+                    var profile = '';
+                    v.profile && v.profile.split('\r\n').forEach(function(s) {
+                        profile += '<p>' + s.replace(/<[^>]*>/g, '') + '</p>';
+                    });
+                    $('#profile').html(profile);
+                    var $page = $(pageSelector);
+                    $page.page();
+                    $('#detail').listview();
+                    options.dataUrl = urlObj.href;
+                    $.mobile.changePage($page, options);
+                }
+            });
+        }
+
+        $(document).bind("pagebeforechange", function (e, data) {
+            if (typeof data.toPage === "string") {
+                var u = $.mobile.path.parseUrl(data.toPage),
+                        re = /^#detailPage/;
+                if (u.hash.search(re) !== -1) {
+                    showSpeaker(u, data.options);
+                    e.preventDefault();
+                }
+            }
+        });
+    </script>
+</head>
+<body>
+
+<div data-role="page">
+    <div data-role="header">
+        <span class="ui-title">
+            <div style="width: 100%; height: 100px; position: relative; background-color: #fbfbfb; border: 1px solid #b8b8b8;">
+                <img src="img/ad.png" alt="image">
+            </div>
+        </span>
+    </div>
+    <div data-role="content" style="background-image: url('img/bg.png')">
+        <ul id="list" data-role="listview" data-inset="true">
+        </ul>
+    </div>
+</div>
+
+<div data-role="page" id="detailPage">
+    <div data-role="header">
+        <span class="ui-title">
+            <div style="width: 100%; height: 100px; position: relative; background-color: #fbfbfb; border: 1px solid #b8b8b8;">
+                <img src="img/ad.png" alt="image">
+            </div>
+        </span>
+    </div>
+    <div data-role="content" style="background-image: url('img/bg.png')">
+        <ul id="detail" data-role="listview" data-inset="true">
+            <li style="height: 200px"><img id="image" style="max-height: 100%; max-width: 100%"/></li>
+            <li id="speakerName"></li>
+            <li id="company"></li>
+            <li id="position"></li>
+            <li id="profile"></li>
+        </ul>
+    </div>
+</div>
+
+</body>
+</html>
