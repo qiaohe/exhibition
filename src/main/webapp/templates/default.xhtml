@@ -25,11 +25,17 @@
         <ui:debug/>
     </div>
     <p:growl widgetVar="growlVar" showDetail="true"/>
+    <p:growl widgetVar="showUpVar" showDetail="true" sticky="true" />
     <p:socket onMessage="popupPushMessage" channel="/notifications"/>
+    <p:socket onMessage="showUpMessage" channel="/show-up"/>
     <script type="text/javascript">
         function popupPushMessage(facesmessage) {
             facesmessage.severity = 'info';
             growlVar.show([facesmessage]);
+        }
+        function showUpMessage(facesmessage) {
+            facesmessage.severity = 'info';
+            showUpVar.show([facesmessage]);
         }
     </script>
 </h:body>

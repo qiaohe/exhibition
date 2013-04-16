@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core"
+                template="/templates/default.xhtml">
+    <ui:define name="content">
+        <h:outputScript library="js" name="llqrcode.js" target="head"/>
+        <h:outputScript library="js" name="v.js" target="head"/>
+        <h:panelGrid columns="3">
+            <h:panelGroup>
+                <video id="live_video" width="300" autoplay="autoplay"/>
+                <canvas id="qr-canvas" width="320" height="240" style="display: none"/>
+            </h:panelGroup>
+            <h:panelGroup>
+                <h:outputLabel value="" for="qrcode"/>
+                <img id="qrcode" src="#{request.contextPath}/resources/img/void.png" style="border: 1px solid lightgray; width: 200px; height: 200px"/>
+            </h:panelGroup>
+            <h:panelGroup>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="姓名：" for="name"/>
+                    <span id="name"/>
+
+                    <h:outputLabel value="公司：" for="company"/>
+                    <span id="company"/>
+
+                    <h:outputLabel value="职位：" for="title"/>
+                    <span id="title"/>
+                </h:panelGrid>
+            </h:panelGroup>
+        </h:panelGrid>
+        <script>
+            load(onQrcode);
+            setWebCam();
+            function onQrcode(s) {
+                if (s.substring(0, 3) == "MD:") {
+                    $.getJSON('#{request.contextPath}/api/qrcode/user/' + s.substring(3, s.length), function(user) {
+                        if (!!user &amp;&amp; !!user.name) {
+                            $('#qrcode').attr('src', '#{request.contextPath}/api/qrcode/get?login=' + user.login);
+                            $('#name').text(user.name);
+                            $('#company').text(user.company);
+                            $('#title').text(user.title);
+                            setTimeout(function() {
+                                $('#qrcode').attr('src', '#{request.contextPath}/resources/img/void.png');
+                                $('#name').text('');
+                                $('#company').text('');
+                                $('#title').text('');
+                            }, 30000);
+                        }
+                    });
+                    setTimeout(captureToCanvas, 500);
+                }
+            }
+        </script>
+    </ui:define>
+</ui:composition>
