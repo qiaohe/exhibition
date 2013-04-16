@@ -1,5 +1,5 @@
 var appConfig = appConfig || {};
-appConfig.$host = 'http://192.168.0.101:8080/exhibition';
+appConfig.$host = 'http://localhost:8080/exhibition';
 appConfig.$exhibitionCode = 'CCBN';
 appConfig.url_image = appConfig.$host + '/upload/image/';
 appConfig.url_schedules = appConfig.$host + '/api/web/' + appConfig.$exhibitionCode + '/schedules';
@@ -7,3 +7,4 @@ appConfig.url_exhibitors = appConfig.$host + '/api/web/' + appConfig.$exhibition
 appConfig.url_exhibitor = appConfig.$host + '/api/web/' + appConfig.$exhibitionCode + '/exhibitors/';
 appConfig.url_speakers = appConfig.$host + '/api/web/' + appConfig.$exhibitionCode + '/speakers';
 appConfig.url_speaker = appConfig.$host + '/api/web/' + appConfig.$exhibitionCode + '/speakers/';
+appConfig.url_push=appConfig.$host + '/primepush/primepush/';
