@@ -1,13 +1,16 @@
 package cn.mobiledaily.domain.mobile.socketserver;
 
 import org.jboss.netty.bootstrap.ServerBootstrap;
+import org.jboss.netty.channel.ChannelHandlerContext;
 import org.jboss.netty.channel.ChannelPipeline;
 import org.jboss.netty.channel.ChannelPipelineFactory;
 import org.jboss.netty.channel.DefaultChannelPipeline;
 import org.jboss.netty.channel.socket.nio.NioServerSocketChannelFactory;
 import org.jboss.netty.handler.codec.string.StringDecoder;
 import org.jboss.netty.handler.codec.string.StringEncoder;
+import org.jboss.netty.handler.timeout.IdleState;
 import org.jboss.netty.handler.timeout.IdleStateAwareChannelHandler;
+import org.jboss.netty.handler.timeout.IdleStateEvent;
 import org.jboss.netty.handler.timeout.IdleStateHandler;
 import org.jboss.netty.util.HashedWheelTimer;
 import org.jboss.netty.util.Timer;
@@ -21,6 +24,7 @@ import java.util.concurrent.Executors;
 
 @Component
 public final class Server {
+    private static final String HEARTBEAT = "0";
     private static final Timer TIMER = new HashedWheelTimer();
     @Value("${mobile.socket.port}")
     private int port;
@@ -39,8 +43,14 @@ public final class Server {
                 result.addLast("encode", new StringEncoder());
                 result.addLast("decode", new StringDecoder());
                 result.addLast("handler", new ServerHandler());
-                result.addLast("timeout", new IdleStateHandler(TIMER, 10, 10, 0));
-                result.addLast("idleStateHandler", new IdleStateAwareChannelHandler());
+                result.addLast("timeout", new IdleStateHandler(TIMER, 20, 20, 20));
+                result.addLast("idleStateHandler", new IdleStateAwareChannelHandler() {
+                    public void channelIdle(ChannelHandlerContext ctx, IdleStateEvent e) throws Exception {
+                        if (e.getState() == IdleState.ALL_IDLE) {
+                            e.getChannel().write(HEARTBEAT);
+                        }
+                    }
+                });
                 return result;
             }
         });
