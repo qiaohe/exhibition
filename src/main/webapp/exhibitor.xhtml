@@ -30,7 +30,7 @@
                 </p:column>
 
                 <p:column headerText="主页" width="150">
-                    <h:outputLink value="#{v.website}">#{v.website}</h:outputLink>
+                    <h:outputLink value="#{fn:substring(v.website, 0, 4)=='http' ? v.website : 'http://'.concat(v.website)}" target="_blank">#{v.website}</h:outputLink>
                 </p:column>
 
                 <p:column headerText="简介" width="230">

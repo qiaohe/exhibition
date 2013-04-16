@@ -2,12 +2,20 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:p="http://primefaces.org/ui"
+                xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core"
                 template="/templates/default.xhtml">
     <ui:define name="content">
+        <div style="position: absolute; z-index: 1; right: 0; margin: 5px 20px;">
+            <h:form>
+                <p:selectOneButton value="0" onchange="location='checkInMapList.xhtml'">
+                    <f:selectItem itemLabel="地图模式" itemValue="0"/>
+                    <f:selectItem itemLabel="列表模式" itemValue="1"/>
+                </p:selectOneButton>
+            </h:form>
+        </div>
         <script src="http://api.map.baidu.com/api?v=1.4"></script>
         <h:outputScript library="js" name="checkInMap.js"/>
-        <div id="mapPane" style="width: 100%; height: 100%; margin-bottom: 10px;"></div>
+        <div id="mapPane" style="width: 100%; height: 100%; margin-bottom: 10px"></div>
         <script>
             var checkInMap = createCheckInMap('mapPane');
         </script>
@@ -16,12 +24,12 @@
         </ui:repeat>
         <script>
             checkInMap.init().showCheckInPoint();
-            window.addEventListener('load',fit,false);
-            window.addEventListener('resize',fit,false);
+            window.addEventListener('load', fit, false);
+            window.addEventListener('resize', fit, false);
             function fit() {
                 document.getElementById('mapPane').style.height = window.innerHeight - 118 + 'px';
             }
         </script>
-        <p:socket channel="/check-in" onMessage="checkInMap.onCheckIn.bind(checkInMap)"/>
+        <p:socket channel="/check-in" onMessage="checkInMap.onCheckIn.bind(checkInMap)" />
     </ui:define>
 </ui:composition>
