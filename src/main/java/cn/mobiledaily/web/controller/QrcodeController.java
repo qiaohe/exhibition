@@ -37,6 +37,7 @@ public class QrcodeController {
         user.put("name", "何桥");
         user.put("company", "墨狄（上海）信息科技有限公司");
         user.put("title", "总经理");
+        user.put("login", "hq");
         USERS.put("hq", user);
     }
 

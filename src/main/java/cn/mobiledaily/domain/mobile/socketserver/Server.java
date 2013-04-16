@@ -20,6 +20,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.net.InetSocketAddress;
+import java.nio.charset.Charset;
 import java.util.concurrent.Executors;
 
 @Component
@@ -40,8 +41,8 @@ public final class Server {
             @Override
             public ChannelPipeline getPipeline() throws Exception {
                 ChannelPipeline result = new DefaultChannelPipeline();
-                result.addLast("encode", new StringEncoder());
-                result.addLast("decode", new StringDecoder());
+                result.addLast("encode", new StringEncoder(Charset.forName("UTF-8")));
+                result.addLast("decode", new StringDecoder(Charset.forName("UTF-8")));
                 result.addLast("handler", new ServerHandler());
                 result.addLast("timeout", new IdleStateHandler(TIMER, 20, 20, 20));
                 result.addLast("idleStateHandler", new IdleStateAwareChannelHandler() {

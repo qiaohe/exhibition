@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import static cn.mobiledaily.exception.EntityNotFoundException.EXHIBITION_ERROR_FORMAT;
@@ -45,13 +46,28 @@ public class PushMessageServiceImpl implements PushMessageService {
     }
 
     private void push(PushMessage message, Exhibition exhibition) {
+        if (message == null || message.getBody() == null) {
+            return;
+        }
+        List<String> androidTokens = new LinkedList<>();
+        List<String> iOSTokens = new LinkedList<>();
+        String body = message.getBody();
         for (Attendee ad : exhibitionRepository.findContents(exhibition, Attendee.class)) {
+            if (MobilePlatform.ANDROID.equals(ad.getMobilePlatform())) {
+                androidTokens.add(ad.getServiceToken());
+            } else if (MobilePlatform.IOS.equals(ad.getMobilePlatform())) {
+                iOSTokens.add(ad.getServiceToken());
+            }
+        }
+        for (String token : androidTokens) {
             try {
-                if (ad.getMobilePlatform().equals(MobilePlatform.ANDROID)) {
-                    androidPusher.push(message.getBody(), ad.getServiceToken());
-                } else if (ad.getMobilePlatform().equals(MobilePlatform.IOS)) {
-                    iosPusher.push(message.getBody(), ad.getServiceToken());
-                }
+                androidPusher.push(body, token);
+            } catch (Exception ignore) {
+            }
+        }
+        for (String token : iOSTokens) {
+            try {
+                iosPusher.push(body, token);
             } catch (Exception ignore) {
             }
         }
