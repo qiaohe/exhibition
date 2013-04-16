@@ -25,7 +25,7 @@ import java.util.concurrent.Executors;
 
 @Component
 public final class Server {
-    private static final String HEARTBEAT = "0";
+    private static final String HEARTBEAT = ":[PING:PONG]";
     private static final Timer TIMER = new HashedWheelTimer();
     @Value("${mobile.socket.port}")
     private int port;
