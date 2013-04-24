@@ -35,7 +35,7 @@ public class SpeakerBean extends ExhibitionContentBean<Speaker> {
 
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
-        fileService = SpringContext.getFileService();
+        fileService = SpringContext.fileService();
     }
 
     @Override

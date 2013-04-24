@@ -30,7 +30,7 @@ public abstract class ExhibitionContentBean<T extends ExhibitionContent> impleme
 
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
-        exhibitionService = SpringContext.getExhibitionService();
+        exhibitionService = SpringContext.exhibitionService();
     }
 
     protected ExhibitionService getExhibitionService() {

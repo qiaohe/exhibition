@@ -24,7 +24,7 @@ public class ExhibitionController {
 
     @ResponseBody
     @RequestMapping("{code}")
-    public ExhibitionPOJO getByCode(@PathVariable String code, HttpServletRequest request, HttpServletResponse response) {
+    public cn.mobiledaily.web.pojo.ExhibitionPOJO getByCode(@PathVariable String code, HttpServletRequest request, HttpServletResponse response) {
         long lastModified;
         try {
             lastModified = Long.valueOf(request.getHeader("If-None-Match"));

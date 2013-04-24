@@ -55,8 +55,8 @@ public class CheckInMapBean implements Serializable {
 
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
-        attendeeService = SpringContext.getAttendeeService();
-        checkInAssembler = SpringContext.getCheckInAssembler();
+        attendeeService = SpringContext.attendeeService();
+        checkInAssembler = SpringContext.checkInAssembler();
     }
 
     public void setUserBean(UserBean userBean) {
