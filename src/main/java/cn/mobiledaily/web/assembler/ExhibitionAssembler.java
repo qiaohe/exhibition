@@ -47,6 +47,14 @@ public class ExhibitionAssembler {
         return pojo;
     }
 
+    public NewsPOJO toPOJO(News news) {
+        NewsPOJO pojo = new NewsPOJO();
+        pojo.setTitle(news.getTitle());
+        pojo.setContent(news.getContent());
+        pojo.setDate(news.getCreatedAt());
+        return pojo;
+    }
+
     public void combineEventSchedules(ExhibitionPOJO exhibitionPOJO, List<EventSchedule> eventSchedules) {
         List<EventSchedulePOJO> list = exhibitionPOJO.getEventSchedules();
         list.clear();

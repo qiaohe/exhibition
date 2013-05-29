@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+                template="/templates/default.xhtml">
+    <ui:define name="content">
+        <h:form>
+            <p:dataTable var="v" value="#{news.items}" selectionMode="single" rowKey="#{v.id}">
+                <f:facet name="header">
+                    #{userBean.exhibitionName}
+                    <p:commandButton value="添加新闻" icon="ui-icon-plusthick" action="#{news.create}" oncomplete="$editDialog.show()" update=":editDialog"/>
+                </f:facet>
+
+                <p:column headerText="标题" width="150">
+                    <h:outputText value="#{v.title}"/>
+                </p:column>
+
+                <p:column headerText="内容" width="230">
+                    <h:outputText value="#{fn:length(v.content)>50 ? fn:substring(v.content, 0, 50).concat('...') : v.content}"/>
+                </p:column>
+
+                <p:column>
+                    <p:commandButton value="编辑" action="#{news.edit(v.id)}" icon="ui-icon-note" oncomplete="$editDialog.show()" update=":editDialog"/>
+                    <p:commandButton value="删除" action="#{news.edit(v.id)}" icon="ui-icon-closethick" oncomplete="$deleteDialog.show()" update=":deleteDialog"/>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+
+        <p:confirmDialog id="deleteDialog" message="是否删除新闻" widgetVar="$deleteDialog">
+            <h:form>
+                <p:commandButton value="确定" actionListener="#{news.delete}" oncomplete="$deleteDialog.hide();location.reload()"/>
+                <p:commandButton value="取消" onclick="$deleteDialog.hide()" type="button"/>
+            </h:form>
+        </p:confirmDialog>
+
+        <p:dialog id="editDialog" header="编辑" widgetVar="$editDialog" modal="true">
+            <h:form>
+                <p:panel id="panel">
+                    <p:messages globalOnly="true" showDetail="true"/>
+                    <h:panelGrid columns="3">
+                        <h:outputLabel for="title" value="标题"/>
+                        <p:inputText id="title" value="#{news.item.title}" size="40"/>
+                        <p:message for="title"/>
+
+                        <h:outputLabel for="content" value="内容"/>
+                        <p:editor id="content" value="#{news.item.content}"/>
+                        <p:message for="content"/>
+
+                        <p:commandButton value="保存" update="panel"
+                                         actionListener="#{news.save}"
+                                         oncomplete="closeEditDialog(xhr, status, args)"/>
+                        <p:commandButton value="取消" type="button" onclick="$editDialog.hide()"/>
+                    </h:panelGrid>
+
+                </p:panel>
+            </h:form>
+        </p:dialog>
+        <script type="text/javascript">
+            function closeEditDialog(xhr, status, args) {
+                if (args.validationFailed || args.error) {
+                    jQuery('#editDialog').effect('shake', {times: 1}, 100);
+                } else {
+                    $editDialog.hide();
+                    location.reload();
+                }
+            }
+        </script>
+    </ui:define>
+
+</ui:composition>

@@ -1,6 +1,7 @@
 package cn.mobiledaily.service;
 
 import cn.mobiledaily.domain.Exhibition;
+import cn.mobiledaily.domain.News;
 import cn.mobiledaily.domain.mobile.ExhibitionContent;
 import cn.mobiledaily.repository.ExhibitionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -75,6 +77,16 @@ public class ExhibitionServiceImpl implements ExhibitionService {
             return exhibitionRepository.findContentById(exhibition, id, type);
         } catch (Exception e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public List<News> findNews(String exhibitionCode, long from, int size) {
+        try {
+            Exhibition exhibition = findByCode(exhibitionCode);
+            return exhibitionRepository.findNews(exhibition, from, size);
+        } catch (Exception e) {
+            return new ArrayList<>(0);
         }
     }
 

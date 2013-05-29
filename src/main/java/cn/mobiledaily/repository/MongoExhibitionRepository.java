@@ -1,6 +1,7 @@
 package cn.mobiledaily.repository;
 
 import cn.mobiledaily.domain.Exhibition;
+import cn.mobiledaily.domain.News;
 import cn.mobiledaily.domain.mobile.Attendee;
 import cn.mobiledaily.domain.mobile.ExhibitionContent;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -104,5 +106,18 @@ public class MongoExhibitionRepository implements ExhibitionRepository {
             attendee.setExhibition(exhibition);
         }
         return list;
+    }
+
+    @Override
+    public List<News> findNews(Exhibition exhibition, long from, int size) {
+        Sort sort = new Sort(Sort.Direction.DESC, "createdAt");
+        Query query = new Query().with(sort);
+        if (size > 0) {
+            query.limit(size);
+        }
+        if (from > 0) {
+            query.addCriteria(Criteria.where("createdAt").lt(new Date(from)));
+        }
+        return mongoOperations.find(query, News.class, exhibition.getCode() + new News().getCollectionSuffix());
     }
 }

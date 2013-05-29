@@ -1,20 +1,15 @@
 package cn.mobiledaily.web.controller;
 
-import cn.mobiledaily.domain.EventSchedule;
-import cn.mobiledaily.domain.Exhibition;
-import cn.mobiledaily.domain.Exhibitor;
-import cn.mobiledaily.domain.Speaker;
+import cn.mobiledaily.domain.*;
 import cn.mobiledaily.service.ExhibitionService;
 import cn.mobiledaily.web.assembler.ExhibitionAssembler;
-import cn.mobiledaily.web.pojo.EventSchedulePOJO;
-import cn.mobiledaily.web.pojo.ExhibitionPOJO;
-import cn.mobiledaily.web.pojo.ExhibitorPOJO;
-import cn.mobiledaily.web.pojo.SpeakerPOJO;
+import cn.mobiledaily.web.pojo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
@@ -87,5 +82,18 @@ public class ExhibitionMobileController {
         Speaker speaker = exhibitionService.findContentById(exhibitionCode, id, Speaker.class);
         SpeakerPOJO pojo = exhibitionAssembler.toPOJO(speaker);
         return pojo;
+    }
+
+    @ResponseBody
+    @RequestMapping("{exhibitionCode}/news")
+    public List<NewsPOJO> getNews(@PathVariable String exhibitionCode,
+                                  @RequestParam(defaultValue = "0", required = false) long from,
+                                  @RequestParam(defaultValue = "10", required = false) int size) {
+        List<News> newsList = exhibitionService.findNews(exhibitionCode, from, size);
+        List<NewsPOJO> pojoList = new ArrayList<>(newsList.size());
+        for (News news : newsList) {
+            pojoList.add(exhibitionAssembler.toPOJO(news));
+        }
+        return pojoList;
     }
 }

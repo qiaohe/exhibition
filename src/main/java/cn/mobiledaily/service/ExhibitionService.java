@@ -1,6 +1,7 @@
 package cn.mobiledaily.service;
 
 import cn.mobiledaily.domain.Exhibition;
+import cn.mobiledaily.domain.News;
 import cn.mobiledaily.domain.mobile.ExhibitionContent;
 import org.springframework.data.domain.Sort;
 
@@ -26,4 +27,6 @@ public interface ExhibitionService {
     <T extends ExhibitionContent> T findContentById(String exhibitionCode, String id, Class<T> type);
 
     <T extends ExhibitionContent> void delete(ExhibitionContent content);
+
+    List<News> findNews(String exhibitionCode, long from, int size);
 }
