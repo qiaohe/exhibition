@@ -1,31 +1,28 @@
 package cn.mobiledaily.domain.mobile.socketserver;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.commons.lang3.StringUtils;
+import com.exhibition.domain.mobile.MessageObject;
+import com.exhibition.domain.mobile.MessageObjects;
+import com.exhibition.domain.mobile.ReqToken;
 import org.jboss.netty.channel.*;
-import org.jboss.netty.util.internal.StringUtil;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Johnson
- * Date: 3/18/13
- * Time: 12:11 AM
- * To change this template use File | Settings | File Templates.
- */
 public class ServerHandler extends SimpleChannelHandler {
-
-    private boolean isStartupMessage(final Object message) {
-        return StringUtils.isNotEmpty(message.toString()) &&
-                StringUtils.contains(message.toString(), "macAddress") &&
-                StringUtils.contains(message.toString(), "appCode");
-    }
-
     public void messageReceived(ChannelHandlerContext ctx, MessageEvent e) throws Exception {
-        if (isStartupMessage(e.getMessage())) {
-            ObjectMapper mapper = new ObjectMapper();
-            StartupMessage message = mapper.readValue(StringUtil.stripControlCharacters(e.getMessage()), StartupMessage.class);
-            ChannelManager.getInstance().bind(ctx.getChannel(), message.getServiceToken());
-            ctx.getChannel().write(message.getServiceToken());
+        Object obj = e.getMessage();
+        if (obj != null && obj instanceof MessageObject) {
+            MessageObject resp = null;
+            switch (((MessageObject) obj).getType()) {
+                case REQ_TOKEN:
+                    ReqToken reqToken = (ReqToken) obj;
+                    String token = new StartupMessage(
+                            reqToken.getMacAddress(), reqToken.getAppCode()
+                    ).getServiceToken();
+                    ChannelManager.getInstance().bind(ctx.getChannel(), token);
+                    resp = MessageObjects.respToken(token);
+                    break;
+            }
+            if (resp != null) {
+                ctx.getChannel().write(resp);
+            }
         }
     }
 

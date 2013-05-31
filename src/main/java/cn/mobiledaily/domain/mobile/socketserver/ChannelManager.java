@@ -1,5 +1,6 @@
 package cn.mobiledaily.domain.mobile.socketserver;
 
+import com.exhibition.domain.mobile.MessageObjects;
 import org.jboss.netty.channel.Channel;
 import org.jboss.netty.channel.ChannelLocal;
 import org.jboss.netty.channel.group.ChannelGroup;
@@ -8,13 +9,6 @@ import org.jboss.netty.channel.group.DefaultChannelGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Johnson
- * Date: 3/20/13
- * Time: 6:01 PM
- * To change this template use File | Settings | File Templates.
- */
 public final class ChannelManager {
     private static final ChannelGroup CHANNELS = new DefaultChannelGroup(Server.class.getSimpleName());
     private static final ChannelLocal<String> TOKEN_HOLDER = new ChannelLocal<>(true);
@@ -62,8 +56,9 @@ public final class ChannelManager {
 
     public void sendDownStreamMessage(final String serviceToken, final String message) {
         Channel ch = getChannel(serviceToken);
-        if (ch == null) return;
-        ch.write(message);
+        if (ch != null) {
+            ch.write(MessageObjects.stringMessage(message));
+        }
     }
 
     public void sendDownStreamMessage(List<String> serviceTokens, String message) {
