@@ -50,7 +50,7 @@
                     <p:dataTable value="#{v.checkInHistories}" var="h">
                         <p:column headerText="签到时间">
                             <h:outputText value="#{h.date}">
-                                <f:convertDateTime pattern="yyyy-MM-dd HH:mm"/>
+                                <f:convertDateTime pattern="yyyy-MM-dd HH:mm:ss"/>
                             </h:outputText>
                         </p:column>
                         <p:column headerText="签到地点">
