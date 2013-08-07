@@ -35,7 +35,7 @@ public class IosPusher extends AbstractPusher implements Pusher {
 
     public void push(final String message, final List<String> serviceTokens) {
         try {
-            Push.alert(message, getKeyStore(), keyStorePassword, false, serviceTokens);
+            Push.alert(message, getKeyStore(), keyStorePassword, true, serviceTokens);
         } catch (CommunicationException | KeystoreException | IOException e) {
             LOGGER.error(e.getMessage());
             throw new RuntimeException(e.getMessage());
